@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 
+// MARK: - Endpoint
+
 enum ArtistEndpoint {
     case artistList
     case artist(name: String)
@@ -47,32 +49,15 @@ extension ArtistEndpoint: Endpoint {
     }
 }
 
+// MARK: - Client Interface
+
 struct ArtistClient {
     var fetchArtistList: @Sendable () async -> Result<ArtistList, RequestError>
     var fetchArtists: @Sendable (_ name: String) async -> Result<Artist, RequestError>
 }
 
-extension ArtistClient: HTTPClient {
-    static let liveValue: Self = .init(
-        fetchArtistList: {
-            await sendRequest(endpoint: ArtistEndpoint.artistList, responseModel: ArtistList.self)
-        },
-        fetchArtists: { name in
-            await sendRequest(endpoint: ArtistEndpoint.artist(name: name), responseModel: Artist.self)
-        }
-    )
+// MARK: - Model
 
-    static let mockValue: Self = .init(
-        fetchArtistList: {
-            .success(.init(count: 0, results: []))
-        },
-        fetchArtists: { _ in
-            .failure(.invalidURL)
-        }
-    )
-}
-
-// ArtistList
 struct ArtistList: Decodable {
     var count: Int
     var next: String?
@@ -87,7 +72,6 @@ struct ArtistList: Decodable {
     }
 }
 
-// Artist
 struct Artist: Decodable {
     var username: String
     var profilePhoto: String

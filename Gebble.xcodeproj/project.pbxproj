@@ -16,6 +16,8 @@
 		D820AD462AE641850065DB7C /* GebbleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */; };
 		D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD522AE64F050065DB7C /* HTTPClient.swift */; };
 		D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */; };
+		D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */; };
+		D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD592AE674430065DB7C /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,7 @@
 		D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D820AD522AE64F050065DB7C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistClientInterface.swift; sourceTree = "<group>"; };
+		D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistClientLive.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +108,7 @@
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
 				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
+				D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */,
 			);
 			path = Gebble;
 			sourceTree = "<group>";
@@ -149,6 +154,9 @@
 			dependencies = (
 			);
 			name = Gebble;
+			packageProductDependencies = (
+				D820AD592AE674430065DB7C /* ComposableArchitecture */,
+			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
 			productType = "com.apple.product-type.application";
@@ -221,6 +229,9 @@
 				Base,
 			);
 			mainGroup = D820AD1C2AE641840065DB7C;
+			packageReferences = (
+				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -263,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
@@ -596,6 +608,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D820AD592AE674430065DB7C /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D820AD1D2AE641840065DB7C /* Project object */;
 }
