@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD282AE641840065DB7C /* GebbleApp.swift */; };
+		D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD2A2AE641840065DB7C /* ContentView.swift */; };
+		D820AD2D2AE641850065DB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD2C2AE641850065DB7C /* Assets.xcassets */; };
+		D820AD302AE641850065DB7C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD2F2AE641850065DB7C /* Preview Assets.xcassets */; };
+		D820AD3A2AE641850065DB7C /* GebbleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD392AE641850065DB7C /* GebbleTests.swift */; };
+		D820AD442AE641850065DB7C /* GebbleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD432AE641850065DB7C /* GebbleUITests.swift */; };
+		D820AD462AE641850065DB7C /* GebbleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D820AD362AE641850065DB7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D820AD1D2AE641840065DB7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D820AD242AE641840065DB7C;
+			remoteInfo = Gebble;
+		};
+		D820AD402AE641850065DB7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D820AD1D2AE641840065DB7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D820AD242AE641840065DB7C;
+			remoteInfo = Gebble;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D820AD252AE641840065DB7C /* Gebble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gebble.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D820AD282AE641840065DB7C /* GebbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleApp.swift; sourceTree = "<group>"; };
+		D820AD2A2AE641840065DB7C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D820AD2C2AE641850065DB7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D820AD2F2AE641850065DB7C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D820AD352AE641850065DB7C /* GebbleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GebbleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D820AD392AE641850065DB7C /* GebbleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleTests.swift; sourceTree = "<group>"; };
+		D820AD3F2AE641850065DB7C /* GebbleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GebbleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D820AD432AE641850065DB7C /* GebbleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleUITests.swift; sourceTree = "<group>"; };
+		D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D820AD222AE641840065DB7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD322AE641850065DB7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD3C2AE641850065DB7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D820AD1C2AE641840065DB7C = {
+			isa = PBXGroup;
+			children = (
+				D820AD272AE641840065DB7C /* Gebble */,
+				D820AD382AE641850065DB7C /* GebbleTests */,
+				D820AD422AE641850065DB7C /* GebbleUITests */,
+				D820AD262AE641840065DB7C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D820AD262AE641840065DB7C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD252AE641840065DB7C /* Gebble.app */,
+				D820AD352AE641850065DB7C /* GebbleTests.xctest */,
+				D820AD3F2AE641850065DB7C /* GebbleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D820AD272AE641840065DB7C /* Gebble */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD282AE641840065DB7C /* GebbleApp.swift */,
+				D820AD2A2AE641840065DB7C /* ContentView.swift */,
+				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
+				D820AD2E2AE641850065DB7C /* Preview Content */,
+			);
+			path = Gebble;
+			sourceTree = "<group>";
+		};
+		D820AD2E2AE641850065DB7C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD2F2AE641850065DB7C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D820AD382AE641850065DB7C /* GebbleTests */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD392AE641850065DB7C /* GebbleTests.swift */,
+			);
+			path = GebbleTests;
+			sourceTree = "<group>";
+		};
+		D820AD422AE641850065DB7C /* GebbleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD432AE641850065DB7C /* GebbleUITests.swift */,
+				D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */,
+			);
+			path = GebbleUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D820AD242AE641840065DB7C /* Gebble */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D820AD492AE641850065DB7C /* Build configuration list for PBXNativeTarget "Gebble" */;
+			buildPhases = (
+				D820AD212AE641840065DB7C /* Sources */,
+				D820AD222AE641840065DB7C /* Frameworks */,
+				D820AD232AE641840065DB7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Gebble;
+			productName = Gebble;
+			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D820AD342AE641850065DB7C /* GebbleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D820AD4C2AE641850065DB7C /* Build configuration list for PBXNativeTarget "GebbleTests" */;
+			buildPhases = (
+				D820AD312AE641850065DB7C /* Sources */,
+				D820AD322AE641850065DB7C /* Frameworks */,
+				D820AD332AE641850065DB7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D820AD372AE641850065DB7C /* PBXTargetDependency */,
+			);
+			name = GebbleTests;
+			productName = GebbleTests;
+			productReference = D820AD352AE641850065DB7C /* GebbleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D820AD3E2AE641850065DB7C /* GebbleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D820AD4F2AE641850065DB7C /* Build configuration list for PBXNativeTarget "GebbleUITests" */;
+			buildPhases = (
+				D820AD3B2AE641850065DB7C /* Sources */,
+				D820AD3C2AE641850065DB7C /* Frameworks */,
+				D820AD3D2AE641850065DB7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D820AD412AE641850065DB7C /* PBXTargetDependency */,
+			);
+			name = GebbleUITests;
+			productName = GebbleUITests;
+			productReference = D820AD3F2AE641850065DB7C /* GebbleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D820AD1D2AE641840065DB7C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					D820AD242AE641840065DB7C = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					D820AD342AE641850065DB7C = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = D820AD242AE641840065DB7C;
+					};
+					D820AD3E2AE641850065DB7C = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = D820AD242AE641840065DB7C;
+					};
+				};
+			};
+			buildConfigurationList = D820AD202AE641840065DB7C /* Build configuration list for PBXProject "Gebble" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D820AD1C2AE641840065DB7C;
+			productRefGroup = D820AD262AE641840065DB7C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D820AD242AE641840065DB7C /* Gebble */,
+				D820AD342AE641850065DB7C /* GebbleTests */,
+				D820AD3E2AE641850065DB7C /* GebbleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D820AD232AE641840065DB7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D820AD302AE641850065DB7C /* Preview Assets.xcassets in Resources */,
+				D820AD2D2AE641850065DB7C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD332AE641850065DB7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD3D2AE641850065DB7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D820AD212AE641840065DB7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
+				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD312AE641850065DB7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D820AD3A2AE641850065DB7C /* GebbleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D820AD3B2AE641850065DB7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D820AD442AE641850065DB7C /* GebbleUITests.swift in Sources */,
+				D820AD462AE641850065DB7C /* GebbleUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D820AD372AE641850065DB7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D820AD242AE641840065DB7C /* Gebble */;
+			targetProxy = D820AD362AE641850065DB7C /* PBXContainerItemProxy */;
+		};
+		D820AD412AE641850065DB7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D820AD242AE641840065DB7C /* Gebble */;
+			targetProxy = D820AD402AE641850065DB7C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D820AD472AE641850065DB7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D820AD482AE641850065DB7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D820AD4A2AE641850065DB7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Gebble/Preview Content\"";
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.Gebble;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D820AD4B2AE641850065DB7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Gebble/Preview Content\"";
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.Gebble;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D820AD4D2AE641850065DB7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.GebbleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gebble.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Gebble";
+			};
+			name = Debug;
+		};
+		D820AD4E2AE641850065DB7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.GebbleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Gebble.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Gebble";
+			};
+			name = Release;
+		};
+		D820AD502AE641850065DB7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.GebbleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Gebble;
+			};
+			name = Debug;
+		};
+		D820AD512AE641850065DB7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2CY3RX8F76;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = django.GebbleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Gebble;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D820AD202AE641840065DB7C /* Build configuration list for PBXProject "Gebble" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D820AD472AE641850065DB7C /* Debug */,
+				D820AD482AE641850065DB7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D820AD492AE641850065DB7C /* Build configuration list for PBXNativeTarget "Gebble" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D820AD4A2AE641850065DB7C /* Debug */,
+				D820AD4B2AE641850065DB7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D820AD4C2AE641850065DB7C /* Build configuration list for PBXNativeTarget "GebbleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D820AD4D2AE641850065DB7C /* Debug */,
+				D820AD4E2AE641850065DB7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D820AD4F2AE641850065DB7C /* Build configuration list for PBXNativeTarget "GebbleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D820AD502AE641850065DB7C /* Debug */,
+				D820AD512AE641850065DB7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D820AD1D2AE641840065DB7C /* Project object */;
+}
