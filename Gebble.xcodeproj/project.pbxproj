@@ -14,6 +14,8 @@
 		D820AD3A2AE641850065DB7C /* GebbleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD392AE641850065DB7C /* GebbleTests.swift */; };
 		D820AD442AE641850065DB7C /* GebbleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD432AE641850065DB7C /* GebbleUITests.swift */; };
 		D820AD462AE641850065DB7C /* GebbleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */; };
+		D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD522AE64F050065DB7C /* HTTPClient.swift */; };
+		D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		D820AD3F2AE641850065DB7C /* GebbleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GebbleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D820AD432AE641850065DB7C /* GebbleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleUITests.swift; sourceTree = "<group>"; };
 		D820AD452AE641850065DB7C /* GebbleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D820AD522AE64F050065DB7C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistClientInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,8 @@
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
+				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
+				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
 			);
 			path = Gebble;
 			sourceTree = "<group>";
@@ -258,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
+				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
+				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
