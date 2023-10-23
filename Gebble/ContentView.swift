@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    init() {
+    
+    }
+    
     var body: some View {
         VStack {
+            
+            
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
+                .onTapGesture {
+                    Task {
+                        let result = await ArtistClient.liveValue.fetchArtists("yiyasha")
+                        print(result)
+                    }
+                }
             Text("Hello, world!")
         }
         .padding()

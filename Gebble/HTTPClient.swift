@@ -36,8 +36,17 @@ enum RequestMethod: String {
 }
 
 enum Host: String {
-    case dev = "https://sdjpkww4h3.execute-api.us-east-1.amazonaws.com/dev/api"
-    case production = "https://sdjpkww4h3.execute-api.us-east-1.amazonaws.com/production/api"
+    case dev = "sdjpkww4h3.execute-api.us-east-1.amazonaws.com"
+    case production = "hejeu19jod.execute-api.us-east-1.amazonaws.com"
+
+    var envPath: String {
+        switch self {
+        case .dev:
+            return "/dev/api/"
+        case .production:
+            return "/prod/api/"
+        }
+    }
 }
 
 protocol Endpoint {
@@ -60,7 +69,10 @@ extension Endpoint {
 }
 
 protocol HTTPClient {
-    static func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, RequestError>
+    static func sendRequest<T: Decodable>(
+        endpoint: Endpoint,
+        responseModel: T.Type
+    ) async -> Result<T, RequestError>
 }
 
 extension HTTPClient {
@@ -71,8 +83,7 @@ extension HTTPClient {
         var urlComponents = URLComponents()
         urlComponents.scheme = endpoint.scheme
         urlComponents.host = endpoint.host.rawValue
-        urlComponents.path = endpoint.path
-
+        urlComponents.path = "\(endpoint.host.envPath)\(endpoint.path)"
         guard let url = urlComponents.url else {
             return .failure(.invalidURL)
         }
@@ -92,10 +103,12 @@ extension HTTPClient {
             }
             switch response.statusCode {
             case 200 ... 299:
-                guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
+                guard let decodedResponse = try? decoder.decode(responseModel, from: data) else {
                     return .failure(.decode)
                 }
+
                 return .success(decodedResponse)
+
             case 401:
                 return .failure(.unauthorized)
             default:
@@ -106,3 +119,12 @@ extension HTTPClient {
         }
     }
 }
+
+private let decoder: JSONDecoder = {
+    let jsonDecoder = JSONDecoder()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    jsonDecoder.dateDecodingStrategy = .formatted(formatter)
+    jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+    return jsonDecoder
+}()
