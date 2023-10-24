@@ -21,6 +21,7 @@
 		D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD5B2AE67A430065DB7C /* RootTabView.swift */; };
 		D820AD5F2AE79AC00065DB7C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD5E2AE79AC00065DB7C /* Colors.xcassets */; };
 		D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD602AE79B9A0065DB7C /* Colors.swift */; };
+		D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD642AE7A2380065DB7C /* ArtistsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		D820AD5B2AE67A430065DB7C /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		D820AD5E2AE79AC00065DB7C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		D820AD602AE79B9A0065DB7C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D820AD642AE7A2380065DB7C /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				D820AD282AE641840065DB7C /* GebbleApp.swift */,
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
+				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
+				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
