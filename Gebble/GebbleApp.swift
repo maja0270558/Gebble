@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct GebbleApp: App {
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            RootTabView(
+                store: Store(
+                    initialState: AppFeature.State(),
+                    reducer: {
+                        AppFeature()
+                    }
+                )
+            )
         }
     }
 }
