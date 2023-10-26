@@ -58,13 +58,13 @@ struct ArtistClient {
 
 // MARK: - Model
 
-struct ArtistList: Decodable {
+struct ArtistList: Decodable, Equatable {
     var count: Int
     var next: String?
     var previous: String?
     var results: [ArtistListItem]
 
-    struct ArtistListItem: Decodable {
+    struct ArtistListItem: Decodable, Equatable {
         var username: String
         var artistName: String
         var thumb: String
@@ -72,7 +72,7 @@ struct ArtistList: Decodable {
     }
 }
 
-struct Artist: Decodable {
+struct Artist: Decodable, Equatable {
     var username: String
     var profilePhoto: String
     var artistName: String
