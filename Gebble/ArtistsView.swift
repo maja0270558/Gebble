@@ -9,13 +9,17 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ArtistsFeature: Reducer {
+    @Dependency(\.artistsClient) var artistsClient
+    
     struct State: Equatable {
         var artists: [ArtistList.ArtistListItem]
     }
+    
     enum Action: Equatable {
         case artistCellTap(ArtistList.ArtistListItem)
         case loadArtists
         case searchArtists(String)
+        case arrtistsResponse([ArtistList.ArtistListItem])
     }
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -23,8 +27,19 @@ struct ArtistsFeature: Reducer {
         case .artistCellTap(_):
             return .none
         case .loadArtists:
-            return .none
+            return .run { send in
+                let result = await artistsClient.fetchArtistList()
+                switch result {
+                case .success(let list):
+                    await send(.arrtistsResponse(list.results))
+                case .failure(let error):
+                    print(error)
+                }
+            }
         case .searchArtists(_):
+            return .none
+        case .arrtistsResponse(let result):
+            state.artists = result
             return .none
         }
     }
@@ -55,6 +70,7 @@ struct ArtistListCell: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.gray, lineWidth: 0.2)
         )
+        
     }
 }
 
@@ -89,6 +105,9 @@ struct ArtistsView: View {
             }
             .searchable(text: $searchText, prompt: "Search for artist")
             .tint(Color.black)
+            .onAppear {
+                viewStore.send(.loadArtists)
+            }
         }
     }
 }
@@ -96,17 +115,7 @@ struct ArtistsView: View {
 #Preview {
     ArtistsView(
         store: Store(
-            initialState: ArtistsFeature.State(artists: [
-                ArtistList.ArtistListItem(username: "django",
-                                          artistName: "django rock",
-                                          thumb: "",
-                                          country: "tw"),
-                
-                ArtistList.ArtistListItem(username: "kookie",
-                                          artistName: "django rock2",
-                                          thumb: "",
-                                          country: "tw")
-            ]),
+            initialState: ArtistsFeature.State(artists: []),
             reducer: {
                 ArtistsFeature()
             }

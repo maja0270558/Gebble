@@ -7,8 +7,17 @@
 
 import Combine
 import Foundation
+import Dependencies
 
 // MARK: - Endpoint
+extension ArtistClient: HTTPClient {}
+
+extension DependencyValues {
+    var artistsClient: ArtistClient {
+        get { self[ArtistClient.self] }
+        set { self[ArtistClient.self] = newValue }
+    }
+}
 
 enum ArtistEndpoint {
     case artistList
