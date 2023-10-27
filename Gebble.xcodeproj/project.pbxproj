@@ -22,6 +22,7 @@
 		D820AD5F2AE79AC00065DB7C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD5E2AE79AC00065DB7C /* Colors.xcassets */; };
 		D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD602AE79B9A0065DB7C /* Colors.swift */; };
 		D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD642AE7A2380065DB7C /* ArtistsView.swift */; };
+		D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD672AEB67D60065DB7C /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +178,7 @@
 			name = Gebble;
 			packageProductDependencies = (
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
+				D820AD672AEB67D60065DB7C /* Kingfisher */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -251,6 +254,7 @@
 			mainGroup = D820AD1C2AE641840065DB7C;
 			packageReferences = (
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -644,6 +648,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -651,6 +663,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		D820AD672AEB67D60065DB7C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

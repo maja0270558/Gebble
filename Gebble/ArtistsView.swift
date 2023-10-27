@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Kingfisher
 
 struct ArtistsFeature: Reducer {
     @Dependency(\.artistsClient) var artistsClient
@@ -50,9 +51,15 @@ struct ArtistListCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Spacer()
-            Image(systemName: "person")
-                .resizable()
-                .aspectRatio(1, contentMode: .fit)
+            
+            KFImage.url(URL(string: "\(artist.thumb)"))
+                      .loadDiskFileSynchronously()
+                      .cacheMemoryOnly()
+                      .fade(duration: 0.25)
+                      .onProgress { receivedSize, totalSize in  }
+                      .onSuccess { result in  }
+                      .onFailure { error in }
+            
 
             HStack {
                 Text("\(artist.artistName)")
