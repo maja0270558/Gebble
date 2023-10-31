@@ -6,14 +6,15 @@
 //
 
 import ComposableArchitecture
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct ArtistsFeature: Reducer {
     @Dependency(\.artistsClient) var artistsClient
     
     struct State: Equatable {
         var artists: [ArtistList.ArtistListItem]
+        var collectionState: CollectionLoadingState<[ArtistList.ArtistListItem]>
     }
     
     enum Action: Equatable {
@@ -25,9 +26,11 @@ struct ArtistsFeature: Reducer {
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .artistCellTap(_):
+        case .artistCellTap:
             return .none
         case .loadArtists:
+            
+            TaskResult(<#T##result: Result<Sendable, Error>##Result<Sendable, Error>#>)
             return .run { send in
                 let result = await artistsClient.fetchArtistList()
                 switch result {
@@ -37,7 +40,7 @@ struct ArtistsFeature: Reducer {
                     print(error)
                 }
             }
-        case .searchArtists(_):
+        case .searchArtists:
             return .none
         case .arrtistsResponse(let result):
             state.artists = result
@@ -49,35 +52,41 @@ struct ArtistsFeature: Reducer {
 struct ArtistListCell: View {
     @State var artist: ArtistList.ArtistListItem
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             Spacer()
-            
             KFImage.url(URL(string: "\(artist.thumb)"))
-                      .loadDiskFileSynchronously()
-                      .cacheMemoryOnly()
-                      .fade(duration: 0.25)
-                      .onProgress { receivedSize, totalSize in  }
-                      .onSuccess { result in  }
-                      .onFailure { error in }
-            
+                .placeholder({
+                    Image(systemName: "person")
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(height: 100)
+                })
+                .loadDiskFileSynchronously()
+                .cacheMemoryOnly()
+                .fade(duration: 0.25)
 
             HStack {
                 Text("\(artist.artistName)")
-                    .dynamicTypeSize(.small)
                     .lineLimit(1)
-                    .frame(height: 20)
+                    .layoutPriority(2)
+
                 Spacer()
-                Image(systemName: "flag")
-                    .aspectRatio(contentMode: .fit)
+                    .layoutPriority(0)
+
+                Text("\(artist.countryFlag())")
+                    .lineLimit(1)
+                    .layoutPriority(2)
             }
+            .frame(height: 20)
+
         }
-        .padding(5)
+        .padding(7)
         .background(Color.base)
         .overlay(
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.gray, lineWidth: 0.2)
         )
-        
+//        .redacted(reason: .placeholder)
     }
 }
 
@@ -99,10 +108,13 @@ struct ArtistsView: View {
                         Text("Explore artist")
                             .font(.headline)
                         Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
+                            
                         LazyVGrid(columns: gridItemLayout, content: {
                             ForEach(viewStore.state.artists, id: \.artistName) { artist in
                                 ArtistListCell(artist: artist)
+                                    
                             }
+                            
                         })
                     }
                 }
@@ -122,7 +134,8 @@ struct ArtistsView: View {
 #Preview {
     ArtistsView(
         store: Store(
-            initialState: ArtistsFeature.State(artists: []),
+            initialState: ArtistsFeature.State(artists: [],
+                                               collectionState: .loading(placeholder: [])),
             reducer: {
                 ArtistsFeature()
             }

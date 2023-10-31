@@ -23,6 +23,9 @@
 		D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD602AE79B9A0065DB7C /* Colors.swift */; };
 		D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD642AE7A2380065DB7C /* ArtistsView.swift */; };
 		D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD672AEB67D60065DB7C /* Kingfisher */; };
+		D820AD6B2AEB79A70065DB7C /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD6A2AEB79A70065DB7C /* SkeletonUI */; };
+		D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */; };
+		D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,8 @@
 		D820AD5E2AE79AC00065DB7C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		D820AD602AE79B9A0065DB7C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D820AD642AE7A2380065DB7C /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
+		D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringView.swift; sourceTree = "<group>"; };
+		D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLoadingState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
+				D820AD6B2AEB79A70065DB7C /* SkeletonUI in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,12 +123,14 @@
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
 				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
+				D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
 				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
 				D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */,
 				D820AD602AE79B9A0065DB7C /* Colors.swift */,
+				D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */,
 			);
 			path = Gebble;
 			sourceTree = "<group>";
@@ -179,6 +187,7 @@
 			packageProductDependencies = (
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
 				D820AD672AEB67D60065DB7C /* Kingfisher */,
+				D820AD6A2AEB79A70065DB7C /* SkeletonUI */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -255,6 +264,7 @@
 			packageReferences = (
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -306,6 +316,8 @@
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
 				D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */,
+				D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */,
+				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -656,6 +668,14 @@
 				minimumVersion = 7.9.1;
 			};
 		};
+		D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -668,6 +688,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		D820AD6A2AEB79A70065DB7C /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

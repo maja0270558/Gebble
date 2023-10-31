@@ -106,6 +106,10 @@ extension HTTPClient {
                 guard let decodedResponse = try? decoder.decode(responseModel, from: data) else {
                     return .failure(.decode)
                 }
+                
+                if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
+                   print(JSONString)
+                }
 
                 return .success(decodedResponse)
 

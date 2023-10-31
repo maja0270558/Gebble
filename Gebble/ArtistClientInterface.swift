@@ -9,6 +9,9 @@ import Combine
 import Foundation
 import Dependencies
 
+// TODO: change response to effect
+// TODO: using TaskResult
+
 // MARK: - Endpoint
 extension ArtistClient: HTTPClient {}
 
@@ -72,12 +75,23 @@ struct ArtistList: Decodable, Equatable {
     var next: String?
     var previous: String?
     var results: [ArtistListItem]
-
+    
     struct ArtistListItem: Decodable, Equatable {
         var username: String
         var artistName: String
         var thumb: String
         var country: String
+        
+        func countryFlag() -> String {
+          let base = 127397
+          var tempScalarView = String.UnicodeScalarView()
+          for i in country.utf16 {
+            if let scalar = UnicodeScalar(base + Int(i)) {
+              tempScalarView.append(scalar)
+            }
+          }
+          return String(tempScalarView)
+        }
     }
 }
 
