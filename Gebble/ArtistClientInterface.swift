@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import Dependencies
+import ComposableArchitecture
 
 // TODO: change response to effect
 // TODO: using TaskResult
@@ -64,8 +65,8 @@ extension ArtistEndpoint: Endpoint {
 // MARK: - Client Interface
 
 struct ArtistClient {
-    var fetchArtistList: @Sendable () async -> Result<ArtistList, RequestError>
-    var fetchArtists: @Sendable (_ name: String) async -> Result<Artist, RequestError>
+    var fetchArtistList: @Sendable () async throws -> ArtistList
+    var fetchArtists: @Sendable (_ name: String) async throws -> Artist
 }
 
 // MARK: - Model

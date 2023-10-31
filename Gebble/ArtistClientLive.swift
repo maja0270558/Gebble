@@ -7,18 +7,18 @@
 
 import Foundation
 import Dependencies
-
+import ComposableArchitecture
 
 extension ArtistClient: DependencyKey {
     static let liveValue: Self = .init(
         fetchArtistList: {
-            await sendRequest(
+            try await sendRequest(
                 endpoint: ArtistEndpoint.artistList,
                 responseModel: ArtistList.self
             )
         },
         fetchArtists: { name in
-            await sendRequest(
+            try await sendRequest(
                 endpoint: ArtistEndpoint.artist(name: name),
                 responseModel: Artist.self
             )
@@ -29,8 +29,7 @@ extension ArtistClient: DependencyKey {
 extension ArtistClient: TestDependencyKey {
     static let previewValue: Self = .init(
         fetchArtistList: {
-            
-            .success(.init(count: 0, results: [
+            return .init(count: 0, results: [
                 ArtistList.ArtistListItem(username: "django",
                                           artistName: "django",
                                           thumb: "https://minithumb-cover-photos.s3.amazonaws.com/085c33a0-8863-4eb2-ae1e-da9ca6681456.png",
@@ -45,19 +44,19 @@ extension ArtistClient: TestDependencyKey {
                                           artistName: "yiyasha",
                                           thumb: "https://minithumb-cover-photos.s3.amazonaws.com/90bac745-6350-4a4f-b181-938326c3c1a0.png",
                                           country: "US")
-            ]))
+            ])
         },
         fetchArtists: { _ in
-            .failure(.invalidURL)
+            unimplemented("fetch arrtist")
         }
     )
     
     static var testValue: Self = .init(
         fetchArtistList: {
-            .success(.init(count: 0, results: []))
+            unimplemented("test fetchArtistList")
         },
         fetchArtists: { _ in
-            .failure(.invalidURL)
+            unimplemented("test fetchArtist")
         }
     )
 }

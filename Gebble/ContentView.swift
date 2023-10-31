@@ -21,10 +21,6 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
                 .onTapGesture {
-                    Task {
-                        let result = await ArtistClient.liveValue.fetchArtists("yiyasha")
-                        print(result)
-                    }
                 }
             Text("Hello, world!")
         }
