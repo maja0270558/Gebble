@@ -11,17 +11,17 @@ import SwiftUI
 
 struct ArtistsFeature: Reducer {
     @Dependency(\.artistsClient) var artistsClient
+    @Dependency(\.collectionStateStreamMaker) var collectionStateMaker
 
     struct State: Equatable {
-        var artists: [ArtistList.ArtistListItem]
-        var collectionState: CollectionLoadingState<[ArtistList.ArtistListItem]>
+        var collectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .empty
     }
 
     enum Action: Equatable {
         case artistCellTap(ArtistList.ArtistListItem)
         case loadArtists
         case searchArtists(String)
-        case arrtistsResponse(TaskResult<[ArtistList.ArtistListItem]>)
+        case arrtistsStateResponse(CollectionLoadingState<[ArtistList.ArtistListItem]>)
     }
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -30,23 +30,19 @@ struct ArtistsFeature: Reducer {
             return .none
         case .loadArtists:
             return .run { send in
-
-                await send(
-                    .arrtistsResponse(
-                        TaskResult {
-                           let list =  try await artistsClient.fetchArtistList()
-                            return list.results
-                        }
-                    )
-                )
+                for await state in await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder,
+                                                                                     body: {
+                                                                                         let list = try await artistsClient.fetchArtistList()
+                                                                                         return list.results
+                                                                                     })
+                {
+                    await send(.arrtistsStateResponse(state))
+                }
             }
         case .searchArtists:
             return .none
-        case let .arrtistsResponse(.success(responese)):
-            state.artists = responese
-            return .none
-        case let .arrtistsResponse(.failure(error)):
-            print(error.localizedDescription)
+        case let .arrtistsStateResponse(response):
+            state.collectionState = response
             return .none
         }
     }
@@ -88,7 +84,6 @@ struct ArtistListCell: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(.gray, lineWidth: 0.2)
         )
-//        .redacted(reason: .placeholder)
     }
 }
 
@@ -111,12 +106,19 @@ struct ArtistsView: View {
                             .font(.headline)
                         Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
 
-                        LazyVGrid(columns: gridItemLayout, content: {
-                            ForEach(viewStore.state.artists, id: \.artistName) { artist in
-                                ArtistListCell(artist: artist)
-                            }
+                        CollectionLoadingView(loadingState: viewStore.state.collectionState) { items in
+                            // loaded
+                            LazyVGrid(columns: gridItemLayout, content: {
+                                ForEach(items, id: \.artistName) { artist in
+                                    ArtistListCell(artist: artist)
+                                }
+                            })
 
-                        })
+                        } empty: {
+                            Text("empty")
+                        } error: { _ in
+                            Text("error")
+                        }
                     }
                 }
                 .navigationTitle("Artists")
@@ -132,13 +134,49 @@ struct ArtistsView: View {
     }
 }
 
-#Preview {
+#Preview("Happy path") {
     ArtistsView(
         store: Store(
-            initialState: ArtistsFeature.State(artists: [],
-                                               collectionState: .loading(placeholder: [])),
+            initialState: ArtistsFeature.State(),
             reducer: {
                 ArtistsFeature()
+            }
+        )
+    )
+}
+
+#Preview("Empty data") {
+    ArtistsView(
+        store: Store(
+            initialState: ArtistsFeature.State(),
+            reducer: {
+                ArtistsFeature()
+                    .dependency(\.artistsClient, .emptyValue)
+            }
+        )
+    )
+}
+
+#Preview("Error happen") {
+    ArtistsView(
+        store: Store(
+            initialState: ArtistsFeature.State(),
+            reducer: {
+                ArtistsFeature()
+                    .dependency(\.artistsClient, .errorValue)
+            }
+        )
+    )
+}
+
+#Preview("Placeholder") {
+    ArtistsView(
+        store: Store(
+            initialState: ArtistsFeature.State(),
+            reducer: {
+                ArtistsFeature()
+                    .dependency(\.artistsClient, .errorValue)
+                    .dependency(\.collectionStateStreamMaker, .placeholderValue)
             }
         )
     )

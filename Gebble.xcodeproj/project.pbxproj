@@ -26,6 +26,8 @@
 		D820AD6B2AEB79A70065DB7C /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD6A2AEB79A70065DB7C /* SkeletonUI */; };
 		D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */; };
 		D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */; };
+		D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD702AF235B90065DB7C /* CollectionStateView.swift */; };
+		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		D820AD642AE7A2380065DB7C /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
 		D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringView.swift; sourceTree = "<group>"; };
 		D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLoadingState.swift; sourceTree = "<group>"; };
+		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
+		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,8 @@
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
 				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
+				D820AD702AF235B90065DB7C /* CollectionStateView.swift */,
+				D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */,
 				D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
@@ -312,11 +318,13 @@
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
+				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
 				D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */,
 				D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */,
+				D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */,
 				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
 			);

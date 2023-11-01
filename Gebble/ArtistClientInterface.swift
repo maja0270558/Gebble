@@ -106,3 +106,17 @@ struct Artist: Decodable, Equatable {
     var introduction: String
     var modified: Date
 }
+
+
+extension ArtistList.ArtistListItem {
+    static var placeholder: [ArtistList.ArtistListItem] {
+        var placeholder = [ArtistList.ArtistListItem]()
+        for i in 0...20 {
+            placeholder.append(.init(username: "\(i)",
+                                     artistName: "\(i)",
+                                     thumb: "\(i)",
+                                     country: "\(i)"))
+        }
+        return placeholder
+    }
+}

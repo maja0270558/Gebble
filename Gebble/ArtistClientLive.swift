@@ -27,31 +27,26 @@ extension ArtistClient: DependencyKey {
 }
 
 extension ArtistClient: TestDependencyKey {
-    static let previewValue: Self = .init(
+    
+    static let emptyValue: Self = .init(
         fetchArtistList: {
-            return .init(count: 0, results: [
-                ArtistList.ArtistListItem(username: "django",
-                                          artistName: "django",
-                                          thumb: "https://minithumb-cover-photos.s3.amazonaws.com/085c33a0-8863-4eb2-ae1e-da9ca6681456.png",
-                                          country: "AF"),
-                
-                ArtistList.ArtistListItem(username: "kookie",
-                                          artistName: "kookie",
-                                          thumb: "https://minithumb-cover-photos.s3.amazonaws.com/04faceba-9e1a-49d4-954f-f015ac4e3f8a.png",
-                                          country: "NP"),
-                
-                ArtistList.ArtistListItem(username: "yiyasha",
-                                          artistName: "yiyasha",
-                                          thumb: "https://minithumb-cover-photos.s3.amazonaws.com/90bac745-6350-4a4f-b181-938326c3c1a0.png",
-                                          country: "US")
-            ])
+            return .init(count: 0, results: [])
         },
         fetchArtists: { _ in
             unimplemented("fetch arrtist")
         }
     )
     
-    static var testValue: Self = .init(
+    static let errorValue: Self = .init(
+        fetchArtistList: {
+            throw RequestError.noResponse
+        },
+        fetchArtists: { _ in
+            unimplemented("fetch arrtist")
+        }
+    )
+    
+    static let testValue: Self = .init(
         fetchArtistList: {
             unimplemented("test fetchArtistList")
         },

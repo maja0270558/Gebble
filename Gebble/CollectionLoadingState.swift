@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ComposableArchitecture
 import Combine
 
 enum CollectionLoadingState<Content: Equatable>: Equatable {
@@ -28,13 +29,7 @@ enum CollectionLoadingState<Content: Equatable>: Equatable {
   case loading(placeholder: Content), loaded(content: Content), empty, error(Error)
 }
 
-protocol EquatableCollection: Collection, Equatable {}
 
-extension Publisher where Output: EquatableCollection {
-  func mapToLoadingState(placeholder: Output) -> AnyPublisher<CollectionLoadingState<Output>, Never> {
-    map { $0.isEmpty ? CollectionLoadingState.empty : .loaded(content:$0) }
-      .catch { Just(CollectionLoadingState.error($0)) }
-      .prepend(.loading(placeholder: placeholder))
-      .eraseToAnyPublisher()
-  }
-}
+
+
+
