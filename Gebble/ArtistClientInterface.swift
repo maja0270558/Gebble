@@ -113,9 +113,9 @@ extension ArtistList.ArtistListItem {
         var placeholder = [ArtistList.ArtistListItem]()
         for i in 0...20 {
             placeholder.append(.init(username: "\(i)",
-                                     artistName: "\(i)",
+                                     artistName: "\(i) this is fake data",
                                      thumb: "\(i)",
-                                     country: "\(i)"))
+                                     country: "US"))
         }
         return placeholder
     }

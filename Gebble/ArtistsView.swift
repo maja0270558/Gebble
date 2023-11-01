@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Kingfisher
+import Shimmer
 import SwiftUI
 
 struct ArtistsFeature: Reducer {
@@ -49,36 +50,30 @@ struct ArtistsFeature: Reducer {
 }
 
 struct ArtistListCell: View {
-    @State var artist: ArtistList.ArtistListItem
+    var artist: ArtistList.ArtistListItem
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            Spacer()
-            KFImage.url(URL(string: "\(artist.thumb)"))
+        VStack(alignment: .leading, spacing: 2) {
+            KFImage(URL(string: "\(artist.thumb)"))
                 .placeholder {
                     Image(systemName: "person")
                         .resizable()
-                        .aspectRatio(1, contentMode: .fit)
+                        .redacted(reason: .placeholder)
                         .frame(height: 100)
                 }
-                .loadDiskFileSynchronously()
-                .cacheMemoryOnly()
-                .fade(duration: 0.25)
+                .resizable()
+                .cornerRadius(6)
 
             HStack {
                 Text("\(artist.artistName)")
                     .lineLimit(1)
-                    .layoutPriority(2)
-
+                    .layoutPriority(1)
                 Spacer()
-                    .layoutPriority(0)
-
                 Text("\(artist.countryFlag())")
                     .lineLimit(1)
                     .layoutPriority(2)
             }
             .frame(height: 20)
         }
-        .padding(7)
         .background(Color.base)
         .overlay(
             RoundedRectangle(cornerRadius: 5)
@@ -107,7 +102,6 @@ struct ArtistsView: View {
                         Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
 
                         CollectionLoadingView(loadingState: viewStore.state.collectionState) { items in
-                            // loaded
                             LazyVGrid(columns: gridItemLayout, content: {
                                 ForEach(items, id: \.artistName) { artist in
                                     ArtistListCell(artist: artist)
