@@ -23,11 +23,10 @@
 		D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD602AE79B9A0065DB7C /* Colors.swift */; };
 		D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD642AE7A2380065DB7C /* ArtistsView.swift */; };
 		D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD672AEB67D60065DB7C /* Kingfisher */; };
-		D820AD6B2AEB79A70065DB7C /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD6A2AEB79A70065DB7C /* SkeletonUI */; };
-		D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */; };
 		D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */; };
 		D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD702AF235B90065DB7C /* CollectionStateView.swift */; };
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
+		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +64,6 @@
 		D820AD5E2AE79AC00065DB7C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		D820AD602AE79B9A0065DB7C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D820AD642AE7A2380065DB7C /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
-		D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringView.swift; sourceTree = "<group>"; };
 		D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionLoadingState.swift; sourceTree = "<group>"; };
 		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
@@ -76,8 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
-				D820AD6B2AEB79A70065DB7C /* SkeletonUI in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,7 +134,6 @@
 				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
 				D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */,
 				D820AD602AE79B9A0065DB7C /* Colors.swift */,
-				D820AD6C2AEB81AC0065DB7C /* ShimmeringView.swift */,
 			);
 			path = Gebble;
 			sourceTree = "<group>";
@@ -193,7 +190,7 @@
 			packageProductDependencies = (
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
 				D820AD672AEB67D60065DB7C /* Kingfisher */,
-				D820AD6A2AEB79A70065DB7C /* SkeletonUI */,
+				D820AD752AF243810065DB7C /* Shimmer */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -270,7 +267,7 @@
 			packageReferences = (
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -323,7 +320,6 @@
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
 				D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */,
-				D820AD6D2AEB81AC0065DB7C /* ShimmeringView.swift in Sources */,
 				D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */,
 				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
@@ -676,12 +672,12 @@
 				minimumVersion = 7.9.1;
 			};
 		};
-		D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+		D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CSolanaM/SkeletonUI.git";
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 1.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -697,10 +693,10 @@
 			package = D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		D820AD6A2AEB79A70065DB7C /* SkeletonUI */ = {
+		D820AD752AF243810065DB7C /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D820AD692AEB79A70065DB7C /* XCRemoteSwiftPackageReference "SkeletonUI" */;
-			productName = SkeletonUI;
+			package = D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

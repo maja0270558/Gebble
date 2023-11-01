@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import Foundation
 import SwiftUI
+import Shimmer
 
 struct CollectionLoadingView
 <
@@ -38,6 +39,7 @@ struct CollectionLoadingView
         case let .loading(placeholders):
             makeContent(placeholders)
                 .redacted(reason: .placeholder)
+                .shimmering()
                 .disabled(true)
                 .transition(fade)
         case let .loaded(items):
