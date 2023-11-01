@@ -21,6 +21,7 @@ struct ArtistsFeature: Reducer {
     enum Action: Equatable {
         case artistCellTap(ArtistList.ArtistListItem)
         case loadArtists
+        case refresh
         case searchArtists(String)
         case arrtistsStateResponse(CollectionLoadingState<[ArtistList.ArtistListItem]>)
     }
@@ -29,7 +30,8 @@ struct ArtistsFeature: Reducer {
         switch action {
         case .artistCellTap:
             return .none
-        case .loadArtists:
+        case .loadArtists, .refresh:
+            state.collectionState = .empty
             return .run { send in
                 for await state in await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder,
                                                                                      body: {
@@ -113,11 +115,15 @@ struct ArtistsView: View {
                         } error: { _ in
                             Text("error")
                         }
+                       
                     }
                 }
                 .navigationTitle("Artists")
                 .padding()
                 .background(Color.base)
+                .refreshable {
+                    viewStore.send(.refresh)
+                }
             }
             .searchable(text: $searchText, prompt: "Search for artist")
             .tint(Color.black)
