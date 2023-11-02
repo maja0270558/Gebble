@@ -28,6 +28,10 @@
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
 		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
+		D873383F2AF38B560045B6DB /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D873383E2AF38B560045B6DB /* CardDetailView.swift */; };
+		D87338422AF3FD4B0045B6DB /* SwiftUIPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = D87338412AF3FD4B0045B6DB /* SwiftUIPullToRefresh */; };
+		D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D87338442AF403930045B6DB /* ActivityIndicatorView */; };
+		D87338472AF41CFD0045B6DB /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +73,8 @@
 		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
+		D873383E2AF38B560045B6DB /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +82,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */,
 				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
+				D87338422AF3FD4B0045B6DB /* SwiftUIPullToRefresh in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +135,8 @@
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
 				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
+				D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */,
+				D873383E2AF38B560045B6DB /* CardDetailView.swift */,
 				D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */,
 				D820AD702AF235B90065DB7C /* CollectionStateView.swift */,
 				D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */,
@@ -194,6 +204,8 @@
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
 				D820AD672AEB67D60065DB7C /* Kingfisher */,
 				D820AD752AF243810065DB7C /* Shimmer */,
+				D87338412AF3FD4B0045B6DB /* SwiftUIPullToRefresh */,
+				D87338442AF403930045B6DB /* ActivityIndicatorView */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -271,6 +283,8 @@
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				D87338402AF3FD4A0045B6DB /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */,
+				D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -318,7 +332,9 @@
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
+				D873383F2AF38B560045B6DB /* CardDetailView.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
+				D87338472AF41CFD0045B6DB /* RefreshableScrollView.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
@@ -684,6 +700,22 @@
 				minimumVersion = 1.4.0;
 			};
 		};
+		D87338402AF3FD4A0045B6DB /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-pull-to-refresh";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.9;
+			};
+		};
+		D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -701,6 +733,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		D87338412AF3FD4B0045B6DB /* SwiftUIPullToRefresh */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D87338402AF3FD4A0045B6DB /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */;
+			productName = SwiftUIPullToRefresh;
+		};
+		D87338442AF403930045B6DB /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

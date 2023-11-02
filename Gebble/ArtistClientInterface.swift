@@ -127,7 +127,7 @@ extension ArtistList.ArtistListItem {
         for i in 0...20 {
             placeholder.append(.init(username: "\(i)",
                                      artistName: "\(i) this is fake data",
-                                     thumb: "\(i)",
+                                     thumb: "",
                                      country: "US"))
         }
         return placeholder

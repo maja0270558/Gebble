@@ -116,7 +116,7 @@ extension HTTPClient {
                 
                 #if DEBUG
                 if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
-                   print(JSONString)
+                   print("Json parsing done 🍖")
                 }
                 #endif
 

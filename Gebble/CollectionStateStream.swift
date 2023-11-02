@@ -65,7 +65,6 @@ struct LivePlaceholderMaker: CollectionStateStreamMaker {
         let stream = AsyncStream(CollectionLoadingState<T>.self) { continuation in
             Task {
                 continuation.yield(.loading(placeholder: placeholder))
-
                 let response = await TaskResult {
                     try await body()
                 }

@@ -5,10 +5,12 @@
 //  Created by DjangoLin on 2023/10/24.
 //
 
+import ActivityIndicatorView
 import ComposableArchitecture
 import Kingfisher
 import Shimmer
 import SwiftUI
+import SwiftUIPullToRefresh
 
 struct ArtistsFeature: Reducer {
     @Dependency(\.artistsClient) var artistsClient
@@ -16,7 +18,7 @@ struct ArtistsFeature: Reducer {
     @Dependency(\.mainQueue) private var mainQueue
 
     private enum CancelID { case artistsRequest, searchRequest }
-    
+
     struct State: Equatable {
         var loadedCollectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .unload
         var searchCollectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .unload
@@ -43,12 +45,12 @@ struct ArtistsFeature: Reducer {
         case let .searchArtists(query):
             Task.cancel(id: CancelID.searchRequest)
             state.searchQuery = query
-            
+
             /// load back prev state
             guard !query.isEmpty else {
-                    return state.loadedCollectionState != .unload ? .send(.arrtistsStateResponse(state.loadedCollectionState)) : .send(.loadArtists)
+                return state.loadedCollectionState != .unload ? .send(.arrtistsStateResponse(state.loadedCollectionState)) : .send(.loadArtists)
             }
-            
+
             return .run { [query = state.searchQuery] send in
                 for await state in await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder,
                                                                                      body: {
@@ -74,16 +76,17 @@ struct ArtistsFeature: Reducer {
                     await send(.arrtistsListResponse(state))
                 }
             }
+            .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
             .cancellable(id: CancelID.artistsRequest)
-            
+
         case let .searchArrtistsResponse(response):
             state.searchCollectionState = response
             return .send(.arrtistsStateResponse(response))
-            
+
         case let .arrtistsListResponse(response):
             state.loadedCollectionState = response
             return .send(.arrtistsStateResponse(response))
-            
+
         case let .arrtistsStateResponse(response):
             state.currentCollectionState = response
             return .none
@@ -93,9 +96,15 @@ struct ArtistsFeature: Reducer {
 
 struct ArtistListCell: View {
     var artist: ArtistList.ArtistListItem
+    let animation: Namespace.ID
+    var imageURL: URL? {
+        return artist.thumb.isEmpty ? nil : URL(string: "\(artist.thumb)")
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            KFImage(URL(string: "\(artist.thumb)"))
+            
+            KFImage(imageURL)
                 .placeholder {
                     Image(systemName: "person")
                         .resizable()
@@ -103,6 +112,7 @@ struct ArtistListCell: View {
                 }
                 .resizable()
                 .aspectRatio(1, contentMode: .fill)
+                .matchedGeometryEffect(id: "\(artist.artistName)", in: animation)
                 .cornerRadius(10)
 
             HStack {
@@ -114,13 +124,13 @@ struct ArtistListCell: View {
                     .lineLimit(1)
                     .layoutPriority(2)
             }
-            .padding( 4)
+            .padding(4)
             .frame(height: 20)
         }
         .background(Color.base)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(.gray, lineWidth: 0.2)
+                .stroke(.gray, lineWidth: 0.2).unredacted()
         )
     }
 }
@@ -140,6 +150,7 @@ extension View {
     }
 }
 
+
 struct ArtistsView: View {
     let store: StoreOf<ArtistsFeature>
     @State var isLoading: Bool = false
@@ -147,52 +158,175 @@ struct ArtistsView: View {
     var gridItemLayout = [GridItem(.flexible(), spacing: 8),
                           GridItem(.flexible(), spacing: 8),
                           GridItem(.flexible())]
+    @State var show: Bool = false
+    @State var currFullId = ""
+
+    @Namespace var animation
+    
+
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            NavigationStack {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        Divider()
-                            .padding(.bottom)
-                        Text("Explore artist")
-                            .font(.headline)
-                        Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
 
-                        CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
-                            
-                            LazyVGrid(columns: gridItemLayout) {
-                                ForEach(items, id: \.artistName) { artist in
-                                    ArtistListCell(artist: artist)
-                                        .frame(height: 140)
+            ZStack {
+
+
+                if show {
+                    ScrollView(showsIndicators: false) {
+                        ZStack(alignment: .bottom) {
+                            // MARK: - Header
+
+                            VStack(spacing: 0) {
+                                Image("Gebbles6")
+                                    .resizable()
+                                    .matchedGeometryEffect(id: "\(currFullId)", in: animation, anchor: .top)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 240)
+                                    .padding(.vertical, 2*24)
+                                Spacer()
+                                    .frame(height: UIScreen.main.bounds.height - 92 + 2*24)
+                            }
+                            .frame(width: UIScreen.main.bounds.width)
+                            .onTapGesture { _ in
+                                withAnimation(.linear) {
+                                    show.toggle()
                                 }
                             }
-
-                        } empty: {
-                            Text("empty")
-                        } error: { _ in
-                            Text("error")
                         }
                     }
-                }
-                .navigationTitle("Artists")
-                .padding()
-                .background(Color.base)
-                .refreshable {
-                    viewStore.send(.refresh)
+                    
+                } else {
+                    // OGView
+                    NavigationStack {
+                        ZStack {
+                            // Full detail
+                            Color.base.ignoresSafeArea(.all)
+                            
+                            ScrollView {
+                                VStack(alignment: .leading) {
+                                    Divider()
+
+                                    Text("Explore artist")
+                                        .font(.headline)
+                                    Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
+                                    
+                                    CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
+                                        
+                                        LazyVGrid(columns: gridItemLayout) {
+                                            ForEach(items, id: \.artistName) { artist in
+                                                ArtistListCell(artist: artist, animation: animation)
+                                                    .onTapGesture { _ in
+                                                        currFullId = "\(artist.artistName)"
+                                                        
+                                                        withAnimation(.linear) {
+                                                            show.toggle()
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                        
+                                    } empty: {
+                                        Text("empty")
+                                    } error: { _ in
+                                        Text("error")
+                                    }
+                                }
+                                .padding()
+                                .navigationTitle("Artists")
+                            }
+                            .refreshable {
+                                viewStore.send(.refresh)
+                            }
+                        }
+                        
+
+                    }.onAppear {
+                        let appearance = UINavigationBarAppearance()
+                        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+                        appearance.backgroundColor = UIColor(Color.base.opacity(0.2))
+                        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+                        // Inline appearance (standard height appearance)
+                        UINavigationBar.appearance().standardAppearance = appearance
+                        // Large Title appearance
+                        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+                    }
+                    
+                    
+                    /*
+                    NavigationStack {
+                        RefreshableScrollView(
+                            showsIndicators: false,
+                            loadingViewBackgroundColor: Color.base,
+                            threshold: 5,
+                            onRefresh: { done in
+                                Task {
+                                    await viewStore.send(.refresh).finish()
+                                    done()
+                                }
+                            },
+                            progress: { state in
+                                if state != .waiting {
+                                    HStack {
+                                        Spacer()
+                                        ActivityIndicatorView(
+                                            isVisible: .constant(true),
+                                            type: .flickeringDots(count: 3)
+                                        )
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.brown)
+
+                                    }
+                                }
+                            },
+                            content: {
+                                VStack(alignment: .leading) {
+                                    Text("Explore artist")
+                                        .font(.headline)
+                                    Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
+
+                                    CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
+                                        
+                                        Divider()
+                                        
+                                        LazyVGrid(columns: gridItemLayout) {
+                                            ForEach(items, id: \.artistName) { artist in
+                                                ArtistListCell(artist: artist, animation: animation)
+                                                    .onTapGesture { _ in
+                                                        currFullId = "\(artist.artistName)"
+
+                                                        withAnimation(.linear) {
+                                                            show.toggle()
+                                                        }
+                                                    }
+                                            }
+                                        }
+
+                                    } empty: {
+                                        Text("empty")
+                                    } error: { _ in
+                                        Text("error")
+                                    }
+                                }
+                            }
+                        )
+                        .navigationTitle("Artists")
+                        .padding()
+                        .background(Color.base)
+                    }
+                    */
+                    .searchable(
+                        text: viewStore.binding(
+                            get: \.searchQuery,
+                            send: {
+                                .searchArtists($0)
+                            }
+                        ),
+                        prompt: "Search for artist"
+                    )
+                    .autocorrectionDisabled()
+                    .tint(Color.black)
                 }
             }
-            .searchable(
-                text: viewStore.binding(
-                    get: \.searchQuery,
-                    send: {
-                        .searchArtists($0)
-                    }
-                ),
-                prompt: "Search for artist"
-            )
-            .autocorrectionDisabled()
-            .tint(Color.black)
             .onViewDidLoad {
                 viewStore.send(.loadArtists)
             }
