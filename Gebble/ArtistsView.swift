@@ -100,10 +100,10 @@ struct ArtistListCell: View {
                     Image(systemName: "person")
                         .resizable()
                         .redacted(reason: .placeholder)
-                        .frame(height: 100)
                 }
                 .resizable()
-                .cornerRadius(6)
+                .aspectRatio(1, contentMode: .fill)
+                .cornerRadius(10)
 
             HStack {
                 Text("\(artist.artistName)")
@@ -114,11 +114,12 @@ struct ArtistListCell: View {
                     .lineLimit(1)
                     .layoutPriority(2)
             }
+            .padding( 4)
             .frame(height: 20)
         }
         .background(Color.base)
         .overlay(
-            RoundedRectangle(cornerRadius: 5)
+            RoundedRectangle(cornerRadius: 10)
                 .stroke(.gray, lineWidth: 0.2)
         )
     }
@@ -143,8 +144,8 @@ struct ArtistsView: View {
     let store: StoreOf<ArtistsFeature>
     @State var isLoading: Bool = false
     @State var searchText = ""
-    var gridItemLayout = [GridItem(.flexible()),
-                          GridItem(.flexible()),
+    var gridItemLayout = [GridItem(.flexible(), spacing: 8),
+                          GridItem(.flexible(), spacing: 8),
                           GridItem(.flexible())]
 
     var body: some View {
@@ -159,11 +160,13 @@ struct ArtistsView: View {
                         Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
 
                         CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
-                            LazyVGrid(columns: gridItemLayout, content: {
+                            
+                            LazyVGrid(columns: gridItemLayout) {
                                 ForEach(items, id: \.artistName) { artist in
                                     ArtistListCell(artist: artist)
+                                        .frame(height: 140)
                                 }
-                            })
+                            }
 
                         } empty: {
                             Text("empty")
