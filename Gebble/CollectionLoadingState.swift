@@ -20,13 +20,15 @@ enum CollectionLoadingState<Content: Equatable>: Equatable {
             return true
         case (.error, .error):
             return true
+        case (.unload, .unload):
+            return true
         default:
             return false
         }
     }
     
     
-  case loading(placeholder: Content), loaded(content: Content), empty, error(Error)
+  case loading(placeholder: Content), loaded(content: Content), empty, error(Error), unload
 }
 
 

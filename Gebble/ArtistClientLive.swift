@@ -22,11 +22,37 @@ extension ArtistClient: DependencyKey {
                 endpoint: ArtistEndpoint.artist(name: name),
                 responseModel: Artist.self
             )
+        },
+        searchArtists: { query in
+            try await sendRequest(
+                endpoint: ArtistEndpoint.searchArtists(query: query),
+                responseModel: [ArtistList.ArtistListItem].self
+            )
         }
     )
 }
 
 extension ArtistClient: TestDependencyKey {
+    
+    static let fakeValue: Self = .init(
+        fetchArtistList: {
+            return .init(count: 0, results: [
+                .init(username: "a", artistName: "aa", thumb: "aaa", country: "aaaa"),
+                .init(username: "a1", artistName: "aa1", thumb: "aaa1", country: "aaaa1"),
+                .init(username: "a2", artistName: "aa2", thumb: "aaa2", country: "aaaa2")
+            ])
+        },
+        fetchArtists: { _ in
+            unimplemented("fetch arrtist")
+        },
+        searchArtists: { query in
+            return [
+                .init(username: "a", artistName: "aa", thumb: "aaa", country: "aaaa"),
+                .init(username: "a1", artistName: "aa1", thumb: "aaa1", country: "aaaa1"),
+                .init(username: "a2", artistName: "aa2", thumb: "aaa2", country: "aaaa2")
+            ]
+        }
+    )
     
     static let emptyValue: Self = .init(
         fetchArtistList: {
@@ -34,6 +60,9 @@ extension ArtistClient: TestDependencyKey {
         },
         fetchArtists: { _ in
             unimplemented("fetch arrtist")
+        },
+        searchArtists: { _ in
+           return []
         }
     )
     
@@ -43,6 +72,9 @@ extension ArtistClient: TestDependencyKey {
         },
         fetchArtists: { _ in
             unimplemented("fetch arrtist")
+        },
+        searchArtists: { _ in
+            unimplemented("searchArtists")
         }
     )
     
@@ -52,6 +84,9 @@ extension ArtistClient: TestDependencyKey {
         },
         fetchArtists: { _ in
             unimplemented("test fetchArtist")
+        },
+        searchArtists: { _ in
+            unimplemented("searchArtists")
         }
     )
 }

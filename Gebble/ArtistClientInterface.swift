@@ -26,15 +26,27 @@ extension DependencyValues {
 enum ArtistEndpoint {
     case artistList
     case artist(name: String)
+    case searchArtists(query: String)
 }
 
 extension ArtistEndpoint: Endpoint {
+    var query: [URLQueryItem]? {
+        switch self {
+        case let .searchArtists(query: query):
+            return [URLQueryItem(name: "query", value: "\(query)")]
+        default:
+            return nil
+        }
+    }
+    
     var path: String {
         switch self {
         case .artistList:
             return "artist/portfolios/list/"
         case .artist(let name):
             return "artist/portfolios/\(name)"
+        case .searchArtists:
+            return "artist/search/"
         }
     }
 
@@ -46,7 +58,7 @@ extension ArtistEndpoint: Endpoint {
         // Access Token to use in Bearer header
 //        let sometoken = "insert your access token here"
         switch self {
-        case .artistList, .artist:
+        case .artistList, .artist, .searchArtists:
             return [
                 //                "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -56,7 +68,7 @@ extension ArtistEndpoint: Endpoint {
 
     var body: [String: String]? {
         switch self {
-        case .artistList, .artist:
+        case .artistList, .artist, .searchArtists:
             return nil
         }
     }
@@ -67,6 +79,7 @@ extension ArtistEndpoint: Endpoint {
 struct ArtistClient {
     var fetchArtistList: @Sendable () async throws -> ArtistList
     var fetchArtists: @Sendable (_ name: String) async throws -> Artist
+    var searchArtists: @Sendable (_ query: String) async throws -> [ArtistList.ArtistListItem]
 }
 
 // MARK: - Model

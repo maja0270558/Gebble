@@ -56,6 +56,7 @@ protocol Endpoint {
     var method: RequestMethod { get }
     var header: [String: String]? { get }
     var body: [String: String]? { get }
+    var query: [URLQueryItem]? { get }
 }
 
 extension Endpoint {
@@ -65,6 +66,10 @@ extension Endpoint {
 
     var host: Host {
         return .dev
+    }
+    
+    var query: [URLQueryItem]? {
+        return nil
     }
 }
 
@@ -84,6 +89,8 @@ extension HTTPClient {
         urlComponents.scheme = endpoint.scheme
         urlComponents.host = endpoint.host.rawValue
         urlComponents.path = "\(endpoint.host.envPath)\(endpoint.path)"
+        urlComponents.queryItems = endpoint.query
+        
         guard let url = urlComponents.url else {
             throw RequestError.invalidURL
         }

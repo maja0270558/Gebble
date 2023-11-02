@@ -45,7 +45,7 @@ struct CollectionLoadingView
         case let .loaded(items):
             makeContent(items)
                 .transition(fade)
-        case .empty:
+        case .empty, .unload:
             makeEmpty()
                 .transition(fade)
         case let .error(error):

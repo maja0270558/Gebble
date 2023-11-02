@@ -16,7 +16,7 @@ enum Tab {
 
 struct AppFeature: Reducer {
     struct State: Equatable {
-        var artistsTab = ArtistsFeature.State(collectionState: .empty)
+        var artistsTab = ArtistsFeature.State()
         var selectedTab: Tab = .artists
     }
 
