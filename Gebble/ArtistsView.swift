@@ -19,11 +19,17 @@ struct ArtistsFeature: Reducer {
 
     private enum CancelID { case artistsRequest, searchRequest }
 
+    typealias ArtistsResult = CollectionLoadingState<[ArtistList.ArtistListItem]>
+    internal enum ArtistListResultType { case all, search }
+
     struct State: Equatable {
-        var loadedCollectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .unload
-        var searchCollectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .unload
-        var currentCollectionState: CollectionLoadingState<[ArtistList.ArtistListItem]> = .unload
+        var currentCollectionState: ArtistsResult = .unload
         var searchQuery: String = ""
+
+        internal var result: [ArtistListResultType: ArtistsResult] = [
+            .all: .unload,
+            .search: .unload
+        ]
     }
 
     enum Action: Equatable {
@@ -31,9 +37,13 @@ struct ArtistsFeature: Reducer {
         case loadArtists
         case refresh
         case searchArtists(String)
-        case arrtistsStateResponse(CollectionLoadingState<[ArtistList.ArtistListItem]>)
-        case searchArrtistsResponse(CollectionLoadingState<[ArtistList.ArtistListItem]>)
-        case arrtistsListResponse(CollectionLoadingState<[ArtistList.ArtistListItem]>)
+        case artistListResponse(ArtistListResultType, ArtistsResult)
+    }
+    
+    func forWaitAndFire<T>(stream: AsyncStream<T>,_ fire: (T) async -> Void) async {
+        for await state in stream {
+            await fire(state)
+        }
     }
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -48,46 +58,46 @@ struct ArtistsFeature: Reducer {
 
             /// load back prev state
             guard !query.isEmpty else {
-                return state.loadedCollectionState != .unload ? .send(.arrtistsStateResponse(state.loadedCollectionState)) : .send(.loadArtists)
-            }
-
-            return .run { [query = state.searchQuery] send in
-                for await state in await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder,
-                                                                                     body: {
-                                                                                         let list = try await artistsClient.searchArtists(query)
-                                                                                         return list
-                                                                                     })
-                {
-                    await send(.searchArrtistsResponse(state))
+                if let stateOfAll = state.result[.all], stateOfAll != .unload {
+                    return .send(.artistListResponse(.all, stateOfAll))
                 }
+                return .send(.loadArtists)
+            }
+    
+            return .run { [query = state.searchQuery] send in
+                let stream = await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
+                    let list = try await artistsClient.searchArtists(query)
+                    return list
+                }
+                
+                await forWaitAndFire(stream: stream) { state in
+                    await send(.artistListResponse(.search, state))
+                }
+                
+
             }
             .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
             .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
 
         case .loadArtists:
             Task.cancel(id: CancelID.artistsRequest)
+            
             return .run { send in
-                for await state in await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder,
-                                                                                     body: {
-                                                                                         let list = try await artistsClient.fetchArtistList()
-                                                                                         return list.results
-                                                                                     })
-                {
-                    await send(.arrtistsListResponse(state))
+                let stream = await collectionStateMaker.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
+                    let list = try await artistsClient.fetchArtistList()
+                    return list.results
                 }
+                
+                await forWaitAndFire(stream: stream) { state in
+                    await send(.artistListResponse(.all, state))
+                }
+
             }
-            .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
+            .debounce(id: CancelID.artistsRequest, for: 0.5, scheduler: mainQueue)
             .cancellable(id: CancelID.artistsRequest)
 
-        case let .searchArrtistsResponse(response):
-            state.searchCollectionState = response
-            return .send(.arrtistsStateResponse(response))
-
-        case let .arrtistsListResponse(response):
-            state.loadedCollectionState = response
-            return .send(.arrtistsStateResponse(response))
-
-        case let .arrtistsStateResponse(response):
+        case let .artistListResponse(type, response):
+            state.result[type] = response
             state.currentCollectionState = response
             return .none
         }
@@ -100,10 +110,9 @@ struct ArtistListCell: View {
     var imageURL: URL? {
         return artist.thumb.isEmpty ? nil : URL(string: "\(artist.thumb)")
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            
             KFImage(imageURL)
                 .placeholder {
                     Image(systemName: "person")
@@ -150,7 +159,6 @@ extension View {
     }
 }
 
-
 struct ArtistsView: View {
     let store: StoreOf<ArtistsFeature>
     @State var isLoading: Bool = false
@@ -162,15 +170,11 @@ struct ArtistsView: View {
     @State var currFullId = ""
 
     @Namespace var animation
-    
-
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
 
             ZStack {
-
-
                 if show {
                     ScrollView(showsIndicators: false) {
                         ZStack(alignment: .bottom) {
@@ -194,14 +198,14 @@ struct ArtistsView: View {
                             }
                         }
                     }
-                    
+
                 } else {
                     // OGView
                     NavigationStack {
                         ZStack {
                             // Full detail
                             Color.base.ignoresSafeArea(.all)
-                            
+
                             ScrollView {
                                 VStack(alignment: .leading) {
                                     Divider()
@@ -209,22 +213,22 @@ struct ArtistsView: View {
                                     Text("Explore artist")
                                         .font(.headline)
                                     Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
-                                    
+
                                     CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
-                                        
+
                                         LazyVGrid(columns: gridItemLayout) {
                                             ForEach(items, id: \.artistName) { artist in
                                                 ArtistListCell(artist: artist, animation: animation)
                                                     .onTapGesture { _ in
                                                         currFullId = "\(artist.artistName)"
-                                                        
+
                                                         withAnimation(.linear) {
                                                             show.toggle()
                                                         }
                                                     }
                                             }
                                         }
-                                        
+
                                     } empty: {
                                         Text("empty")
                                     } error: { _ in
@@ -238,7 +242,6 @@ struct ArtistsView: View {
                                 viewStore.send(.refresh)
                             }
                         }
-                        
 
                     }.onAppear {
                         let appearance = UINavigationBarAppearance()

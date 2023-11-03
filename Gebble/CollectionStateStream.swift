@@ -35,7 +35,7 @@ protocol CollectionStateStreamMaker {
     func asyncStreamState<T: Collection>
     (
         placeholder: T,
-        body: @Sendable @escaping () async throws -> T
+        _ body: @Sendable @escaping () async throws -> T
     ) async -> AsyncStream<CollectionLoadingState<T>>
 }
 
@@ -43,7 +43,7 @@ struct PreviewPlaceholderMaker: CollectionStateStreamMaker {
     func asyncStreamState<T: Collection>
     (
         placeholder: T,
-        body: @Sendable @escaping () async throws -> T
+        _ body: @Sendable @escaping () async throws -> T
     ) async -> AsyncStream<CollectionLoadingState<T>> {
         let stream = AsyncStream(CollectionLoadingState<T>.self) { continuation in
             Task {
@@ -60,7 +60,7 @@ struct LivePlaceholderMaker: CollectionStateStreamMaker {
     func asyncStreamState<T: Collection>
     (
         placeholder: T,
-        body: @Sendable @escaping () async throws -> T
+        _ body: @Sendable @escaping () async throws -> T
     ) async -> AsyncStream<CollectionLoadingState<T>> {
         let stream = AsyncStream(CollectionLoadingState<T>.self) { continuation in
             continuation.onTermination = { state in
