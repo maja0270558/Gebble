@@ -5,21 +5,15 @@
 //  Created by DjangoLin on 2023/11/7.
 //
 
-import ScalingHeaderScrollView
 import ComposableArchitecture
+import ScalingHeaderScrollView
 import SwiftUI
 
-
-struct ArtistDetailView: View {
-    // 2 api get bio, profolio
-    private let minHeight = 150.0
-    private let maxHeight = UIScreen.main.bounds.height / 2
-    @State var progress: CGFloat = 0
-    
-    enum Tabs:Int {
+struct ArtistsDetailFeature: Reducer {
+    enum Tab: Int {
         case about, journey, e1t1
-        
-        var  title:  String {
+
+        var title: String {
             switch self {
             case .about:
                 return "About"
@@ -30,62 +24,80 @@ struct ArtistDetailView: View {
             }
         }
     }
-    let types: [Tabs] = [.about, .journey, .e1t1]
-    @State var currentType: Int = Tabs.about.rawValue
+
+    @Dependency(\.artistsClient) var artistsClient
+    @Dependency(\.mainQueue) private var mainQueue
+
+    struct State: Equatable {
+        var currentTab: Tab
+        var tabs: [Tab] = [.about, .journey, .e1t1]
+    }
+
+    enum SwipeDirection {
+        case left, right
+    }
+
+    enum Action: Equatable {
+        case swipe(SwipeDirection)
+        case onTabClick(Tab)
+    }
+
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case let .swipe(direction):
+            guard let index = state.tabs.firstIndex(of: state.currentTab) else {
+                return .none
+            }
+            var targetIndex: Int = index
+            switch direction {
+            case .left:
+                targetIndex = min(state.tabs.count - 1, index + 1)
+            case .right:
+                targetIndex = max(0, index - 1)
+            }
+            state.currentTab = state.tabs[targetIndex]
+            return .none
+        case let .onTabClick(tab):
+            state.currentTab = tab
+            return .none
+        }
+    }
+}
+
+struct ArtistDetailView: View {
+    let store: StoreOf<ArtistsDetailFeature>
+
+    // 2 api get bio, profolio
+    private let minHeight = 150.0
+    private let maxHeight = UIScreen.main.bounds.height / 2
+    @State var progress: CGFloat = 0
 
     @Namespace var animation
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        ZStack {
-            Color.base.ignoresSafeArea()
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            ZStack {
+                Color.base.ignoresSafeArea()
 
-            ScalingHeaderScrollView {
-                largeHeader
-                    .opacity(1 - progress)
+                ScalingHeaderScrollView {
+                    header
+                } content: {
+                    contentView
+                }
+                .height(min: minHeight, max: maxHeight)
+                .collapseProgress($progress)
+                .allowsHeaderCollapse()
+                .ignoresSafeArea()
 
-            } content: {
-                profilerContentView.zIndex(progress == 1 ? 0 : 2).frame(width: UIScreen.main.bounds.width)
-                    .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
-                                .onEnded { value in
-                                    guard abs(value.velocity.width) > 500 else { return }
-                                    let horizontalAmount = value.translation.width
-                                    let verticalAmount = value.translation.height
-                                    
-                                    if abs(horizontalAmount) > abs(verticalAmount) {
-                                        withAnimation(.easeInOut) {
-                                            if horizontalAmount < 0 {
-                                                print("left swipe")
-                                                currentType = min(types.count - 1, currentType + 1)
-                                            } else {
-                                                currentType = max(0, currentType - 1)
-                                                print("right swipe")
-                                            }
-                                        }
-                                    }
-                                })
+                navgationBar
                 
-               
-                
-
+                topButtons
             }
-            .height(min: minHeight, max: maxHeight)
-            .collapseProgress($progress)
-            .allowsHeaderCollapse()
-            .ignoresSafeArea()
-            
-            navgationBar
-                .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
-            topButtons.onTapGesture {
-                dismiss()
-            }
-            
-            
-    
         }
     }
 
-    private var largeHeader: some View {
+    private var header: some View {
         ZStack {
             Image("out")
                 .resizable()
@@ -106,20 +118,21 @@ struct ArtistDetailView: View {
                         .font(.title.bold())
                         .foregroundColor(.base)
                 }
-                PinnedHeaderView(id: "Large")
+                tabs(id: "Large")
             }
             .padding(.bottom, 20)
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .opacity(1 - progress)
     }
 
     private var topButtons: some View {
         VStack {
             HStack {
-                Button("", action: { })
-                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-                .padding(.leading, 17)
+                Button("", action: {})
+                    .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                    .padding(.leading, 17)
                 Spacer()
                 Button("", action: { print("Info") })
                     .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
@@ -138,100 +151,98 @@ struct ArtistDetailView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .background(Color.base)
-            PinnedHeaderView(id: "small")
+            
+            tabs(id: "small")
                 .background(Color.base)
 
             Spacer()
         }
+        .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
     }
 
     @ViewBuilder
-    func PinnedHeaderView(id: String) -> some View {
-        VStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 25) {
-                    ForEach(types, id: \.self) { type in
-                        VStack(spacing: 12) {
-                            Text(type.title)
-                                .fontWeight(.semibold)
-                                .foregroundColor(currentType == type.rawValue ? .brown : .gray)
+    func tabs(id: String) -> some View {
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            VStack {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 25) {
+                        ForEach(viewStore.state.tabs, id: \.self) { tab in
+                            VStack(spacing: 12) {
+                                Text(tab.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(tab == viewStore.state.currentTab ? .brown : .gray)
 
-                            ZStack {
-                                if currentType == type.rawValue {
-                                    Capsule()
-                                        .fill(.brown)
-                                        .matchedGeometryEffect(id: "TAB\(id)", in: animation)
+                                ZStack {
+                                    if viewStore.state.currentTab == tab {
+                                        Capsule()
+                                            .fill(.brown)
+                                            .matchedGeometryEffect(id: "TAB\(id)", in: animation)
+                                    } else {
+                                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                            .fill(.clear)
+                                    }
                                 }
-                                else {
-                                    RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                        .fill(.clear)
-                                }
+                                .padding(.horizontal, 8)
+                                .frame(height: 4)
                             }
-                            .padding(.horizontal, 8)
-                            .frame(height: 4)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            withAnimation(.easeInOut) {
-                                currentType = type.rawValue
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                viewStore.send(.onTabClick(tab), animation: .easeInOut)
                             }
                         }
                     }
+                    .padding(.horizontal)
+                    .frame(height: 47.0)
                 }
-                .padding(.horizontal)
-                .frame(height: 47.0)
             }
         }
     }
 
-    private var profilerContentView: some View {
-        VStack {
-            HStack {
-                VStack {
-                    if currentType == 0 {
-                        description
-                    } else if currentType == 1 {
-                        userName
-                    } else  {
-                        address
+    private var contentView: some View {
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            
+            VStack {
+                HStack {
+                    VStack {
+                        //                    if currentType == 0 {
+                        //                        description
+                        //                    } else if currentType == 1 {
+                        //                        userName
+                        //                    } else {
+                        //                        address
+                        //                    }
                     }
-
+                    .frame(maxWidth: .infinity)
+                    .padding(24)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(24)
+                .frame(minHeight: UIScreen.main.bounds.height - maxHeight)
             }
-            .frame(minHeight: UIScreen.main.bounds.height - maxHeight)
-        }
-        .background(Color.blue)
-        .mask(Rectangle().cornerRadius(12, corners: [.topLeft, .topRight])).offset(y: -10)
-    }
-
-
-
-    private var userName: some View {
-        Text("User name")
-    }
-
-
-    private var address: some View {
-        Text("address")
-
-    }
-
-
-    private var description: some View {
-        return VStack {
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
-            Text("descdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdescdesc")
+            .background(Color.base)
+            .mask(Rectangle().cornerRadius(12, corners: [.topLeft, .topRight])).offset(y: -10)
+            .zIndex(progress == 1 ? 0 : 2).frame(width: UIScreen.main.bounds.width)
+            .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                .onEnded { value in
+                    guard abs(value.velocity.width) > 500 else { return }
+                    let horizontalAmount = value.translation.width
+                    let verticalAmount = value.translation.height
+                    if abs(horizontalAmount) > abs(verticalAmount) {
+                        if horizontalAmount < 0 {
+                            viewStore.send(.swipe(.left), animation: .easeInOut)
+                        } else {
+                            viewStore.send(.swipe(.right), animation: .easeInOut)
+                        }
+                    }
+                })
         }
     }
 
 }
 
 #Preview {
-    ArtistDetailView()
+    ArtistDetailView(
+        store: .init(initialState: .init(currentTab: .about),
+                     reducer: {
+                         ArtistsDetailFeature()
+                     })
+    )
 }

@@ -168,7 +168,7 @@ struct ArtistsView: View {
                                             .fullScreenCover(isPresented: .constant(true), onDismiss: {
                                                 
                                             }, content: {
-                                                ArtistDetailView()
+//                                                ArtistDetailView(store: <#StoreOf<ArtistsDetailFeature>#>)
                                             })
                                         }
                                     }
