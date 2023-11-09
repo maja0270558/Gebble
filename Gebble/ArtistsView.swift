@@ -137,6 +137,7 @@ struct ArtistListCell: View {
 }
 
 struct ArtistsView: View {
+
     let store: StoreOf<ArtistsFeature>
     var gridItemLayout = [GridItem(.flexible(), spacing: 8),
                           GridItem(.flexible(), spacing: 8),
@@ -164,6 +165,11 @@ struct ArtistsView: View {
                                     LazyVGrid(columns: gridItemLayout) {
                                         ForEach(items, id: \.artistName) { artist in
                                             ArtistListCell(artist: artist)
+                                            .fullScreenCover(isPresented: .constant(true), onDismiss: {
+                                                
+                                            }, content: {
+                                                ArtistDetailView()
+                                            })
                                         }
                                     }
 

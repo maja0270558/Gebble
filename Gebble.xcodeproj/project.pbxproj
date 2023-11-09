@@ -11,6 +11,9 @@
 		D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8013A252AFA189200D7D9F6 /* ArtistDetailView.swift */; };
 		D8013A292AFA1A6300D7D9F6 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */; };
 		D8013A2C2AFA1ED900D7D9F6 /* View+If.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8013A2B2AFA1ED900D7D9F6 /* View+If.swift */; };
+		D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */ = {isa = PBXBuildFile; productRef = D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */; };
+		D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */; };
+		D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4352AFCCCB700F167FD /* View+rounded.swift */; };
 		D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD282AE641840065DB7C /* GebbleApp.swift */; };
 		D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD2A2AE641840065DB7C /* ContentView.swift */; };
 		D820AD2D2AE641850065DB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD2C2AE641850065DB7C /* Assets.xcassets */; };
@@ -58,6 +61,8 @@
 		D8013A232AFA186200D7D9F6 /* AsyncStreamHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncStreamHelper.swift; sourceTree = "<group>"; };
 		D8013A252AFA189200D7D9F6 /* ArtistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailView.swift; sourceTree = "<group>"; };
 		D8013A2B2AFA1ED900D7D9F6 /* View+If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+If.swift"; sourceTree = "<group>"; };
+		D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonStyle.swift; sourceTree = "<group>"; };
+		D81BE4352AFCCCB700F167FD /* View+rounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+rounded.swift"; sourceTree = "<group>"; };
 		D820AD252AE641840065DB7C /* Gebble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gebble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D820AD282AE641840065DB7C /* GebbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleApp.swift; sourceTree = "<group>"; };
 		D820AD2A2AE641840065DB7C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */,
 				D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */,
 				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
@@ -117,8 +123,17 @@
 			isa = PBXGroup;
 			children = (
 				D8013A2B2AFA1ED900D7D9F6 /* View+If.swift */,
+				D81BE4352AFCCCB700F167FD /* View+rounded.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		D81BE4322AFCCC6400F167FD /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		D820AD1C2AE641840065DB7C = {
@@ -144,6 +159,7 @@
 		D820AD272AE641840065DB7C /* Gebble */ = {
 			isa = PBXGroup;
 			children = (
+				D81BE4322AFCCC6400F167FD /* CustomViews */,
 				D8013A2A2AFA1EBF00D7D9F6 /* Extension */,
 				D820AD5D2AE79AA90065DB7C /* Others */,
 				D820AD282AE641840065DB7C /* GebbleApp.swift */,
@@ -223,6 +239,7 @@
 				D820AD752AF243810065DB7C /* Shimmer */,
 				D87338442AF403930045B6DB /* ActivityIndicatorView */,
 				D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */,
+				D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -302,6 +319,7 @@
 				D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
+				D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -349,10 +367,12 @@
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
+				D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */,
 				D873383F2AF38B560045B6DB /* CardDetailView.swift in Sources */,
 				D8013A242AFA186200D7D9F6 /* AsyncStreamHelper.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
+				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
 				D87338472AF41CFD0045B6DB /* RefreshableScrollView.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
@@ -704,6 +724,14 @@
 				minimumVersion = 1.0.4;
 			};
 		};
+		D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xmartlabs/PagerTabStripView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -743,6 +771,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
 			productName = ScalingHeaderScrollView;
+		};
+		D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */;
+			productName = PagerTabStripView;
 		};
 		D820AD592AE674430065DB7C /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
