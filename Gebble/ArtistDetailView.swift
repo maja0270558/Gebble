@@ -6,14 +6,15 @@
 //
 
 import ComposableArchitecture
+import Kingfisher
 import ScalingHeaderScrollView
 import SwiftUI
-import Kingfisher
+import YouTubePlayerKit
 
 struct ArtistsDetailFeature: Reducer {
-    var  fetchArtist: String
+    var fetchArtist: String
     enum Tab: Int {
-        case about, journey, e1t1
+        case about, journey, e1t1, video
 
         var title: String {
             switch self {
@@ -23,6 +24,8 @@ struct ArtistsDetailFeature: Reducer {
                 return "Journey"
             case .e1t1:
                 return "E1T1"
+            case .video:
+                return "Video"
             }
         }
     }
@@ -32,7 +35,7 @@ struct ArtistsDetailFeature: Reducer {
 
     struct State: Equatable {
         var currentTab: Tab = .about
-        var tabs: [Tab] = [.about, .journey, .e1t1]
+        var tabs: [Tab] = [.about, .video, .journey, .e1t1]
         var portfolios: ArtistPortfolios?
         var bios: ArtistBio?
     }
@@ -74,7 +77,6 @@ struct ArtistsDetailFeature: Reducer {
                     try await artistsClient.fetchArtistsPortfolios("\(fetchArtist)")
                 }
                 await send(.portfoliosResponse(portfoliosResponse))
-
             }
         case .loadBios:
             return .run { send in
@@ -82,18 +84,16 @@ struct ArtistsDetailFeature: Reducer {
                     try await artistsClient.fetchArtistsBio("\(fetchArtist)")
                 }
                 await send(.biosResponse(bioResponse))
-
             }
         case let .portfoliosResponse(.success(response)):
             state.portfolios = response
             return .none
         case let .biosResponse(.success(response)):
             state.bios = response
-            return  .none
+            return .none
 
         case .portfoliosResponse(.failure(_)), .biosResponse(.failure(_)):
-            return  .none
-      
+            return .none
         }
     }
 }
@@ -132,10 +132,9 @@ struct ArtistDetailView: View {
                 viewStore.send(.loadBios)
                 viewStore.send(.loadPortfolios)
             }
-            
         }
     }
-    
+
     private var header: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             ZStack {
@@ -150,9 +149,9 @@ struct ArtistDetailView: View {
                     .clipped()
                     .cornerRadius(20)
                     .frame(minHeight: maxHeight)
-                
+
                 LinearGradient(colors: [.clear, .clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
-                
+
                 VStack(alignment: .leading, spacing: 1) {
                     Spacer()
                     Text("Artist")
@@ -191,7 +190,7 @@ struct ArtistDetailView: View {
 
     private var navgationBar: some View {
         WithViewStore(self.store, observe: \.bios) { viewStore in
-            
+
             VStack(spacing: 0) {
                 HStack {
                     Text("\(viewStore.state?.username ?? "")")
@@ -199,10 +198,10 @@ struct ArtistDetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color.base)
-                
+
                 tabs(id: "small")
                     .background(Color.base)
-                
+
                 Spacer()
             }
             .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
@@ -260,6 +259,8 @@ struct ArtistDetailView: View {
                             jouney
                         case .e1t1:
                             e1t1
+                        case .video:
+                            video
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -285,55 +286,91 @@ struct ArtistDetailView: View {
                 })
         }
     }
+
+    @StateObject
+    var youTubePlayer: YouTubePlayer = "https://youtube.com/watch?v=psL_5RIBqnY"
+
     
-    
-    private var about: some View {
+    private var video: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            
-            VStack(alignment: .leading, spacing: 20) {
-                
-                
-                
-                if let crew = viewStore.bios?.crew, !crew.isEmpty {
-                    Section("Representing: ") {
-                        Text("\(crew)")
-                    }
+            VStack(alignment: .center, spacing: 20) {
+                if let url = viewStore.bios?.vid1 {
+                    youtubeBuilder(url: url)
                 }
                 
-                if let quote = viewStore.bios?.quote,
-                   let user = viewStore.state.portfolios?.artistName {
-                    Divider()
-
-                    Section("QUOTE") {
-
-                        HStack {
-                            Text("\"\(quote)\" - \(user)").fontWeight(.thin).font(.callout.bold().italic())
-                            if let coutry = viewStore.portfolios?.countryFlag() {
-                                Text("\(coutry)")
-                            }
-                        }
-                    }
-               
+                if let url = viewStore.bios?.vid2 {
+                    youtubeBuilder(url: url)
                 }
                 
-                if let intro = viewStore.portfolios?.introduction {
-                    Divider()
-
-                    Section("Introduction") {
-                        Text("\(intro)").font(.body)
-                    }
-                    
+                if let url = viewStore.bios?.vid3 {
+                    youtubeBuilder(url: url)
                 }
-             
-                Spacer()
                 
-
+                if let url = viewStore.bios?.vid4 {
+                    youtubeBuilder(url: url)
+                }
             }
         }
     }
     
-    private var jouney: some View {
+    private var about: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
+
+            VStack(alignment: .leading, spacing: 20) {
+                if let crew = viewStore.bios?.crew, !crew.isEmpty {
+                    Text("\(crew)").font(.title2)
+                }
+
+                if let quote = viewStore.bios?.quote,
+                   let user = viewStore.state.portfolios?.artistName
+                {
+                    Divider()
+                    HStack {
+                        Text("\"\(quote)\" - \(user)").fontWeight(.thin).font(.callout.bold().italic())
+                        if let coutry = viewStore.portfolios?.countryFlag() {
+                            Text("\(coutry)")
+                        }
+                    }
+                 
+                }
+
+                if let intro = viewStore.portfolios?.introduction {
+                    Divider()
+                    Text("\(intro)").font(.body)
+
+                }
+
+               
+                Spacer()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func youtubeBuilder(url: String) -> some View {
+        YouTubePlayerView(
+            .init(stringLiteral: "\(url)")
+        ) {
+            state in
+            // Overlay ViewBuilder closure to place an overlay View
+            // for the current `YouTubePlayer.State`
+            switch state {
+            case .idle:
+                ProgressView()
+            case .ready:
+                EmptyView()
+            case .error:
+                Text(verbatim: "YouTube player couldn't be loaded")
+            }
+        }
+        .background(Color.gray)
+        .frame(minHeight: 240)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+    }
+
+    private var jouney: some View {
+        WithViewStore(self.store, observe: { $0 }) { _ in
             VStack {
                 HStack {
                     Image(systemName: "lock.fill")
@@ -342,12 +379,11 @@ struct ArtistDetailView: View {
                 Text("To view their journey, you need to give a shoutout or get one and wait for approval.")
             }
             .foregroundStyle(.gray)
-
         }
     }
-    
+
     private var e1t1: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
+        WithViewStore(self.store, observe: { $0 }) { _ in
             VStack {
                 HStack {
                     Image(systemName: "lock.fill")
@@ -358,15 +394,13 @@ struct ArtistDetailView: View {
             .foregroundStyle(.gray)
         }
     }
-
-   
 }
 
 #Preview {
     ArtistDetailView(
         store: .init(initialState: .init(currentTab: .about),
                      reducer: {
-                         ArtistsDetailFeature(fetchArtist: "sriv")
+                         ArtistsDetailFeature(fetchArtist: "yiyasha")
                      })
     )
 }

@@ -14,6 +14,7 @@
 		D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */ = {isa = PBXBuildFile; productRef = D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */; };
 		D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */; };
 		D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4352AFCCCB700F167FD /* View+rounded.swift */; };
+		D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */; };
 		D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD282AE641840065DB7C /* GebbleApp.swift */; };
 		D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD2A2AE641840065DB7C /* ContentView.swift */; };
 		D820AD2D2AE641850065DB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD2C2AE641850065DB7C /* Assets.xcassets */; };
@@ -93,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */,
 				D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */,
 				D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */,
 				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
@@ -240,6 +242,7 @@
 				D87338442AF403930045B6DB /* ActivityIndicatorView */,
 				D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */,
 				D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */,
+				D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -320,6 +323,7 @@
 				D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */,
+				D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -732,6 +736,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.4;
+			};
+		};
 		D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -776,6 +788,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */;
 			productName = PagerTabStripView;
+		};
+		D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
 		};
 		D820AD592AE674430065DB7C /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
