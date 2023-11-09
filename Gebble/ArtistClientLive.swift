@@ -17,10 +17,16 @@ extension ArtistClient: DependencyKey {
                 responseModel: ArtistList.self
             )
         },
-        fetchArtists: { name in
+        fetchArtistsPortfolios: { name in
             try await sendRequest(
-                endpoint: ArtistEndpoint.artist(name: name),
-                responseModel: Artist.self
+                endpoint: ArtistEndpoint.artistPortfolios(name: name),
+                responseModel: ArtistPortfolios.self
+            )
+        },
+        fetchArtistsBio: { name in
+            try await sendRequest(
+                endpoint: ArtistEndpoint.artistBios(name: name),
+                responseModel: ArtistBio.self
             )
         },
         searchArtists: { query in
@@ -42,7 +48,10 @@ extension ArtistClient: TestDependencyKey {
                 .init(username: "a2", artistName: "aa2", thumb: "aaa2", country: "aaaa2")
             ])
         },
-        fetchArtists: { _ in
+        fetchArtistsPortfolios: { _ in
+            unimplemented("fetch arrtist")
+        },
+        fetchArtistsBio: { _ in
             unimplemented("fetch arrtist")
         },
         searchArtists: { query in
@@ -58,7 +67,10 @@ extension ArtistClient: TestDependencyKey {
         fetchArtistList: {
             return .init(count: 0, results: [])
         },
-        fetchArtists: { _ in
+        fetchArtistsPortfolios: { _ in
+            unimplemented("fetch arrtist")
+        },
+        fetchArtistsBio: { _ in
             unimplemented("fetch arrtist")
         },
         searchArtists: { _ in
@@ -70,7 +82,10 @@ extension ArtistClient: TestDependencyKey {
         fetchArtistList: {
             throw RequestError.noResponse
         },
-        fetchArtists: { _ in
+        fetchArtistsPortfolios: { _ in
+            unimplemented("fetch arrtist")
+        },
+        fetchArtistsBio: { _ in
             unimplemented("fetch arrtist")
         },
         searchArtists: { _ in
@@ -82,8 +97,11 @@ extension ArtistClient: TestDependencyKey {
         fetchArtistList: {
             unimplemented("test fetchArtistList")
         },
-        fetchArtists: { _ in
-            unimplemented("test fetchArtist")
+        fetchArtistsPortfolios: { _ in
+            unimplemented("fetch arrtist")
+        },
+        fetchArtistsBio: { _ in
+            unimplemented("fetch arrtist")
         },
         searchArtists: { _ in
             unimplemented("searchArtists")

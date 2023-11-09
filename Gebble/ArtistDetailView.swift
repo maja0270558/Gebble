@@ -8,8 +8,10 @@
 import ComposableArchitecture
 import ScalingHeaderScrollView
 import SwiftUI
+import Kingfisher
 
 struct ArtistsDetailFeature: Reducer {
+    var  fetchArtist: String
     enum Tab: Int {
         case about, journey, e1t1
 
@@ -29,8 +31,10 @@ struct ArtistsDetailFeature: Reducer {
     @Dependency(\.mainQueue) private var mainQueue
 
     struct State: Equatable {
-        var currentTab: Tab
+        var currentTab: Tab = .about
         var tabs: [Tab] = [.about, .journey, .e1t1]
+        var portfolios: ArtistPortfolios?
+        var bios: ArtistBio?
     }
 
     enum SwipeDirection {
@@ -40,6 +44,10 @@ struct ArtistsDetailFeature: Reducer {
     enum Action: Equatable {
         case swipe(SwipeDirection)
         case onTabClick(Tab)
+        case loadPortfolios
+        case loadBios
+        case portfoliosResponse(TaskResult<ArtistPortfolios>)
+        case biosResponse(TaskResult<ArtistBio>)
     }
 
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -60,6 +68,32 @@ struct ArtistsDetailFeature: Reducer {
         case let .onTabClick(tab):
             state.currentTab = tab
             return .none
+        case .loadPortfolios:
+            return .run { send in
+                let portfoliosResponse = await TaskResult {
+                    try await artistsClient.fetchArtistsPortfolios("\(fetchArtist)")
+                }
+                await send(.portfoliosResponse(portfoliosResponse))
+
+            }
+        case .loadBios:
+            return .run { send in
+                let bioResponse = await TaskResult {
+                    try await artistsClient.fetchArtistsBio("\(fetchArtist)")
+                }
+                await send(.biosResponse(bioResponse))
+
+            }
+        case let .portfoliosResponse(.success(response)):
+            state.portfolios = response
+            return .none
+        case let .biosResponse(.success(response)):
+            state.bios = response
+            return  .none
+
+        case .portfoliosResponse(.failure(_)), .biosResponse(.failure(_)):
+            return  .none
+      
         }
     }
 }
@@ -91,40 +125,52 @@ struct ArtistDetailView: View {
                 .ignoresSafeArea()
 
                 navgationBar
-                
+
                 topButtons
             }
+            .onAppear {
+                viewStore.send(.loadBios)
+                viewStore.send(.loadPortfolios)
+            }
+            
         }
     }
-
+    
     private var header: some View {
-        ZStack {
-            Image("out")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .clipped()
-                .cornerRadius(20)
-                .frame(minHeight: maxHeight)
-
-            LinearGradient(colors: [.clear, .clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
-
-            VStack(alignment: .leading, spacing: 1) {
-                Spacer()
-                Text("ARTIST")
-                    .font(.callout)
-                    .foregroundColor(.base)
-                HStack {
-                    Text("Hiking holic")
-                        .font(.title.bold())
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            ZStack {
+                KFImage(URL(string: viewStore.state.portfolios?.cover ?? ""))
+                    .placeholder {
+                        Image(systemName: "person")
+                            .resizable()
+                            .redacted(reason: .placeholder)
+                    }
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+                    .cornerRadius(20)
+                    .frame(minHeight: maxHeight)
+                
+                LinearGradient(colors: [.clear, .clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
+                
+                VStack(alignment: .leading, spacing: 1) {
+                    Spacer()
+                    Text("Artist")
+                        .font(.callout)
                         .foregroundColor(.base)
+                    HStack {
+                        Text("\(viewStore.state.portfolios?.artistName ?? "")")
+                            .font(.title.bold())
+                            .foregroundColor(.base)
+                    }
+                    tabs(id: "Large")
                 }
-                tabs(id: "Large")
+                .padding(.bottom, 20)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.bottom, 20)
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .opacity(1 - progress)
         }
-        .opacity(1 - progress)
     }
 
     private var topButtons: some View {
@@ -144,20 +190,23 @@ struct ArtistDetailView: View {
     }
 
     private var navgationBar: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text("Hiking holic")
-                    .frame(height: 40)
-            }
-            .frame(maxWidth: .infinity, alignment: .center)
-            .background(Color.base)
+        WithViewStore(self.store, observe: \.bios) { viewStore in
             
-            tabs(id: "small")
+            VStack(spacing: 0) {
+                HStack {
+                    Text("\(viewStore.state?.username ?? "")")
+                        .frame(height: 40)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color.base)
-
-            Spacer()
+                
+                tabs(id: "small")
+                    .background(Color.base)
+                
+                Spacer()
+            }
+            .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
         }
-        .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
     }
 
     @ViewBuilder
@@ -200,17 +249,18 @@ struct ArtistDetailView: View {
 
     private var contentView: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            
+
             VStack {
                 HStack {
                     VStack {
-                        //                    if currentType == 0 {
-                        //                        description
-                        //                    } else if currentType == 1 {
-                        //                        userName
-                        //                    } else {
-                        //                        address
-                        //                    }
+                        switch viewStore.state.currentTab {
+                        case .about:
+                            about
+                        case .journey:
+                            jouney
+                        case .e1t1:
+                            e1t1
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .padding(24)
@@ -235,14 +285,88 @@ struct ArtistDetailView: View {
                 })
         }
     }
+    
+    
+    private var about: some View {
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            
+            VStack(alignment: .leading, spacing: 20) {
+                
+                
+                
+                if let crew = viewStore.bios?.crew, !crew.isEmpty {
+                    Section("Representing: ") {
+                        Text("\(crew)")
+                    }
+                }
+                
+                if let quote = viewStore.bios?.quote,
+                   let user = viewStore.state.portfolios?.artistName {
+                    Divider()
 
+                    Section("QUOTE") {
+
+                        HStack {
+                            Text("\"\(quote)\" - \(user)").fontWeight(.thin).font(.callout.bold().italic())
+                            if let coutry = viewStore.portfolios?.countryFlag() {
+                                Text("\(coutry)")
+                            }
+                        }
+                    }
+               
+                }
+                
+                if let intro = viewStore.portfolios?.introduction {
+                    Divider()
+
+                    Section("Introduction") {
+                        Text("\(intro)").font(.body)
+                    }
+                    
+                }
+             
+                Spacer()
+                
+
+            }
+        }
+    }
+    
+    private var jouney: some View {
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            VStack {
+                HStack {
+                    Image(systemName: "lock.fill")
+                    Text("Access is not allowed.")
+                }
+                Text("To view their journey, you need to give a shoutout or get one and wait for approval.")
+            }
+            .foregroundStyle(.gray)
+
+        }
+    }
+    
+    private var e1t1: some View {
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            VStack {
+                HStack {
+                    Image(systemName: "lock.fill")
+                    Text("Access is not allowed.")
+                }
+                Text("To view their each 1 teach 1, you need to give a shoutout or get one and wait for approval.")
+            }
+            .foregroundStyle(.gray)
+        }
+    }
+
+   
 }
 
 #Preview {
     ArtistDetailView(
         store: .init(initialState: .init(currentTab: .about),
                      reducer: {
-                         ArtistsDetailFeature()
+                         ArtistsDetailFeature(fetchArtist: "sriv")
                      })
     )
 }

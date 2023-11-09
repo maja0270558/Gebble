@@ -25,7 +25,8 @@ extension DependencyValues {
 
 enum ArtistEndpoint {
     case artistList
-    case artist(name: String)
+    case artistPortfolios(name: String)
+    case artistBios(name: String)
     case searchArtists(query: String)
 }
 
@@ -43,8 +44,10 @@ extension ArtistEndpoint: Endpoint {
         switch self {
         case .artistList:
             return "artist/portfolios/list/"
-        case .artist(let name):
+        case .artistPortfolios(let name):
             return "artist/portfolios/\(name)"
+        case .artistBios(let name):
+            return "artist/bios/\(name)"
         case .searchArtists:
             return "artist/search/"
         }
@@ -58,7 +61,7 @@ extension ArtistEndpoint: Endpoint {
         // Access Token to use in Bearer header
 //        let sometoken = "insert your access token here"
         switch self {
-        case .artistList, .artist, .searchArtists:
+        default:
             return [
                 //                "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -68,7 +71,7 @@ extension ArtistEndpoint: Endpoint {
 
     var body: [String: String]? {
         switch self {
-        case .artistList, .artist, .searchArtists:
+        default:
             return nil
         }
     }
@@ -78,7 +81,8 @@ extension ArtistEndpoint: Endpoint {
 
 struct ArtistClient {
     var fetchArtistList: @Sendable () async throws -> ArtistList
-    var fetchArtists: @Sendable (_ name: String) async throws -> Artist
+    var fetchArtistsPortfolios: @Sendable (_ name: String) async throws -> ArtistPortfolios
+    var fetchArtistsBio: @Sendable (_ name: String) async throws -> ArtistBio
     var searchArtists: @Sendable (_ query: String) async throws -> [ArtistList.ArtistListItem]
 }
 
@@ -109,18 +113,6 @@ struct ArtistList: Decodable, Equatable {
     }
 }
 
-struct Artist: Decodable, Equatable {
-    var username: String
-    var profilePhoto: String
-    var artistName: String
-    var cover: String
-    var thumb: String
-    var country: String
-    var introduction: String
-    var modified: Date
-}
-
-
 extension ArtistList.ArtistListItem {
     static var placeholder: [ArtistList.ArtistListItem] {
         var placeholder = [ArtistList.ArtistListItem]()
@@ -132,4 +124,48 @@ extension ArtistList.ArtistListItem {
         }
         return placeholder
     }
+}
+
+struct ArtistPortfolios: Decodable, Equatable {
+    var username: String
+    var profilePhoto: String
+    var artistName: String
+    var cover: String
+    var thumb: String
+    var country: String
+    var introduction: String
+    var modified: Date
+    
+    func countryFlag() -> String {
+      let base = 127397
+      var tempScalarView = String.UnicodeScalarView()
+      for i in country.utf16 {
+        if let scalar = UnicodeScalar(base + Int(i)) {
+          tempScalarView.append(scalar)
+        }
+      }
+      return String(tempScalarView)
+    }
+}
+
+struct ArtistBio: Decodable, Equatable {
+    var username: String
+    var style: String?
+    var quote: String?
+    var crew: String?
+    var ig: String?
+    var fb: String?
+    var yt: String?
+    var site: String?
+    var gallery1: String?
+    var gallery2: String?
+    var gallery3: String?
+    var gallery4: String?
+    var vid1: String?
+    var vid2: String?
+    var vid3: String?
+    var vid4: String?
+    var workEmail: String?
+    var created: Date?
+    var modified: Date?
 }

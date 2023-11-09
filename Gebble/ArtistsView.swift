@@ -151,7 +151,7 @@ struct ArtistsView: View {
                     ZStack {
                         // Full detail
                         Color.base.ignoresSafeArea(.all)
-
+ 
                         ScrollView {
                             VStack(alignment: .leading) {
                                 Divider()
@@ -165,11 +165,11 @@ struct ArtistsView: View {
                                     LazyVGrid(columns: gridItemLayout) {
                                         ForEach(items, id: \.artistName) { artist in
                                             ArtistListCell(artist: artist)
-                                            .fullScreenCover(isPresented: .constant(true), onDismiss: {
-                                                
-                                            }, content: {
-//                                                ArtistDetailView(store: <#StoreOf<ArtistsDetailFeature>#>)
-                                            })
+//                                            .fullScreenCover(isPresented: .constant(true), onDismiss: {
+//                                                
+//                                            }, content: {
+////                                                ArtistDetailView(store: <#StoreOf<ArtistsDetailFeature>#>)
+//                                            })
                                         }
                                     }
 

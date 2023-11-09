@@ -127,7 +127,7 @@ extension HTTPClient {
             default:
                 throw RequestError.unexpectedStatusCode
             }
-        } catch {
+        } catch  {
             throw RequestError.unknown
         }
     }
