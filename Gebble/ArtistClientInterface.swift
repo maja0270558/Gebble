@@ -168,4 +168,16 @@ struct ArtistBio: Decodable, Equatable {
     var workEmail: String?
     var created: Date?
     var modified: Date?
+    
+    
+    var videos: [YTVideo] {
+        return [vid1, vid2, vid3, vid4].compactMap{ $0 }.filter {  !$0.isEmpty }.enumerated().compactMap { (index, value) in
+            return YTVideo(url: value, id: index)
+        }
+    }
+}
+
+struct YTVideo {
+    var url: String
+    var id: Int
 }

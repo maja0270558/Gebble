@@ -21,4 +21,35 @@ extension View {
             self
         }
     }
+    
+    @ViewBuilder func placeholder(_ condition: @autoclosure () -> Bool) -> some View {
+        if condition() {
+            self.redacted(reason: .placeholder)
+        } else {
+            self
+        }
+    }
+    
+    @ViewBuilder func placeholder(_ condition: @autoclosure () -> Bool, content: () -> some View) -> some View {
+        if condition() {
+            content()
+        } else {
+            self
+        }
+    }
+}
+
+extension Text {
+    @ViewBuilder
+    static func textPlaceholder() -> some View {
+        HStack {
+            VStack {
+                ForEach(1..<100) { value in
+                    Text("\(UUID().uuidString)").redacted(reason: .placeholder).shimmering()
+                }
+            }
+            .padding(24)
+            .frame(maxWidth: .infinity)
+        }
+    }
 }

@@ -104,7 +104,9 @@ struct ArtistDetailView: View {
     // 2 api get bio, profolio
     private let minHeight = 150.0
     private let maxHeight = UIScreen.main.bounds.height / 2
+
     @State var progress: CGFloat = 0
+    @State var isLoading = false
 
     @Namespace var animation
     @Environment(\.dismiss) var dismiss
@@ -115,9 +117,11 @@ struct ArtistDetailView: View {
                 Color.base.ignoresSafeArea()
 
                 ScalingHeaderScrollView {
-                    header
+                    header.placeholder(isLoading)
                 } content: {
-                    contentView
+                    contentView.placeholder(isLoading) {
+                        Text.textPlaceholder()
+                    }
                 }
                 .height(min: minHeight, max: maxHeight)
                 .collapseProgress($progress)
@@ -129,8 +133,12 @@ struct ArtistDetailView: View {
                 topButtons
             }
             .onAppear {
-                viewStore.send(.loadBios)
-                viewStore.send(.loadPortfolios)
+                Task {
+                    isLoading = true
+                    defer { isLoading = false }
+                    await viewStore.send(.loadBios).finish()
+                    await viewStore.send(.loadPortfolios).finish()
+                }
             }
         }
     }
@@ -287,32 +295,26 @@ struct ArtistDetailView: View {
         }
     }
 
-    @StateObject
-    var youTubePlayer: YouTubePlayer = "https://youtube.com/watch?v=psL_5RIBqnY"
-
-    
     private var video: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             VStack(alignment: .center, spacing: 20) {
-                if let url = viewStore.bios?.vid1 {
-                    youtubeBuilder(url: url)
-                }
-                
-                if let url = viewStore.bios?.vid2 {
-                    youtubeBuilder(url: url)
-                }
-                
-                if let url = viewStore.bios?.vid3 {
-                    youtubeBuilder(url: url)
-                }
-                
-                if let url = viewStore.bios?.vid4 {
-                    youtubeBuilder(url: url)
+                if let vidArr = viewStore.bios?.videos, vidArr.count > 0 {
+                    ForEach(vidArr, id: \.id) { vid in
+                        youtubeBuilder(url: vid.url)
+                    }
+                } else {
+                    VStack {
+                        HStack {
+                            Image(systemName: "figure.yoga")
+                            Text("Stay tune! This artist not upload any video yet")
+                        }
+                    }
+                    .foregroundStyle(.gray)
                 }
             }
         }
     }
-    
+
     private var about: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
 
@@ -331,21 +333,18 @@ struct ArtistDetailView: View {
                             Text("\(coutry)")
                         }
                     }
-                 
                 }
 
                 if let intro = viewStore.portfolios?.introduction {
                     Divider()
                     Text("\(intro)").font(.body)
-
                 }
 
-               
                 Spacer()
             }
         }
     }
-    
+
     @ViewBuilder
     func youtubeBuilder(url: String) -> some View {
         YouTubePlayerView(
@@ -366,7 +365,6 @@ struct ArtistDetailView: View {
         .background(Color.gray)
         .frame(minHeight: 240)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-
     }
 
     private var jouney: some View {
@@ -400,7 +398,7 @@ struct ArtistDetailView: View {
     ArtistDetailView(
         store: .init(initialState: .init(currentTab: .about),
                      reducer: {
-                         ArtistsDetailFeature(fetchArtist: "yiyasha")
+                         ArtistsDetailFeature(fetchArtist: "django")
                      })
     )
 }
