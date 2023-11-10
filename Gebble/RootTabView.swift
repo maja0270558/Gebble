@@ -60,12 +60,7 @@ struct RootTabView: View {
                         Text("Artists")
                     }
 
-                    ArtistDetailView(
-                        store: .init(initialState: .init(currentTab: .about),
-                                     reducer: {
-                                         ArtistsDetailFeature(fetchArtist: "django")
-                                     })
-                    )
+                    Text("Home")
                         .tabItem {
                             Image(systemName: "house")
                             Text("Home")

@@ -21,6 +21,7 @@ struct ArtistsFeature: Reducer {
     internal enum ArtistListResultType { case all, search }
 
     struct State: Equatable {
+        @PresentationState var artistDetail: ArtistsDetailFeature.State?
         var currentCollectionState: ArtistsResult = .unload
         var searchQuery: String = ""
 
@@ -31,66 +32,80 @@ struct ArtistsFeature: Reducer {
     }
 
     enum Action: Equatable {
-        case artistCellTap(ArtistList.ArtistListItem)
+        case artistDetail(PresentationAction<ArtistsDetailFeature.Action>)
+        case clickArtist(String)
         case loadArtists
         case refresh
         case searchArtists(String)
         case artistListResponse(ArtistListResultType, ArtistsResult)
     }
 
-  
-
-    func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .artistCellTap:
-            return .none
-        case .refresh:
-            return state.searchQuery.isEmpty ? .send(.loadArtists) : .send(.searchArtists(state.searchQuery))
-        case let .searchArtists(query):
-            Task.cancel(id: CancelID.searchRequest)
-            state.searchQuery = query
-
-            /// load back prev state
-            guard !query.isEmpty else {
-                if let stateOfAll = state.result[.all], stateOfAll != .unload {
-                    return .send(.artistListResponse(.all, stateOfAll))
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case let .clickArtist(name):
+                print(name)
+                state.artistDetail = ArtistsDetailFeature.State(fetchArtist: name.lowercased())
+                return .none
+            case let .artistDetail(status):
+                switch status {
+                case .presented(.closeButtonClick):
+                    state.artistDetail = nil
+                    return .none
+                default:
+                    return .none
                 }
-                return .send(.loadArtists)
+            case .refresh:
+                return state.searchQuery.isEmpty ? .send(.loadArtists) : .send(.searchArtists(state.searchQuery))
+            case let .searchArtists(query):
+                Task.cancel(id: CancelID.searchRequest)
+                state.searchQuery = query
+
+                /// load back prev state
+                guard !query.isEmpty else {
+                    if let stateOfAll = state.result[.all], stateOfAll != .unload {
+                        return .send(.artistListResponse(.all, stateOfAll))
+                    }
+                    return .send(.loadArtists)
+                }
+
+                return .run { [query = state.searchQuery] send in
+                    let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
+                        let list = try await artistsClient.searchArtists(query)
+                        return list
+                    }
+
+                    await foreachStream(stream: stream) { state in
+                        await send(.artistListResponse(.search, state))
+                    }
+                }
+                .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
+                .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
+
+            case .loadArtists:
+                Task.cancel(id: CancelID.artistsRequest)
+
+                return .run { send in
+                    let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
+                        let list = try await artistsClient.fetchArtistList()
+                        return list.results
+                    }
+
+                    await foreachStream(stream: stream) { state in
+                        await send(.artistListResponse(.all, state))
+                    }
+                }
+                .debounce(id: CancelID.artistsRequest, for: 0.5, scheduler: mainQueue)
+                .cancellable(id: CancelID.artistsRequest)
+
+            case let .artistListResponse(type, response):
+                state.result[type] = response
+                state.currentCollectionState = response
+                return .none
             }
-
-            return .run { [query = state.searchQuery] send in
-                let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
-                    let list = try await artistsClient.searchArtists(query)
-                    return list
-                }
-
-                await foreachStream(stream: stream) { state in
-                    await send(.artistListResponse(.search, state))
-                }
-            }
-            .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
-            .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
-
-        case .loadArtists:
-            Task.cancel(id: CancelID.artistsRequest)
-
-            return .run { send in
-                let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
-                    let list = try await artistsClient.fetchArtistList()
-                    return list.results
-                }
-
-                await foreachStream(stream: stream) { state in
-                    await send(.artistListResponse(.all, state))
-                }
-            }
-            .debounce(id: CancelID.artistsRequest, for: 0.5, scheduler: mainQueue)
-            .cancellable(id: CancelID.artistsRequest)
-
-        case let .artistListResponse(type, response):
-            state.result[type] = response
-            state.currentCollectionState = response
-            return .none
+        }
+        .ifLet(\.$artistDetail, action: /Action.artistDetail) {
+            ArtistsDetailFeature()
         }
     }
 }
@@ -103,7 +118,7 @@ struct ArtistListCell: View {
 
     var body: some View {
         ZStack {
-            Color.base.shadow(radius: 2,x:1, y:1)
+            Color.base.shadow(radius: 2, x: 1, y: 1)
             VStack(alignment: .leading, spacing: 2) {
                 KFImage(imageURL)
                     .placeholder {
@@ -127,17 +142,13 @@ struct ArtistListCell: View {
                 .padding(4)
                 .frame(height: 20)
             }
-            
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(radius: 2,x:1, y:1)
-        
-
+        .shadow(radius: 2, x: 1, y: 1)
     }
 }
 
 struct ArtistsView: View {
-
     let store: StoreOf<ArtistsFeature>
     var gridItemLayout = [GridItem(.flexible(), spacing: 8),
                           GridItem(.flexible(), spacing: 8),
@@ -164,12 +175,9 @@ struct ArtistsView: View {
 
                                     LazyVGrid(columns: gridItemLayout) {
                                         ForEach(items, id: \.artistName) { artist in
-                                            ArtistListCell(artist: artist)
-//                                                .fullScreenCover(isPresented: .constant(true)) {
-//                                                    ArtistDetailView(store: .init(initialState: ArtistsDetailFeature.State(), reducer: {
-//                                                        ArtistsDetailFeature(fetchArtist: "\(artist.artistName)")
-//                                                    }))
-//                                                }
+                                            ArtistListCell(artist: artist).onTapGesture {
+                                                viewStore.send(.clickArtist(artist.username))
+                                            }
                                         }
                                     }
 
@@ -211,6 +219,12 @@ struct ArtistsView: View {
             }
             .onViewDidLoad {
                 viewStore.send(.loadArtists)
+            }
+            .fullScreenCover(
+                store: self.store.scope(state: \.$artistDetail,
+                                        action: { .artistDetail($0) }))
+            { store in
+                ArtistDetailView(store: store)
             }
         }
     }

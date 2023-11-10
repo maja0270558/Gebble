@@ -12,7 +12,9 @@ import SwiftUI
 import YouTubePlayerKit
 
 struct ArtistsDetailFeature: Reducer {
-    var fetchArtist: String
+    @Dependency(\.artistsClient) var artistsClient
+    @Dependency(\.mainQueue) private var mainQueue
+
     enum Tab: Int {
         case about, journey, e1t1, video
 
@@ -30,10 +32,8 @@ struct ArtistsDetailFeature: Reducer {
         }
     }
 
-    @Dependency(\.artistsClient) var artistsClient
-    @Dependency(\.mainQueue) private var mainQueue
-
     struct State: Equatable {
+        var fetchArtist: String
         var currentTab: Tab = .about
         var tabs: [Tab] = [.about, .video, .journey, .e1t1]
         var portfolios: ArtistPortfolios?
@@ -45,6 +45,7 @@ struct ArtistsDetailFeature: Reducer {
     }
 
     enum Action: Equatable {
+        case closeButtonClick
         case swipe(SwipeDirection)
         case onTabClick(Tab)
         case loadPortfolios
@@ -72,16 +73,16 @@ struct ArtistsDetailFeature: Reducer {
             state.currentTab = tab
             return .none
         case .loadPortfolios:
-            return .run { send in
+            return .run { [artistName = state.fetchArtist] send in
                 let portfoliosResponse = await TaskResult {
-                    try await artistsClient.fetchArtistsPortfolios("\(fetchArtist)")
+                    try await artistsClient.fetchArtistsPortfolios("\(artistName)")
                 }
                 await send(.portfoliosResponse(portfoliosResponse))
             }
         case .loadBios:
-            return .run { send in
+            return .run { [artistName = state.fetchArtist] send in
                 let bioResponse = await TaskResult {
-                    try await artistsClient.fetchArtistsBio("\(fetchArtist)")
+                    try await artistsClient.fetchArtistsBio("\(artistName)")
                 }
                 await send(.biosResponse(bioResponse))
             }
@@ -91,8 +92,9 @@ struct ArtistsDetailFeature: Reducer {
         case let .biosResponse(.success(response)):
             state.bios = response
             return .none
-
         case .portfoliosResponse(.failure(_)), .biosResponse(.failure(_)):
+            return .none
+        case .closeButtonClick:
             return .none
         }
     }
@@ -101,7 +103,6 @@ struct ArtistsDetailFeature: Reducer {
 struct ArtistDetailView: View {
     let store: StoreOf<ArtistsDetailFeature>
 
-    // 2 api get bio, profolio
     private let minHeight = 150.0
     private let maxHeight = UIScreen.main.bounds.height / 2
 
@@ -181,18 +182,21 @@ struct ArtistDetailView: View {
     }
 
     private var topButtons: some View {
-        VStack {
-            HStack {
-                Button("", action: {})
-                    .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-                    .padding(.leading, 17)
+        WithViewStore(self.store, observe: \.bios) { viewStore in
+            
+            VStack {
+                HStack {
+                    Button("", action: { viewStore.send(.closeButtonClick) })
+                        .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                        .padding(.leading, 17)
+                    Spacer()
+                    Button("", action: { print("Info") })
+                        .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
+                        .padding(.trailing, 17)
+                }
+                
                 Spacer()
-                Button("", action: { print("Info") })
-                    .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
-                    .padding(.trailing, 17)
             }
-
-            Spacer()
         }
     }
 
@@ -351,8 +355,6 @@ struct ArtistDetailView: View {
             .init(stringLiteral: "\(url)")
         ) {
             state in
-            // Overlay ViewBuilder closure to place an overlay View
-            // for the current `YouTubePlayer.State`
             switch state {
             case .idle:
                 ProgressView()
@@ -362,7 +364,7 @@ struct ArtistDetailView: View {
                 Text(verbatim: "YouTube player couldn't be loaded")
             }
         }
-        .background(Color.gray)
+        .background(Color.gray.opacity(0.3))
         .frame(minHeight: 240)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
@@ -396,9 +398,9 @@ struct ArtistDetailView: View {
 
 #Preview {
     ArtistDetailView(
-        store: .init(initialState: .init(currentTab: .about),
+        store: .init(initialState: ArtistsDetailFeature.State(fetchArtist: "django"),
                      reducer: {
-                         ArtistsDetailFeature(fetchArtist: "django")
+                         ArtistsDetailFeature()
                      })
     )
 }
