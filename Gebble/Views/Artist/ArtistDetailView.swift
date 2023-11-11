@@ -183,7 +183,7 @@ struct ArtistDetailView: View {
 
     private var topButtons: some View {
         WithViewStore(self.store, observe: \.bios) { viewStore in
-            
+
             VStack {
                 HStack {
                     Button("", action: { viewStore.send(.closeButtonClick) })
@@ -194,7 +194,7 @@ struct ArtistDetailView: View {
                         .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
                         .padding(.trailing, 17)
                 }
-                
+
                 Spacer()
             }
         }
@@ -319,10 +319,27 @@ struct ArtistDetailView: View {
         }
     }
 
+    @Environment(\.openURL) var openURL
+
     private var about: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
 
             VStack(alignment: .leading, spacing: 20) {
+                if let contacts = viewStore.bios?.contacts, contacts.count > 0 {
+                    HStack {
+                        ForEach(contacts, id: \.id) { contact in
+                            if let url = URL(string: contact.url!), UIApplication.shared.canOpenURL(url) {
+                                Image("\(contact.type.imageName)")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .onTapGesture {
+                                        openURL(url)
+                                    }
+                            }
+                        }
+                    }
+                }
+
                 if let crew = viewStore.bios?.crew, !crew.isEmpty {
                     Text("\(crew)").font(.title2)
                 }
@@ -398,7 +415,7 @@ struct ArtistDetailView: View {
 
 #Preview {
     ArtistDetailView(
-        store: .init(initialState: ArtistsDetailFeature.State(fetchArtist: "django"),
+        store: .init(initialState: ArtistsDetailFeature.State(fetchArtist: "yiyasha"),
                      reducer: {
                          ArtistsDetailFeature()
                      })

@@ -6,14 +6,15 @@
 //
 
 import Combine
-import Foundation
-import Dependencies
 import ComposableArchitecture
+import Dependencies
+import Foundation
 
 // TODO: change response to effect
 // TODO: using TaskResult
 
 // MARK: - Endpoint
+
 extension ArtistClient: HTTPClient {}
 
 extension DependencyValues {
@@ -33,13 +34,13 @@ enum ArtistEndpoint {
 extension ArtistEndpoint: Endpoint {
     var query: [URLQueryItem]? {
         switch self {
-        case let .searchArtists(query: query):
+        case .searchArtists(query: let query):
             return [URLQueryItem(name: "query", value: "\(query)")]
         default:
             return nil
         }
     }
-    
+
     var path: String {
         switch self {
         case .artistList:
@@ -93,22 +94,22 @@ struct ArtistList: Decodable, Equatable {
     var next: String?
     var previous: String?
     var results: [ArtistListItem]
-    
+
     struct ArtistListItem: Decodable, Equatable {
         var username: String
         var artistName: String
         var thumb: String
         var country: String
-        
+
         func countryFlag() -> String {
-          let base = 127397
-          var tempScalarView = String.UnicodeScalarView()
-          for i in country.utf16 {
-            if let scalar = UnicodeScalar(base + Int(i)) {
-              tempScalarView.append(scalar)
+            let base = 127397
+            var tempScalarView = String.UnicodeScalarView()
+            for i in country.utf16 {
+                if let scalar = UnicodeScalar(base + Int(i)) {
+                    tempScalarView.append(scalar)
+                }
             }
-          }
-          return String(tempScalarView)
+            return String(tempScalarView)
         }
     }
 }
@@ -116,7 +117,7 @@ struct ArtistList: Decodable, Equatable {
 extension ArtistList.ArtistListItem {
     static var placeholder: [ArtistList.ArtistListItem] {
         var placeholder = [ArtistList.ArtistListItem]()
-        for i in 0...20 {
+        for i in 0 ... 20 {
             placeholder.append(.init(username: "\(i)",
                                      artistName: "\(i) this is fake data",
                                      thumb: "",
@@ -135,16 +136,16 @@ struct ArtistPortfolios: Decodable, Equatable {
     var country: String
     var introduction: String
     var modified: Date
-    
+
     func countryFlag() -> String {
-      let base = 127397
-      var tempScalarView = String.UnicodeScalarView()
-      for i in country.utf16 {
-        if let scalar = UnicodeScalar(base + Int(i)) {
-          tempScalarView.append(scalar)
+        let base = 127397
+        var tempScalarView = String.UnicodeScalarView()
+        for i in country.utf16 {
+            if let scalar = UnicodeScalar(base + Int(i)) {
+                tempScalarView.append(scalar)
+            }
         }
-      }
-      return String(tempScalarView)
+        return String(tempScalarView)
     }
 }
 
@@ -168,16 +169,56 @@ struct ArtistBio: Decodable, Equatable {
     var workEmail: String?
     var created: Date?
     var modified: Date?
-    
-    
+
     var videos: [YTVideo] {
-        return [vid1, vid2, vid3, vid4].compactMap{ $0 }.filter {  !$0.isEmpty }.enumerated().compactMap { (index, value) in
-            return YTVideo(url: value, id: index)
+        return [vid1, vid2, vid3, vid4].compactMap { $0 }.filter { !$0.isEmpty }.enumerated().compactMap { index, value in
+            YTVideo(url: value, id: index)
         }
+    }
+
+    var contacts: [ArtistContact] {
+        return [
+            ArtistContact(url: ig,
+                          type: .ig),
+            ArtistContact(url: fb,
+                          type: .fb),
+            ArtistContact(url: yt,
+                          type: .yt),
+            ArtistContact(url: site,
+                          type: .site)
+        ].filter { $0.url != nil && $0.url != "" }
     }
 }
 
 struct YTVideo {
     var url: String
     var id: Int
+}
+
+struct ArtistContact {
+    var url: String?
+    var type: ArtistContactType
+    var id: Int {
+        return type.rawValue
+    }
+}
+
+enum ArtistContactType: Int {
+    case ig
+    case fb
+    case yt
+    case site
+    
+    var imageName: String {
+        switch self {
+        case .ig:
+            return "ig"
+        case .fb:
+            return "fb"
+        case .site:
+            return "site"
+        case .yt:
+            return "yt"
+        }
+    }
 }

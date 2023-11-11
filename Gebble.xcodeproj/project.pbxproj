@@ -137,6 +137,7 @@
 		D81BE43C2AFF6D0900F167FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D81BE43F2AFF6DAC00F167FD /* Workshop */,
 				D81BE43D2AFF6D1400F167FD /* Artist */,
 			);
 			path = Views;
@@ -159,6 +160,13 @@
 				D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */,
 			);
 			path = CollectionState;
+			sourceTree = "<group>";
+		};
+		D81BE43F2AFF6DAC00F167FD /* Workshop */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Workshop;
 			sourceTree = "<group>";
 		};
 		D820AD1C2AE641840065DB7C = {
