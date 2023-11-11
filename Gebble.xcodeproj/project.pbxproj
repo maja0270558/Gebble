@@ -36,9 +36,7 @@
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
 		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
-		D873383F2AF38B560045B6DB /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D873383E2AF38B560045B6DB /* CardDetailView.swift */; };
 		D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D87338442AF403930045B6DB /* ActivityIndicatorView */; };
-		D87338472AF41CFD0045B6DB /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,8 +83,6 @@
 		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
-		D873383E2AF38B560045B6DB /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
-		D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +134,33 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		D81BE43C2AFF6D0900F167FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D81BE43D2AFF6D1400F167FD /* Artist */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D81BE43D2AFF6D1400F167FD /* Artist */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
+				D8013A252AFA189200D7D9F6 /* ArtistDetailView.swift */,
+			);
+			path = Artist;
+			sourceTree = "<group>";
+		};
+		D81BE43E2AFF6D4600F167FD /* CollectionState */ = {
+			isa = PBXGroup;
+			children = (
+				D820AD702AF235B90065DB7C /* CollectionStateView.swift */,
+				D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */,
+				D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */,
+			);
+			path = CollectionState;
+			sourceTree = "<group>";
+		};
 		D820AD1C2AE641840065DB7C = {
 			isa = PBXGroup;
 			children = (
@@ -161,20 +184,13 @@
 		D820AD272AE641840065DB7C /* Gebble */ = {
 			isa = PBXGroup;
 			children = (
+				D81BE43C2AFF6D0900F167FD /* Views */,
 				D81BE4322AFCCC6400F167FD /* CustomViews */,
 				D8013A2A2AFA1EBF00D7D9F6 /* Extension */,
 				D820AD5D2AE79AA90065DB7C /* Others */,
 				D820AD282AE641840065DB7C /* GebbleApp.swift */,
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
-				D820AD642AE7A2380065DB7C /* ArtistsView.swift */,
-				D8013A252AFA189200D7D9F6 /* ArtistDetailView.swift */,
-				D87338462AF41CFD0045B6DB /* RefreshableScrollView.swift */,
-				D873383E2AF38B560045B6DB /* CardDetailView.swift */,
-				D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */,
-				D820AD702AF235B90065DB7C /* CollectionStateView.swift */,
-				D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */,
-				D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
@@ -213,6 +229,8 @@
 		D820AD5D2AE79AA90065DB7C /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				D81BE43E2AFF6D4600F167FD /* CollectionState */,
+				D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */,
 				D8013A232AFA186200D7D9F6 /* AsyncStreamHelper.swift */,
 				D820AD5E2AE79AC00065DB7C /* Colors.xcassets */,
 			);
@@ -372,12 +390,10 @@
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
 				D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */,
-				D873383F2AF38B560045B6DB /* CardDetailView.swift in Sources */,
 				D8013A242AFA186200D7D9F6 /* AsyncStreamHelper.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
-				D87338472AF41CFD0045B6DB /* RefreshableScrollView.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
