@@ -20,17 +20,12 @@ struct WorkshopFeature: Reducer {
         var currentCollectionState: WorkshopsResult = .unload
         var searchQuery: String = ""
         var search: GebbleSearchBarFeature.State = .init(queryString: "", isFocused: false)
-
-        internal var result: [WorkshopListResultType: WorkshopsResult] = [
-            .all: .unload,
-            .search: .unload
-        ]
     }
 
     enum Action: Equatable {
         case search(GebbleSearchBarFeature.Action)
         case load
-        case listResponse(WorkshopListResultType, WorkshopsResult)
+        case listResponse(WorkshopsResult)
     }
 
     var body: some ReducerOf<Self> {
@@ -47,14 +42,12 @@ struct WorkshopFeature: Reducer {
                     }
 
                     await foreachStream(stream: stream) { state in
-                        print(state)
-                        await send(.listResponse(.all, state))
+                        await send(.listResponse(state))
                     }
                 }
                 .debounce(id: CancelID.workshopRequest, for: 0.5, scheduler: mainQueue)
                 .cancellable(id: CancelID.workshopRequest)
-            case let .listResponse(type, response):
-                state.result[type] = response
+            case let .listResponse(response):
                 state.currentCollectionState = response
                 return .none
             case .search:
