@@ -44,6 +44,8 @@
 		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
 		D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D87338442AF403930045B6DB /* ActivityIndicatorView */; };
+		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
+		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
+		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
+		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +155,7 @@
 		D81BE43C2AFF6D0900F167FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D8D5BE352B04A6B80046D6A4 /* Common */,
 				D81BE43F2AFF6DAC00F167FD /* Workshop */,
 				D81BE43D2AFF6D1400F167FD /* Artist */,
 				D81BE4462AFF855A00F167FD /* NavigationBaseView.swift */,
@@ -264,6 +269,15 @@
 				D820AD5E2AE79AC00065DB7C /* Colors.xcassets */,
 			);
 			path = Others;
+			sourceTree = "<group>";
+		};
+		D8D5BE352B04A6B80046D6A4 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */,
+				D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */,
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
@@ -425,6 +440,7 @@
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
 				D81BE4452AFF822800F167FD /* WorkshopLive.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
+				D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,

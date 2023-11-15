@@ -125,29 +125,33 @@ struct ArtistsView: View {
             NavigationBaseView {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text("Explore artist")
-                            .font(.headline)
-                        Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
+                     
 
                         CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
+                            VStack {
+                                Text("Explore artist")
+                                    .font(.headline)
+                                Text("Embark on a Creative Journey: Discovering the Diverse World of Artists")
+                                LazyVGrid(columns: gridItemLayout) {
+                                    ForEach(items, id: \.artistName) { artist in
 
-                            LazyVGrid(columns: gridItemLayout) {
-                                ForEach(items, id: \.artistName) { artist in
-
-                                    GebbleCell(image: artist.thumb,
-                                               title: artist.artistName,
-                                               flag: artist.country)
-                                        .onTapGesture {
-                                            viewStore.send(.clickArtist(artist.username))
-                                        }
+                                        GebbleCell(image: artist.thumb,
+                                                   title: artist.artistName,
+                                                   flag: artist.country)
+                                            .onTapGesture {
+                                                viewStore.send(.clickArtist(artist.username))
+                                            }
+                                    }
                                 }
                             }
+                            
 
                         } empty: {
-                            Text("empty")
-                        } error: { _ in
-                            Text("error")
+                            GebbleEmptyView(title: "So quient here....")
+                        } error: { error in
+                            GebbleErrorView(title: error.localizedDescription)
                         }
+                        Spacer()
                     }
                     .offset(y: 75)
                     .padding()

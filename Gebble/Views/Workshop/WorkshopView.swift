@@ -19,6 +19,7 @@ struct WorkshopFeature: Reducer {
     struct State: Equatable {
         var currentCollectionState: WorkshopsResult = .unload
         var searchQuery: String = ""
+        var search: GebbleSearchBarFeature.State = .init(queryString: "", isFocused: false)
 
         internal var result: [WorkshopListResultType: WorkshopsResult] = [
             .all: .unload,
@@ -27,12 +28,15 @@ struct WorkshopFeature: Reducer {
     }
 
     enum Action: Equatable {
+        case search(GebbleSearchBarFeature.Action)
         case load
         case listResponse(WorkshopListResultType, WorkshopsResult)
-        case search(String)
     }
 
     var body: some ReducerOf<Self> {
+        Scope(state: \.search, action: /Action.search) {
+            GebbleSearchBarFeature()
+        }
         Reduce { state, action in
             switch action {
             case .load:
@@ -64,14 +68,12 @@ struct WorkshopView: View {
     let store: StoreOf<WorkshopFeature>
     var gridItemLayout = [GridItem(.flexible(), spacing: 4),
                           GridItem(.flexible(), spacing: 0)]
-    
+
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            NavigationBaseView(makeContent: {
+            NavigationBaseView {
                 ScrollView {
                     VStack(alignment: .leading) {
-                       
-
                         Text("Explore workshop")
                             .font(.headline)
                         Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
@@ -95,14 +97,30 @@ struct WorkshopView: View {
                             Text("error")
                         }
                     }
+                    .offset(y: 75)
                     .padding()
                     .navigationTitle("Workshop")
+                    .navigationBarHidden(viewStore.search.isFocused)
                 }
+
                 .refreshable {
 //                    viewStore.send(.refresh)
                 }
+                .overlay(content: {
+                    VStack {
+                        GebbleSearchBar(store: self.store.scope(state: \.search,
+                                                                action: { .search($0) }),
+                                        prompt: "Search workshop",
+                                        filter: true)
+                        Spacer()
+                    }
+                    .padding()
 
-            })
+                })
+            }
+            .onTapGesture {
+                hideKeyboard()
+            }
             .onViewDidLoad {
                 viewStore.send(.load)
             }
