@@ -9,6 +9,13 @@ import Foundation
 import Dependencies
 import ComposableArchitecture
 
+extension DependencyValues {
+    var artistsClient: ArtistClient {
+        get { self[ArtistClient.self] }
+        set { self[ArtistClient.self] = newValue }
+    }
+}
+
 extension ArtistClient: DependencyKey {
     static let liveValue: Self = .init(
         fetchArtistList: {

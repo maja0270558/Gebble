@@ -17,28 +17,38 @@ enum Tab {
 struct AppFeature: Reducer {
     struct State: Equatable {
         var artistsTab = ArtistsFeature.State()
+        var workshopTab = WorkshopFeature.State()
+
         var selectedTab: Tab = .artists
     }
 
     enum Action: Equatable {
         case artistsTab(ArtistsFeature.Action)
+        case workshopTab(WorkshopFeature.Action)
+
         case selectedTabChanged(Tab)
     }
 
     var body: some ReducerOf<Self> {
+        Scope(state: \.artistsTab, action: /Action.artistsTab) {
+            ArtistsFeature()
+        }
+        
+        Scope(state: \.workshopTab, action: /Action.workshopTab) {
+            WorkshopFeature()
+        }
+        
         Reduce<State, Action> { state, action in
             switch action {
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
-            case .artistsTab:
+            case .artistsTab, .workshopTab:
                 return .none
             }
         }
 
-        Scope(state: \.artistsTab, action: /Action.artistsTab) {
-            ArtistsFeature()
-        }
+
     }
 }
 
@@ -58,6 +68,17 @@ struct RootTabView: View {
                     .tabItem {
                         Image(systemName: "figure.socialdance")
                         Text("Artists")
+                    }
+                    
+                    WorkshopView(
+                        store: self.store.scope(
+                            state: \.workshopTab,
+                            action: AppFeature.Action.workshopTab
+                        )
+                    )
+                    .tabItem {
+                        Image(systemName: "cup.and.saucer")
+                        Text("Workshop")
                     }
 
                     Text("Home")

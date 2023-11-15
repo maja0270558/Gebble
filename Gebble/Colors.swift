@@ -8,4 +8,5 @@
 import SwiftUI
 extension Color {
     static let base = Color("GebbleBackground")
+    static let searchGray = Color("GebbleSearchGray")
 }

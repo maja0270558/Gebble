@@ -350,8 +350,9 @@ struct ArtistDetailView: View {
                     Divider()
                     HStack {
                         Text("\"\(quote)\" - \(user)").fontWeight(.thin).font(.callout.bold().italic())
-                        if let coutry = viewStore.portfolios?.countryFlag() {
-                            Text("\(coutry)")
+                        if let coutry = viewStore.portfolios?.country {
+                            let flag = convertStringToFlag(coutry)
+                            Text("\(flag)")
                         }
                     }
                 }

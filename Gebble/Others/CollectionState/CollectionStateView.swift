@@ -17,7 +17,7 @@ struct CollectionLoadingView
     EmptyView: View,
     ErrorView: View
 >: View {
-    private let fade = AnyTransition.opacity.animation(Animation.linear(duration: 0.5))
+    private let fade = AnyTransition.opacity.animation(Animation.linear(duration: 0.1))
     private let state: CollectionLoadingState<[Item]>
     private let makeContent: ([Item]) -> Content
     private let makeEmpty: () -> EmptyView

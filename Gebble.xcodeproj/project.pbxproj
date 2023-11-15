@@ -15,6 +15,13 @@
 		D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */; };
 		D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4352AFCCCB700F167FD /* View+rounded.swift */; };
 		D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */; };
+		D81BE4412AFF7BBD00F167FD /* WorkshopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4402AFF7BBD00F167FD /* WorkshopView.swift */; };
+		D81BE4432AFF7DD800F167FD /* WorkshopInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4422AFF7DD800F167FD /* WorkshopInterface.swift */; };
+		D81BE4452AFF822800F167FD /* WorkshopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4442AFF822800F167FD /* WorkshopLive.swift */; };
+		D81BE4472AFF855A00F167FD /* NavigationBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4462AFF855A00F167FD /* NavigationBaseView.swift */; };
+		D81BE4492AFF8EB100F167FD /* GebbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4482AFF8EB100F167FD /* GebbleCell.swift */; };
+		D81BE44B2AFF914700F167FD /* GebbleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE44A2AFF914700F167FD /* GebbleImageCell.swift */; };
+		D81BE44D2B03474900F167FD /* GebbleSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE44C2B03474900F167FD /* GebbleSearchBar.swift */; };
 		D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD282AE641840065DB7C /* GebbleApp.swift */; };
 		D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD2A2AE641840065DB7C /* ContentView.swift */; };
 		D820AD2D2AE641850065DB7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD2C2AE641850065DB7C /* Assets.xcassets */; };
@@ -62,6 +69,13 @@
 		D8013A2B2AFA1ED900D7D9F6 /* View+If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+If.swift"; sourceTree = "<group>"; };
 		D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonStyle.swift; sourceTree = "<group>"; };
 		D81BE4352AFCCCB700F167FD /* View+rounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+rounded.swift"; sourceTree = "<group>"; };
+		D81BE4402AFF7BBD00F167FD /* WorkshopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopView.swift; sourceTree = "<group>"; };
+		D81BE4422AFF7DD800F167FD /* WorkshopInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopInterface.swift; sourceTree = "<group>"; };
+		D81BE4442AFF822800F167FD /* WorkshopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopLive.swift; sourceTree = "<group>"; };
+		D81BE4462AFF855A00F167FD /* NavigationBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBaseView.swift; sourceTree = "<group>"; };
+		D81BE4482AFF8EB100F167FD /* GebbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleCell.swift; sourceTree = "<group>"; };
+		D81BE44A2AFF914700F167FD /* GebbleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleImageCell.swift; sourceTree = "<group>"; };
+		D81BE44C2B03474900F167FD /* GebbleSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleSearchBar.swift; sourceTree = "<group>"; };
 		D820AD252AE641840065DB7C /* Gebble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gebble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D820AD282AE641840065DB7C /* GebbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleApp.swift; sourceTree = "<group>"; };
 		D820AD2A2AE641840065DB7C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +153,10 @@
 			children = (
 				D81BE43F2AFF6DAC00F167FD /* Workshop */,
 				D81BE43D2AFF6D1400F167FD /* Artist */,
+				D81BE4462AFF855A00F167FD /* NavigationBaseView.swift */,
+				D81BE4482AFF8EB100F167FD /* GebbleCell.swift */,
+				D81BE44A2AFF914700F167FD /* GebbleImageCell.swift */,
+				D81BE44C2B03474900F167FD /* GebbleSearchBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -165,6 +183,7 @@
 		D81BE43F2AFF6DAC00F167FD /* Workshop */ = {
 			isa = PBXGroup;
 			children = (
+				D81BE4402AFF7BBD00F167FD /* WorkshopView.swift */,
 			);
 			path = Workshop;
 			sourceTree = "<group>";
@@ -202,6 +221,8 @@
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
+				D81BE4422AFF7DD800F167FD /* WorkshopInterface.swift */,
+				D81BE4442AFF822800F167FD /* WorkshopLive.swift */,
 				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
 				D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */,
 				D820AD602AE79B9A0065DB7C /* Colors.swift */,
@@ -398,19 +419,26 @@
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
 				D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */,
+				D81BE44D2B03474900F167FD /* GebbleSearchBar.swift in Sources */,
+				D81BE4492AFF8EB100F167FD /* GebbleCell.swift in Sources */,
 				D8013A242AFA186200D7D9F6 /* AsyncStreamHelper.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
+				D81BE4452AFF822800F167FD /* WorkshopLive.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
+				D81BE4432AFF7DD800F167FD /* WorkshopInterface.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
+				D81BE4412AFF7BBD00F167FD /* WorkshopView.swift in Sources */,
+				D81BE4472AFF855A00F167FD /* NavigationBaseView.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
 				D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */,
 				D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */,
 				D8013A2C2AFA1ED900D7D9F6 /* View+If.swift in Sources */,
 				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
+				D81BE44B2AFF914700F167FD /* GebbleImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

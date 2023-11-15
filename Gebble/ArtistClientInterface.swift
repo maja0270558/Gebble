@@ -17,12 +17,7 @@ import Foundation
 
 extension ArtistClient: HTTPClient {}
 
-extension DependencyValues {
-    var artistsClient: ArtistClient {
-        get { self[ArtistClient.self] }
-        set { self[ArtistClient.self] = newValue }
-    }
-}
+
 
 enum ArtistEndpoint {
     case artistList
@@ -100,17 +95,6 @@ struct ArtistList: Decodable, Equatable {
         var artistName: String
         var thumb: String
         var country: String
-
-        func countryFlag() -> String {
-            let base = 127397
-            var tempScalarView = String.UnicodeScalarView()
-            for i in country.utf16 {
-                if let scalar = UnicodeScalar(base + Int(i)) {
-                    tempScalarView.append(scalar)
-                }
-            }
-            return String(tempScalarView)
-        }
     }
 }
 
@@ -136,17 +120,6 @@ struct ArtistPortfolios: Decodable, Equatable {
     var country: String
     var introduction: String
     var modified: Date
-
-    func countryFlag() -> String {
-        let base = 127397
-        var tempScalarView = String.UnicodeScalarView()
-        for i in country.utf16 {
-            if let scalar = UnicodeScalar(base + Int(i)) {
-                tempScalarView.append(scalar)
-            }
-        }
-        return String(tempScalarView)
-    }
 }
 
 struct ArtistBio: Decodable, Equatable {

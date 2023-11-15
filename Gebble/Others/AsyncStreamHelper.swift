@@ -16,3 +16,14 @@ public func foreachStream<T>
         await fire(state)
     }
 }
+
+func convertStringToFlag(_ string: String) -> String {
+    let base = 127397
+    var tempScalarView = String.UnicodeScalarView()
+    for i in string.utf16 {
+        if let scalar = UnicodeScalar(base + Int(i)) {
+            tempScalarView.append(scalar)
+        }
+    }
+    return String(tempScalarView)
+}

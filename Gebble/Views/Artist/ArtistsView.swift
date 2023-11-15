@@ -7,7 +7,6 @@
 
 import ActivityIndicatorView
 import ComposableArchitecture
-import Kingfisher
 import SwiftUI
 
 struct ArtistsFeature: Reducer {
@@ -18,31 +17,33 @@ struct ArtistsFeature: Reducer {
     private enum CancelID { case artistsRequest, searchRequest }
 
     typealias ArtistsResult = CollectionLoadingState<[ArtistList.ArtistListItem]>
-    internal enum ArtistListResultType { case all, search }
-
+    
     struct State: Equatable {
         @PresentationState var artistDetail: ArtistsDetailFeature.State?
         var currentCollectionState: ArtistsResult = .unload
-        var searchQuery: String = ""
-
-        internal var result: [ArtistListResultType: ArtistsResult] = [
-            .all: .unload,
-            .search: .unload
-        ]
+        var search: GebbleSearchBarFeature.State = .init(queryString: "", isFocused: false)
+        internal var lastSearchResult = ""
     }
 
     enum Action: Equatable {
+        case search(GebbleSearchBarFeature.Action)
+        case binding(BindingAction<State>)
         case artistDetail(PresentationAction<ArtistsDetailFeature.Action>)
         case clickArtist(String)
         case loadArtists
         case refresh
-        case searchArtists(String)
-        case artistListResponse(ArtistListResultType, ArtistsResult)
+        case artistListResponse(ArtistsResult)
     }
 
     var body: some ReducerOf<Self> {
+        Scope(state: \.search, action: /Action.search) {
+            GebbleSearchBarFeature()
+        }
+
         Reduce { state, action in
             switch action {
+            case .binding:
+                return .none
             case let .clickArtist(name):
                 print(name)
                 state.artistDetail = ArtistsDetailFeature.State(fetchArtist: name.lowercased())
@@ -56,32 +57,7 @@ struct ArtistsFeature: Reducer {
                     return .none
                 }
             case .refresh:
-                return state.searchQuery.isEmpty ? .send(.loadArtists) : .send(.searchArtists(state.searchQuery))
-            case let .searchArtists(query):
-                Task.cancel(id: CancelID.searchRequest)
-                state.searchQuery = query
-
-                /// load back prev state
-                guard !query.isEmpty else {
-                    if let stateOfAll = state.result[.all], stateOfAll != .unload {
-                        return .send(.artistListResponse(.all, stateOfAll))
-                    }
-                    return .send(.loadArtists)
-                }
-
-                return .run { [query = state.searchQuery] send in
-                    let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
-                        let list = try await artistsClient.searchArtists(query)
-                        return list
-                    }
-
-                    await foreachStream(stream: stream) { state in
-                        await send(.artistListResponse(.search, state))
-                    }
-                }
-                .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
-                .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
-
+                return state.search.queryString.isEmpty ? .send(.loadArtists) : .send(.search(.search(state.search.queryString)))
             case .loadArtists:
                 Task.cancel(id: CancelID.artistsRequest)
 
@@ -92,59 +68,49 @@ struct ArtistsFeature: Reducer {
                     }
 
                     await foreachStream(stream: stream) { state in
-                        await send(.artistListResponse(.all, state))
+                        await send(.artistListResponse(state))
                     }
                 }
                 .debounce(id: CancelID.artistsRequest, for: 0.5, scheduler: mainQueue)
                 .cancellable(id: CancelID.artistsRequest)
 
-            case let .artistListResponse(type, response):
-                state.result[type] = response
+            case let .search(.search(query)):
+                guard query != state.lastSearchResult else { return .none }
+                Task.cancel(id: CancelID.searchRequest)
+
+                guard !query.isEmpty else {
+                    return .send(.loadArtists)
+                }
+
+                return .run { [query = state.search.queryString] send in
+                    let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
+                        let list = try await artistsClient.searchArtists(query)
+                        return list
+                    }
+
+                    await foreachStream(stream: stream) { state in
+                        await send(.artistListResponse(state))
+                    }
+                }
+                .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
+                .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
+
+            case let .artistListResponse(response):
                 state.currentCollectionState = response
+                state.lastSearchResult = state.search.queryString
+                return .none
+
+            case .search(.onFilterClick):
+                return .none
+            case .search(.cleanQuery):
+                return .send(.search(.search("")))
+            default:
                 return .none
             }
         }
         .ifLet(\.$artistDetail, action: /Action.artistDetail) {
             ArtistsDetailFeature()
         }
-    }
-}
-
-struct ArtistListCell: View {
-    var artist: ArtistList.ArtistListItem
-    var imageURL: URL? {
-        return artist.thumb.isEmpty ? nil : URL(string: "\(artist.thumb)")
-    }
-
-    var body: some View {
-        ZStack {
-            Color.base.shadow(radius: 2, x: 1, y: 1)
-            VStack(alignment: .leading, spacing: 2) {
-                KFImage(imageURL)
-                    .placeholder {
-                        Image(systemName: "person")
-                            .resizable()
-                            .redacted(reason: .placeholder)
-                    }
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fill)
-                    .cornerRadius(10)
-
-                HStack {
-                    Text("\(artist.artistName)")
-                        .lineLimit(1)
-                        .layoutPriority(1)
-                    Spacer()
-                    Text("\(artist.countryFlag())")
-                        .lineLimit(1)
-                        .layoutPriority(2)
-                }
-                .padding(4)
-                .frame(height: 20)
-            }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .shadow(radius: 2, x: 1, y: 1)
     }
 }
 
@@ -156,67 +122,58 @@ struct ArtistsView: View {
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
+            NavigationBaseView {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text("Explore artist")
+                            .font(.headline)
+                        Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
 
-            ZStack {
-                NavigationStack {
-                    ZStack {
-                        // Full detail
-                        Color.base.ignoresSafeArea(.all)
+                        CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
 
-                        ScrollView {
-                            VStack(alignment: .leading) {
-                                Divider()
+                            LazyVGrid(columns: gridItemLayout) {
+                                ForEach(items, id: \.artistName) { artist in
 
-                                Text("Explore artist")
-                                    .font(.headline)
-                                Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
-
-                                CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
-
-                                    LazyVGrid(columns: gridItemLayout) {
-                                        ForEach(items, id: \.artistName) { artist in
-                                            ArtistListCell(artist: artist).onTapGesture {
-                                                viewStore.send(.clickArtist(artist.username))
-                                            }
+                                    GebbleCell(image: artist.thumb,
+                                               title: artist.artistName,
+                                               flag: artist.country)
+                                        .onTapGesture {
+                                            viewStore.send(.clickArtist(artist.username))
                                         }
-                                    }
-
-                                } empty: {
-                                    Text("empty")
-                                } error: { _ in
-                                    Text("error")
                                 }
                             }
-                            .padding()
-                            .navigationTitle("Artists")
-                        }
-                        .refreshable {
-                            viewStore.send(.refresh)
+
+                        } empty: {
+                            Text("empty")
+                        } error: { _ in
+                            Text("error")
                         }
                     }
-
-                }.onAppear {
-                    let appearance = UINavigationBarAppearance()
-                    appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-                    appearance.backgroundColor = UIColor(Color.base.opacity(0.2))
-                    UINavigationBar.appearance().scrollEdgeAppearance = appearance
-                    // Inline appearance (standard height appearance)
-                    UINavigationBar.appearance().standardAppearance = appearance
-                    // Large Title appearance
-                    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+                    .offset(y: 75)
+                    .padding()
+                    .navigationTitle("Artists")
+                    .navigationBarHidden(viewStore.search.isFocused)
                 }
-                .searchable(
-                    text: viewStore.binding(
-                        get: \.searchQuery,
-                        send: {
-                            .searchArtists($0)
-                        }
-                    ),
-                    prompt: "Search for artist"
-                )
-                .autocorrectionDisabled()
-                .tint(Color.black)
+                .overlay(content: {
+                    VStack {
+                        GebbleSearchBar(store: self.store.scope(state: \.search,
+                                                                action: { .search($0) }),
+                                        prompt: "Search artist",
+                                        filter: false)
+                        Spacer()
+
+                    }.padding()
+
+                })
+                .onTapGesture {
+                    hideKeyboard()
+                }
+                .refreshable {
+                    viewStore.send(.refresh)
+                }
             }
+            .autocorrectionDisabled()
+            .tint(Color.black)
             .onViewDidLoad {
                 viewStore.send(.loadArtists)
             }
