@@ -74,30 +74,32 @@ struct WorkshopView: View {
             NavigationBaseView {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text("Explore workshop")
-                            .font(.headline)
-                        Text("Some thing  blablabla.Some thing  blablabla.Some thing  blablabla.Some thing")
+                       
 
                         CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
-
-                            LazyVGrid(columns: gridItemLayout, spacing: 4) {
-                                ForEach(items, id: \.id) { workshop in
-                                    GebbleImageCell(image: workshop.poster,
-                                                    title: workshop.title,
-                                                    flag: workshop.country)
-                                        .onTapGesture {
-//                                            viewStore.send(.clickArtist(artist.username))
-                                        }
+                            VStack {
+                                Text("Explore workshop")
+                                    .font(.headline)
+                                Text("Unveiling Creativity: Journeying Through Engaging Workshops")
+                                
+                                LazyVGrid(columns: gridItemLayout, spacing: 4) {
+                                    ForEach(items, id: \.id) { workshop in
+                                        GebbleImageCell(image: workshop.poster,
+                                                        title: workshop.title,
+                                                        flag: workshop.country)
+                                            .onTapGesture {
+    //                                            viewStore.send(.clickArtist(artist.username))
+                                            }
+                                    }
                                 }
                             }
-
                         } empty: {
-                            Text("empty")
-                        } error: { _ in
-                            Text("error")
+                            GebbleEmptyView(title: "So quient here....")
+                        } error: { error in
+                            GebbleErrorView(title: error.localizedDescription)
                         }
                     }
-                    .offset(y: 75)
+                    .offset(y: 60)
                     .padding()
                     .navigationTitle("Workshop")
                     .navigationBarHidden(viewStore.search.isFocused)

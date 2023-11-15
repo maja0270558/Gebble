@@ -153,7 +153,7 @@ struct ArtistsView: View {
                         }
                         Spacer()
                     }
-                    .offset(y: 75)
+                    .offset(y: 60)
                     .padding()
                     .navigationTitle("Artists")
                     .navigationBarHidden(viewStore.search.isFocused)
