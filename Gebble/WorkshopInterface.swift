@@ -14,6 +14,7 @@ extension WorkshopClient: HTTPClient {}
 enum WorkshopEndpoint {
     case allWorkshop
     case search(String, WorkshopFilterValue)
+    case detail(String)
 }
 
 extension WorkshopEndpoint: Endpoint {
@@ -46,6 +47,8 @@ extension WorkshopEndpoint: Endpoint {
             return "workshops/list/"
         case .search:
             return "workshops/search/"
+        case let .detail(uuid):
+            return "workshops/\(uuid)/"
         }
     }
 
@@ -76,6 +79,7 @@ struct WorkshopFilterValue: Equatable {
 }
 
 struct WorkshopClient {
+    var fetchArtistDetail: @Sendable (_ uuid: String) async throws -> WorkshopDetail
     var fetchAllWorkshopList: @Sendable () async throws -> WorkshopList
     var searchWorkshops: @Sendable (_ name: String, _ filter: WorkshopFilterValue) async throws -> [WorkshopList.WorkshopListItem]
 }
@@ -116,4 +120,32 @@ extension WorkshopList.WorkshopListItem {
         }
         return placeholder
     }
+}
+
+struct WorkshopDetail: Decodable, Equatable {
+    var id: Int
+    var uuid: String
+    var uniqueurl: String
+    var title: String
+    var username: String
+    var category: Int
+    var poster: String
+    var startDate: String
+    var dateTime: Date
+    var country: String
+    var venue: String
+    var content: String
+    var iglink: String
+    var videolink: String
+    var contactEmail: String
+    var teacher1: String
+    var name1: String
+    var photo1: String
+    var videolink1: String
+    var country1: String
+    var info1: String
+    var event: String?
+    var profilePhoto: String
+    var created: Date
+    var modified: Data
 }

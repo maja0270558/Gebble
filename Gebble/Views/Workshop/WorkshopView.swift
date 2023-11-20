@@ -9,17 +9,11 @@ import ComposableArchitecture
 import SwiftUI
 
 struct WorkshopFeature: Reducer {
-    struct WorkshopRequestParameter: Equatable {
-        var name: String
-        var filter: WorkshopFilterValue
-    }
-
-    typealias WorkshopsResult = CollectionLoadingState<[WorkshopList.WorkshopListItem]>
     @Dependency(\.workshopClient) var workshopClient
     @Dependency(\.collectionStateStreamMaker) var dataAsyncStream
     @Dependency(\.mainQueue) private var mainQueue
+    typealias WorkshopsResult = CollectionLoadingState<[WorkshopList.WorkshopListItem]>
     private enum CancelID { case workshopRequest }
-    internal enum WorkshopListResultType { case all, search }
 
     struct State: Equatable {
         @PresentationState var filter: WorkshopFilterFeature.State?
@@ -211,6 +205,6 @@ struct WorkshopView: View {
 #Preview {
     WorkshopView(store: Store(initialState: WorkshopFeature.State(),
                               reducer: {
-                                  WorkshopFeature()
+                                  WorkshopFeature()._printChanges()
                               }))
 }

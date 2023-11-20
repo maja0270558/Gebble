@@ -18,6 +18,12 @@ extension DependencyValues {
 
 extension WorkshopClient: DependencyKey {
     static let liveValue: Self = .init(
+        fetchArtistDetail: { uuid in
+            try await sendRequest(
+                endpoint: WorkshopEndpoint.detail(uuid),
+                responseModel: WorkshopDetail.self
+            )
+        },
         fetchAllWorkshopList: {
             try await sendRequest(
                 endpoint: WorkshopEndpoint.allWorkshop,

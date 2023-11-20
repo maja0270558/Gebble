@@ -47,8 +47,8 @@
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
-		D8D5BE3D2B04D0F10046D6A4 /* Testview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */; };
 		D8D5BE3F2B04D4880046D6A4 /* WorkshopFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */; };
+		D8D5BE412B0B35FA0046D6A4 /* WorkshopDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE402B0B35FA0046D6A4 /* WorkshopDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,8 +105,8 @@
 		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
 		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
 		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
-		D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testview.swift; sourceTree = "<group>"; };
 		D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopFilter.swift; sourceTree = "<group>"; };
+		D8D5BE402B0B35FA0046D6A4 /* WorkshopDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,8 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				D81BE4402AFF7BBD00F167FD /* WorkshopView.swift */,
-				D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */,
 				D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */,
+				D8D5BE402B0B35FA0046D6A4 /* WorkshopDetailView.swift */,
 			);
 			path = Workshop;
 			sourceTree = "<group>";
@@ -440,13 +440,13 @@
 			files = (
 				D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */,
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
+				D8D5BE412B0B35FA0046D6A4 /* WorkshopDetailView.swift in Sources */,
 				D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */,
 				D820AD2B2AE641840065DB7C /* ContentView.swift in Sources */,
 				D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */,
 				D81BE44D2B03474900F167FD /* GebbleSearchBar.swift in Sources */,
 				D81BE4492AFF8EB100F167FD /* GebbleCell.swift in Sources */,
 				D8013A242AFA186200D7D9F6 /* AsyncStreamHelper.swift in Sources */,
-				D8D5BE3D2B04D0F10046D6A4 /* Testview.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
 				D81BE4452AFF822800F167FD /* WorkshopLive.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
