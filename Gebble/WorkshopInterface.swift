@@ -13,11 +13,28 @@ extension WorkshopClient: HTTPClient {}
 
 enum WorkshopEndpoint {
     case allWorkshop
+    case search(String, WorkshopFilterValue)
 }
 
 extension WorkshopEndpoint: Endpoint {
     var query: [URLQueryItem]? {
         switch self {
+        case let .search(query, filter):
+            print(filter)
+            var querys = [URLQueryItem]()
+            if filter.thisMonth {
+                querys.append(URLQueryItem(name: "this_month", value: "yes"))
+            }
+            
+            if filter.country != .all  {
+                querys.append(URLQueryItem(name: "query", value: "\(filter.country.id)"))
+            }
+            
+            if query != "" {
+                querys.append(URLQueryItem(name: "workshop_name", value: query))
+            }
+            
+            return querys
         default:
             return nil
         }
@@ -27,6 +44,8 @@ extension WorkshopEndpoint: Endpoint {
         switch self {
         case .allWorkshop:
             return "workshops/list/"
+        case .search:
+            return "workshops/search/"
         }
     }
 
@@ -51,9 +70,14 @@ extension WorkshopEndpoint: Endpoint {
     }
 }
 
+struct WorkshopFilterValue: Equatable {
+    var country: Country
+    var thisMonth: Bool
+}
+
 struct WorkshopClient {
     var fetchAllWorkshopList: @Sendable () async throws -> WorkshopList
-    var searchWorkshops: @Sendable (_ query: String) async throws -> [WorkshopList.WorkshopListItem]
+    var searchWorkshops: @Sendable (_ name: String, _ filter: WorkshopFilterValue) async throws -> [WorkshopList.WorkshopListItem]
 }
 
 struct WorkshopList: Decodable, Equatable {

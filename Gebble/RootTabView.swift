@@ -10,6 +10,7 @@ import SwiftUI
 
 enum Tab {
     case artists
+    case workshop
     case home
     case account
 }
@@ -33,11 +34,11 @@ struct AppFeature: Reducer {
         Scope(state: \.artistsTab, action: /Action.artistsTab) {
             ArtistsFeature()
         }
-        
+
         Scope(state: \.workshopTab, action: /Action.workshopTab) {
             WorkshopFeature()
         }
-        
+
         Reduce<State, Action> { state, action in
             switch action {
             case let .selectedTabChanged(tab):
@@ -47,8 +48,6 @@ struct AppFeature: Reducer {
                 return .none
             }
         }
-
-
     }
 }
 
@@ -69,7 +68,8 @@ struct RootTabView: View {
                         Image(systemName: "figure.socialdance")
                         Text("Artists")
                     }
-                    
+                    .tag(Tab.artists)
+
                     WorkshopView(
                         store: self.store.scope(
                             state: \.workshopTab,
@@ -80,24 +80,27 @@ struct RootTabView: View {
                         Image(systemName: "cup.and.saucer")
                         Text("Workshop")
                     }
+                    .tag(Tab.workshop)
 
                     Text("Home")
                         .tabItem {
                             Image(systemName: "house")
                             Text("Home")
                         }
+                        .tag(Tab.home)
 
                     Text("Account")
                         .tabItem {
                             Image(systemName: "person.circle")
                             Text("Account")
                         }
+                        .tag(Tab.account)
                 }
                 .toolbarBackground(Color.base, for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarColorScheme(.light, for: .tabBar)
+                .tint(Color.black)
             }
-            .tint(Color.yellow)
         }
     }
 }

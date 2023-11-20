@@ -24,8 +24,11 @@ extension WorkshopClient: DependencyKey {
                 responseModel: WorkshopList.self
             )
         },
-        searchWorkshops: { querry in
-            unimplemented("searchWorkshop")
+        searchWorkshops: { name, query in
+            try await sendRequest(
+                endpoint: WorkshopEndpoint.search(name, query),
+                responseModel: [WorkshopList.WorkshopListItem].self
+            )
         }
     )
 }

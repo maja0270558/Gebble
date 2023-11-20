@@ -46,6 +46,9 @@
 		D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D87338442AF403930045B6DB /* ActivityIndicatorView */; };
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
+		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
+		D8D5BE3D2B04D0F10046D6A4 /* Testview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */; };
+		D8D5BE3F2B04D4880046D6A4 /* WorkshopFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +104,9 @@
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
 		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
 		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
+		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
+		D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testview.swift; sourceTree = "<group>"; };
+		D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopFilter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				D81BE4402AFF7BBD00F167FD /* WorkshopView.swift */,
+				D8D5BE3C2B04D0F10046D6A4 /* Testview.swift */,
+				D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */,
 			);
 			path = Workshop;
 			sourceTree = "<group>";
@@ -266,6 +274,7 @@
 				D81BE43E2AFF6D4600F167FD /* CollectionState */,
 				D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */,
 				D8013A232AFA186200D7D9F6 /* AsyncStreamHelper.swift */,
+				D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */,
 				D820AD5E2AE79AC00065DB7C /* Colors.xcassets */,
 			);
 			path = Others;
@@ -437,12 +446,14 @@
 				D81BE44D2B03474900F167FD /* GebbleSearchBar.swift in Sources */,
 				D81BE4492AFF8EB100F167FD /* GebbleCell.swift in Sources */,
 				D8013A242AFA186200D7D9F6 /* AsyncStreamHelper.swift in Sources */,
+				D8D5BE3D2B04D0F10046D6A4 /* Testview.swift in Sources */,
 				D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */,
 				D81BE4452AFF822800F167FD /* WorkshopLive.swift in Sources */,
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
 				D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
+				D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D81BE4432AFF7DD800F167FD /* WorkshopInterface.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
@@ -453,6 +464,7 @@
 				D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */,
 				D8013A2C2AFA1ED900D7D9F6 /* View+If.swift in Sources */,
 				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
+				D8D5BE3F2B04D4880046D6A4 /* WorkshopFilter.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
 				D81BE44B2AFF914700F167FD /* GebbleImageCell.swift in Sources */,
 			);

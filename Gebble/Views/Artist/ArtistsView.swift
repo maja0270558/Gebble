@@ -14,10 +14,10 @@ struct ArtistsFeature: Reducer {
     @Dependency(\.collectionStateStreamMaker) var dataAsyncStream
     @Dependency(\.mainQueue) private var mainQueue
 
-    private enum CancelID { case artistsRequest, searchRequest }
+    private enum CancelID { case artistsRequest }
 
     typealias ArtistsResult = CollectionLoadingState<[ArtistList.ArtistListItem]>
-    
+
     struct State: Equatable {
         @PresentationState var artistDetail: ArtistsDetailFeature.State?
         var currentCollectionState: ArtistsResult = .unload
@@ -30,7 +30,7 @@ struct ArtistsFeature: Reducer {
         case binding(BindingAction<State>)
         case artistDetail(PresentationAction<ArtistsDetailFeature.Action>)
         case clickArtist(String)
-        case loadArtists
+        case loadArtists(String)
         case refresh
         case artistListResponse(ArtistsResult)
     }
@@ -45,7 +45,6 @@ struct ArtistsFeature: Reducer {
             case .binding:
                 return .none
             case let .clickArtist(name):
-                print(name)
                 state.artistDetail = ArtistsDetailFeature.State(fetchArtist: name.lowercased())
                 return .none
             case let .artistDetail(status):
@@ -57,14 +56,18 @@ struct ArtistsFeature: Reducer {
                     return .none
                 }
             case .refresh:
-                return state.search.queryString.isEmpty ? .send(.loadArtists) : .send(.search(.search(state.search.queryString)))
-            case .loadArtists:
+                return .send(.loadArtists(state.search.queryString))
+            case let .loadArtists(query):
                 Task.cancel(id: CancelID.artistsRequest)
-
                 return .run { send in
                     let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
-                        let list = try await artistsClient.fetchArtistList()
-                        return list.results
+                        if query.isEmpty {
+                            let list = try await artistsClient.fetchArtistList()
+                            return list.results
+                        } else {
+                            let list = try await artistsClient.searchArtists(query)
+                            return list
+                        }
                     }
 
                     await foreachStream(stream: stream) { state in
@@ -74,42 +77,32 @@ struct ArtistsFeature: Reducer {
                 .debounce(id: CancelID.artistsRequest, for: 0.5, scheduler: mainQueue)
                 .cancellable(id: CancelID.artistsRequest)
 
-            case let .search(.search(query)):
-                guard query != state.lastSearchResult else { return .none }
-                Task.cancel(id: CancelID.searchRequest)
-
-                guard !query.isEmpty else {
-                    return .send(.loadArtists)
-                }
-
-                return .run { [query = state.search.queryString] send in
-                    let stream = await dataAsyncStream.maker.asyncStreamState(placeholder: ArtistList.ArtistListItem.placeholder) {
-                        let list = try await artistsClient.searchArtists(query)
-                        return list
-                    }
-
-                    await foreachStream(stream: stream) { state in
-                        await send(.artistListResponse(state))
-                    }
-                }
-                .debounce(id: CancelID.searchRequest, for: 0.5, scheduler: mainQueue)
-                .cancellable(id: CancelID.searchRequest, cancelInFlight: true)
-
             case let .artistListResponse(response):
                 state.currentCollectionState = response
                 state.lastSearchResult = state.search.queryString
                 return .none
 
-            case .search(.onFilterClick):
-                return .none
-            case .search(.cleanQuery):
-                return .send(.search(.search("")))
-            default:
-                return .none
+            case let .search(action):
+                return searchReducer(into: &state, action: action)
             }
         }
         .ifLet(\.$artistDetail, action: /Action.artistDetail) {
             ArtistsDetailFeature()
+        }
+    }
+    
+    private func searchReducer(into state: inout State, action: GebbleSearchBarFeature.Action) -> Effect<Action> {
+        switch action {
+        case .delegate(.onCleanQueryClick):
+            state.search.queryString = ""
+            state.search.isFocused = false
+            return .send(.loadArtists(""))
+        case let .delegate(.onQueryChange(query)):
+            state.search.queryString = query
+            guard query != state.lastSearchResult else { return .none }
+            return .send(.loadArtists(query))
+        default:
+            return .none
         }
     }
 }
@@ -125,8 +118,6 @@ struct ArtistsView: View {
             NavigationBaseView {
                 ScrollView {
                     VStack(alignment: .leading) {
-                     
-
                         CollectionLoadingView(loadingState: viewStore.state.currentCollectionState) { items in
                             VStack {
                                 Text("Explore artist")
@@ -144,7 +135,6 @@ struct ArtistsView: View {
                                     }
                                 }
                             }
-                            
 
                         } empty: {
                             GebbleEmptyView(title: "So quient here....")
@@ -154,6 +144,9 @@ struct ArtistsView: View {
                         Spacer()
                     }
                     .offset(y: 60)
+                    .safeAreaInset(edge: .bottom, content: {
+                        EmptyView()
+                    })
                     .padding()
                     .navigationTitle("Artists")
                     .navigationBarHidden(viewStore.search.isFocused)
@@ -179,7 +172,7 @@ struct ArtistsView: View {
             .autocorrectionDisabled()
             .tint(Color.black)
             .onViewDidLoad {
-                viewStore.send(.loadArtists)
+                viewStore.send(.loadArtists(""))
             }
             .fullScreenCover(
                 store: self.store.scope(state: \.$artistDetail,

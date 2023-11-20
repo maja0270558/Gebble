@@ -19,30 +19,25 @@ extension View {
 struct GebbleSearchBarFeature: Reducer {
     struct State: Equatable {
         var queryString: String
+        var containFilterValue: Bool = false
         @BindingState var isFocused: Bool
     }
 
     enum Action: BindableAction, Equatable {
+        case delegate(Delegate)
         case binding(BindingAction<State>)
-        case search(String)
-        case cleanQuery
+    }
+    
+    enum Delegate: Equatable {
+        case onCleanQueryClick
         case onFilterClick
+        case onQueryChange(String)
     }
 
     var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
-            switch action {
-            case let .search(query):
-                state.queryString = query
-                return .none
-            case .cleanQuery:
-                state.queryString = ""
-                state.isFocused = false
-                return .none
-            default:
-                return .none
-            }
+           .none
         }
     }
 }
@@ -64,7 +59,7 @@ struct GebbleSearchBar: View {
                                   text: viewStore.binding(
                                       get: \.queryString,
                                       send: {
-                                          .search($0)
+                                          .delegate(.onQueryChange($0))
                                       })
                                       .animation(.easeInOut))
                             .focused($isFocused)
@@ -74,10 +69,11 @@ struct GebbleSearchBar: View {
 
                         if filter {
                             Button {
-                                viewStore.send(.onFilterClick)
+                                viewStore.send(.delegate(.onFilterClick))
                             } label: {
                                 Image(systemName: "line.3.horizontal.decrease.circle")
                             }
+                            .foregroundColor(viewStore.containFilterValue ? Color.brown : Color.searchGray)
                         }
 
                         Spacer()
@@ -94,7 +90,7 @@ struct GebbleSearchBar: View {
                     HStack {
                         Spacer()
                         Button {
-                            viewStore.send(.cleanQuery, animation: .easeInOut)
+                            viewStore.send(.delegate(.onCleanQueryClick), animation: .easeInOut)
                         } label: {
                             Image(systemName: "multiply.circle.fill")
                         }
