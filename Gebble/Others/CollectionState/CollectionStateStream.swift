@@ -7,7 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
-
+import Combine
 // MARK: - Dependency
 
 extension DependencyValues {
@@ -63,16 +63,13 @@ struct LivePlaceholderMaker: CollectionStateStreamMaker {
         _ body: @Sendable @escaping () async throws -> T
     ) async -> AsyncStream<CollectionLoadingState<T>> {
         let stream = AsyncStream(CollectionLoadingState<T>.self) { continuation in
-            continuation.onTermination = { state in
-                print("🍖 state: \(state)")
-            }
+      
             Task {
                 continuation.yield(.loading(placeholder: placeholder))
                 let response = await TaskResult {
                     try await body()
 
                 }
-                print("🍖🍖 data received")
 
                 switch response {
                 case let .success(data):
@@ -87,3 +84,4 @@ struct LivePlaceholderMaker: CollectionStateStreamMaker {
         return stream
     }
 }
+

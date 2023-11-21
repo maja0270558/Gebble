@@ -48,7 +48,7 @@ extension WorkshopEndpoint: Endpoint {
         case .search:
             return "workshops/search/"
         case let .detail(uuid):
-            return "workshops/\(uuid)/"
+            return "workshops/\(uuid)"
         }
     }
 
@@ -131,7 +131,7 @@ struct WorkshopDetail: Decodable, Equatable {
     var category: Int
     var poster: String
     var startDate: String
-    var dateTime: Date
+    var datetime: String
     var country: String
     var venue: String
     var content: String
@@ -146,6 +146,4 @@ struct WorkshopDetail: Decodable, Equatable {
     var info1: String
     var event: String?
     var profilePhoto: String
-    var created: Date
-    var modified: Data
 }

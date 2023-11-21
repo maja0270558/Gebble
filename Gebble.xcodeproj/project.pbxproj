@@ -11,7 +11,6 @@
 		D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8013A252AFA189200D7D9F6 /* ArtistDetailView.swift */; };
 		D8013A292AFA1A6300D7D9F6 /* ScalingHeaderScrollView in Frameworks */ = {isa = PBXBuildFile; productRef = D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */; };
 		D8013A2C2AFA1ED900D7D9F6 /* View+If.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8013A2B2AFA1ED900D7D9F6 /* View+If.swift */; };
-		D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */ = {isa = PBXBuildFile; productRef = D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */; };
 		D81BE4342AFCCC8A00F167FD /* CircleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4332AFCCC8A00F167FD /* CircleButtonStyle.swift */; };
 		D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81BE4352AFCCCB700F167FD /* View+rounded.swift */; };
 		D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */; };
@@ -43,12 +42,16 @@
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
 		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
-		D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = D87338442AF403930045B6DB /* ActivityIndicatorView */; };
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
 		D8D5BE3F2B04D4880046D6A4 /* WorkshopFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */; };
 		D8D5BE412B0B35FA0046D6A4 /* WorkshopDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE402B0B35FA0046D6A4 /* WorkshopDetailView.swift */; };
+		D8DAB7042B0B66D100ABFFA8 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = D8DAB7032B0B66D100ABFFA8 /* Nuke */; };
+		D8DAB7062B0B66D100ABFFA8 /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = D8DAB7052B0B66D100ABFFA8 /* NukeExtensions */; };
+		D8DAB7082B0B66D100ABFFA8 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8DAB7072B0B66D100ABFFA8 /* NukeUI */; };
+		D8DAB70A2B0B66D100ABFFA8 /* NukeVideo in Frameworks */ = {isa = PBXBuildFile; productRef = D8DAB7092B0B66D100ABFFA8 /* NukeVideo */; };
+		D8DAB70C2B0C571C00ABFFA8 /* PopoverClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DAB70B2B0C571C00ABFFA8 /* PopoverClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +110,7 @@
 		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
 		D8D5BE3E2B04D4880046D6A4 /* WorkshopFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopFilter.swift; sourceTree = "<group>"; };
 		D8D5BE402B0B35FA0046D6A4 /* WorkshopDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkshopDetailView.swift; sourceTree = "<group>"; };
+		D8DAB70B2B0C571C00ABFFA8 /* PopoverClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,12 +119,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */,
-				D8013A2F2AFC233A00D7D9F6 /* PagerTabStripView in Frameworks */,
-				D87338452AF403930045B6DB /* ActivityIndicatorView in Frameworks */,
 				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
+				D8DAB7062B0B66D100ABFFA8 /* NukeExtensions in Frameworks */,
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
+				D8DAB7042B0B66D100ABFFA8 /* Nuke in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 				D8013A292AFA1A6300D7D9F6 /* ScalingHeaderScrollView in Frameworks */,
+				D8DAB70A2B0B66D100ABFFA8 /* NukeVideo in Frameworks */,
+				D8DAB7082B0B66D100ABFFA8 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +242,7 @@
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
 				D81BE4422AFF7DD800F167FD /* WorkshopInterface.swift */,
 				D81BE4442AFF822800F167FD /* WorkshopLive.swift */,
+				D8DAB70B2B0C571C00ABFFA8 /* PopoverClient.swift */,
 				D820AD542AE6511D0065DB7C /* ArtistClientInterface.swift */,
 				D820AD562AE6713D0065DB7C /* ArtistClientLive.swift */,
 				D820AD602AE79B9A0065DB7C /* Colors.swift */,
@@ -309,10 +316,12 @@
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
 				D820AD672AEB67D60065DB7C /* Kingfisher */,
 				D820AD752AF243810065DB7C /* Shimmer */,
-				D87338442AF403930045B6DB /* ActivityIndicatorView */,
 				D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */,
-				D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */,
 				D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */,
+				D8DAB7032B0B66D100ABFFA8 /* Nuke */,
+				D8DAB7052B0B66D100ABFFA8 /* NukeExtensions */,
+				D8DAB7072B0B66D100ABFFA8 /* NukeUI */,
+				D8DAB7092B0B66D100ABFFA8 /* NukeVideo */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -390,10 +399,9 @@
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
-				D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */,
 				D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -438,6 +446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8DAB70C2B0C571C00ABFFA8 /* PopoverClient.swift in Sources */,
 				D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */,
 				D820AD572AE6713D0065DB7C /* ArtistClientLive.swift in Sources */,
 				D8D5BE412B0B35FA0046D6A4 /* WorkshopDetailView.swift in Sources */,
@@ -808,14 +817,6 @@
 				minimumVersion = 1.0.4;
 			};
 		};
-		D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/xmartlabs/PagerTabStripView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 		D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
@@ -848,12 +849,12 @@
 				minimumVersion = 1.4.0;
 			};
 		};
-		D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+		D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.1;
+				minimumVersion = 12.1.6;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -863,11 +864,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */;
 			productName = ScalingHeaderScrollView;
-		};
-		D8013A2E2AFC233A00D7D9F6 /* PagerTabStripView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8013A2D2AFC233A00D7D9F6 /* XCRemoteSwiftPackageReference "PagerTabStripView" */;
-			productName = PagerTabStripView;
 		};
 		D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -889,10 +885,25 @@
 			package = D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
 		};
-		D87338442AF403930045B6DB /* ActivityIndicatorView */ = {
+		D8DAB7032B0B66D100ABFFA8 /* Nuke */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D87338432AF403930045B6DB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
-			productName = ActivityIndicatorView;
+			package = D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		D8DAB7052B0B66D100ABFFA8 /* NukeExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeExtensions;
+		};
+		D8DAB7072B0B66D100ABFFA8 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		D8DAB7092B0B66D100ABFFA8 /* NukeVideo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeVideo;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

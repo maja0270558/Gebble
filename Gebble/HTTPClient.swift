@@ -67,7 +67,7 @@ extension Endpoint {
     var host: Host {
         return .dev
     }
-    
+
     var query: [URLQueryItem]? {
         return nil
     }
@@ -90,7 +90,7 @@ extension HTTPClient {
         urlComponents.host = endpoint.host.rawValue
         urlComponents.path = "\(endpoint.host.envPath)\(endpoint.path)"
         urlComponents.queryItems = endpoint.query
-        
+
         guard let url = urlComponents.url else {
             throw RequestError.invalidURL
         }
@@ -108,17 +108,20 @@ extension HTTPClient {
             guard let response = response as? HTTPURLResponse else {
                 throw RequestError.noResponse
             }
+            #if DEBUG
+            print(" - RESPONSE")
+            print("  - \(response.url?.absoluteString ?? "")")
+            print("   - \(response.statusCode)")
+            #endif
             switch response.statusCode {
             case 200 ... 299:
-                guard let decodedResponse = try? decoder.decode(responseModel, from: data) else {
-                    throw RequestError.decode
-                }
-                
-                #if DEBUG
-                if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
+                let decodedResponse = try decoder.decode(responseModel, from: data)
+
+//                #if DEBUG
+//                if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
 //                   print("Json parsing done 🍖")
-                }
-                #endif
+//                }
+//                #endif
 
                 return decodedResponse
 
@@ -127,7 +130,8 @@ extension HTTPClient {
             default:
                 throw RequestError.unexpectedStatusCode
             }
-        } catch  {
+        } catch {
+            print(error)
             throw RequestError.unknown
         }
     }

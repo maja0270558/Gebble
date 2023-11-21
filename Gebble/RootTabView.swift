@@ -16,18 +16,21 @@ enum Tab {
 }
 
 struct AppFeature: Reducer {
+    @Dependency(\.popoverClient) var popover
+    
     struct State: Equatable {
+        var popover: PopoverValue
         var artistsTab = ArtistsFeature.State()
         var workshopTab = WorkshopFeature.State()
-
         var selectedTab: Tab = .artists
     }
 
     enum Action: Equatable {
         case artistsTab(ArtistsFeature.Action)
         case workshopTab(WorkshopFeature.Action)
-
         case selectedTabChanged(Tab)
+        case popoverResponse(PopoverValue)
+        case task
     }
 
     var body: some ReducerOf<Self> {
@@ -41,10 +44,19 @@ struct AppFeature: Reducer {
 
         Reduce<State, Action> { state, action in
             switch action {
+            case .task:
+                return .run { send in
+                    for await value in popover.values() {
+                        await send(.popoverResponse(value))
+                    }
+                }
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
             case .artistsTab, .workshopTab:
+                return .none
+            case let .popoverResponse(response):
+                state.popover = response
                 return .none
             }
         }
@@ -101,6 +113,7 @@ struct RootTabView: View {
                 .toolbarColorScheme(.light, for: .tabBar)
                 .tint(Color.black)
             }
+            
         }
     }
 }
@@ -108,7 +121,7 @@ struct RootTabView: View {
 #Preview {
     RootTabView(
         store: Store(
-            initialState: AppFeature.State(),
+            initialState: AppFeature.State(popover: nil),
             reducer: {
                 AppFeature()
             }
