@@ -14,7 +14,7 @@ struct GebbleApp: App {
         WindowGroup {
             RootTabView(
                 store: Store(
-                    initialState: AppFeature.State(popover: nil),
+                    initialState: AppFeature.State(),
                     reducer: {
                         AppFeature()
                     }

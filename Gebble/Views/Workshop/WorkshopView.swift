@@ -12,6 +12,9 @@ struct WorkshopFeature: Reducer {
     @Dependency(\.workshopClient) var workshopClient
     @Dependency(\.collectionStateStreamMaker) var dataAsyncStream
     @Dependency(\.mainQueue) private var mainQueue
+
+    @Dependency(\.popoverClient) private var popover
+
     typealias WorkshopsResult = CollectionLoadingState<[WorkshopList.WorkshopListItem]>
     private enum CancelID { case workshopRequest }
 
@@ -31,6 +34,7 @@ struct WorkshopFeature: Reducer {
         case initLoad
         case listResponse(WorkshopsResult)
         case refresh
+        case workshopItemTaped(String)
     }
 
     var body: some ReducerOf<Self> {
@@ -76,6 +80,10 @@ struct WorkshopFeature: Reducer {
                 return searchReducer(into: &state, action: action)
             case let .filter(action):
                 return filterReducer(into: &state, action: action)
+            case .workshopItemTaped:
+//                popover.setValue(.login(.init()))
+                popover.setValue(.message(.init()))
+                return .none
             }
         }
         .ifLet(\.$filter, action: /Action.filter) {
@@ -152,7 +160,7 @@ struct WorkshopView: View {
                                                         title: workshop.title,
                                                         flag: workshop.country)
                                             .onTapGesture {
-                                                //                                            viewStore.send(.clickArtist(artist.username))
+                                                viewStore.send(.workshopItemTaped(workshop.title))
                                             }
                                     }
                                 }

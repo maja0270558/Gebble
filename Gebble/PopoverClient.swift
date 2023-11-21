@@ -16,14 +16,6 @@ extension DependencyValues {
     }
 }
 
-enum PopoverType: Equatable {
-    case error
-    case login
-    case message
-}
-
-typealias PopoverValue = PopoverType?
-
 struct PopoverClient: Sendable {
     var setValue: @Sendable (PopoverValue) -> Void
     var values: @Sendable () -> AsyncStream<PopoverValue>
