@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct GebbleCell: View {
     var image: String
@@ -21,14 +20,9 @@ struct GebbleCell: View {
         ZStack {
             Color.base.shadow(radius: 2, x: 1, y: 1)
             VStack(alignment: .leading, spacing: 2) {
-                KFImage(imageURL)
-                    .placeholder {
-                        Image(systemName: "person")
-                            .resizable()
-                            .redacted(reason: .placeholder)
-                    }
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fill)
+                
+                GebbleImage(url: image)
+                    .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(10)
 
                 HStack {

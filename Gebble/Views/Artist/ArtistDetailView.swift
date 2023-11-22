@@ -6,7 +6,6 @@
 //
 
 import ComposableArchitecture
-import Kingfisher
 import ScalingHeaderScrollView
 import SwiftUI
 import YouTubePlayerKit
@@ -147,17 +146,14 @@ struct ArtistDetailView: View {
     private var header: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             ZStack {
-                KFImage(URL(string: viewStore.state.portfolios?.cover ?? ""))
-                    .placeholder {
-                        Image(systemName: "person")
-                            .resizable()
-                            .redacted(reason: .placeholder)
-                    }
-                    .resizable()
+                
+                GebbleImage(url: viewStore.state.portfolios?.cover)
                     .aspectRatio(contentMode: .fill)
                     .clipped()
                     .cornerRadius(20)
                     .frame(minHeight: maxHeight)
+
+               
 
                 LinearGradient(colors: [.clear, .clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
 

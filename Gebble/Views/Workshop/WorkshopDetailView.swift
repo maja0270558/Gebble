@@ -6,12 +6,9 @@
 //
 
 import ComposableArchitecture
-import Kingfisher
 import ScalingHeaderScrollView
 import SwiftUI
 import YouTubePlayerKit
-import Nuke
-import NukeUI
 
 struct WorkshopDetailFeature: Reducer {
     @Dependency(\.workshopClient) var workshopClient
@@ -68,62 +65,93 @@ struct WorkshopDetailView: View {
 
     @Namespace var animation
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             ZStack {
                 Color.base.ignoresSafeArea()
 
                 ScrollView {
-                    VStack {
+                    LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
                         
-                        KFImage(URL(string: "\(viewStore.state.detail?.poster ?? "")"))
-                          .resizable()
-                          .scaledToFill()
-                          .cornerRadius(20, corners: .allCorners)
+                        GebbleImage(url: viewStore.state.detail?.poster)
+                            .scaledToFill()
+                            .background(.white)
+                            .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
+                            .shadow(radius: 5)
+
+
+                        Section {
+                            Group {
+                                HStack {
+                                    Image(systemName: "person")
+                                    Text("\(viewStore.state.detail?.name1 ?? "")")
+                                }
+
+                                HStack {
+                                    HStack {
+                                        Image(systemName: "calendar")
+                                        Text("\(viewStore.state.detail?.startDate ?? "") \(viewStore.state.detail?.datetime ?? "")")
+                                    }
+
+                                    HStack {
+                                        Image(systemName: "mappin.and.ellipse")
+                                        Text("\(viewStore.state.detail?.country ?? "") \(viewStore.state.detail?.venue ?? "")")
+                                    }
+                                }
+                            }.padding(.horizontal)
                           
-                     
-
-                        Text("Title")
-                            .font(.callout)
-                        HStack {
-                            Text("\(viewStore.state.detail?.title ?? "")")
-                                .font(.title.bold())
+                        } header: {
+                            HStack {
+                                Text("\(viewStore.state.detail?.title ?? "")")
+                                    .font(.title.bold())
+                                    Spacer()
+                            }
+                            .padding()
+                            .background(Color.base)
                         }
 
-                        Text("Date")
-                            .font(.callout)
-
-                        HStack {
-                            Text("\(viewStore.state.detail?.startDate ?? "")")
-                                .font(.title.bold())
+                        Section {
+                            HStack {
+                                Text("\(viewStore.state.detail?.content ?? "")")
+                                    .padding()
+                                    .placeholder(isLoading) {
+                                        Text.textPlaceholder()
+                                    }
+                            }
+                            
+                        } header: {
+                            HStack {
+                                Text("About the workshop")
+                                    .font(.title.bold())
+                                    Spacer()
+                            }
+                            .padding()
+                            .background(Color.base)
+                            
                         }
-
-                        Text("content")
-                            .font(.callout)
-
-                        HStack {
-                            Text("\(viewStore.state.detail?.content ?? "")")
-                                .font(.title.bold())
-                        }
-
                         Spacer()
                     }
                 }
+                .placeholder(isLoading)
+                
                 .safeAreaInset(edge: .bottom, content: {
                     Button(action: {
                         viewStore.send(.attendWorkshoptaped)
                     }, label: {
-                        Text("Get code")
+                        Text("Register")
+                            .bold()
                             .frame(height: 65)
                             .frame(maxWidth: .infinity)
                             .background(.brown)
-                            .cornerRadius(20, corners: .allCorners)
+                            .foregroundColor(.white)
+                            .cornerRadius(12, corners: .allCorners)
                             .padding()
                     })
+                    
                 })
-                .padding(.horizontal, 20)
             }
+            .navigationTitle("\(viewStore.detail?.name1 ?? "")")
             .onAppear {
                 Task {
                     isLoading = true
@@ -137,13 +165,7 @@ struct WorkshopDetailView: View {
     private var header: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             ZStack {
-                KFImage(URL(string: viewStore.state.detail?.poster ?? ""))
-                    .placeholder {
-                        Image(systemName: "person")
-                            .resizable()
-                            .redacted(reason: .placeholder)
-                    }
-                    .resizable()
+                GebbleImage(url: viewStore.state.detail?.poster)
                     .aspectRatio(contentMode: .fill)
                     .clipped()
                     .cornerRadius(20)
@@ -307,25 +329,7 @@ struct WorkshopDetailView: View {
 
 #Preview {
     WorkshopDetailView(
-        store: .init(initialState: WorkshopDetailFeature.State(fetchWorkshopId: "5b65ff41-c880-497f-a9a5-5e4f9b0b48ff"),
-                     reducer: {
-                         WorkshopDetailFeature()
-                     })
-    )
-}
-
-#Preview("2") {
-    WorkshopDetailView(
-        store: .init(initialState: WorkshopDetailFeature.State(fetchWorkshopId: "f8b11400-d4c7-4411-baaf-8f73de98e798"),
-                     reducer: {
-                         WorkshopDetailFeature()
-                     })
-    )
-}
-
-#Preview("3") {
-    WorkshopDetailView(
-        store: .init(initialState: WorkshopDetailFeature.State(fetchWorkshopId: "f455db5f-972b-40cd-867b-de8be31a25a2"),
+        store: .init(initialState: WorkshopDetailFeature.State(fetchWorkshopId: "e18df064-bb6c-48b3-86b8-d91eb000b5eb"),
                      reducer: {
                          WorkshopDetailFeature()
                      })

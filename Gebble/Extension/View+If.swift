@@ -48,7 +48,7 @@ extension Text {
                     Text("\(UUID().uuidString)").redacted(reason: .placeholder).shimmering()
                 }
             }
-            .padding(24)
+            .padding(12)
             .frame(maxWidth: .infinity)
         }
     }

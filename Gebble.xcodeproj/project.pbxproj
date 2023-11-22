@@ -36,7 +36,6 @@
 		D820AD5F2AE79AC00065DB7C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D820AD5E2AE79AC00065DB7C /* Colors.xcassets */; };
 		D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD602AE79B9A0065DB7C /* Colors.swift */; };
 		D820AD652AE7A2380065DB7C /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD642AE7A2380065DB7C /* ArtistsView.swift */; };
-		D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD672AEB67D60065DB7C /* Kingfisher */; };
 		D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD6E2AEF8E410065DB7C /* CollectionLoadingState.swift */; };
 		D820AD712AF235B90065DB7C /* CollectionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD702AF235B90065DB7C /* CollectionStateView.swift */; };
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
@@ -44,6 +43,7 @@
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
 		D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = D8AC27F52B0C8A9F001E746D /* Popovers */; };
 		D8C594022B0D06EF009EC5A3 /* StateShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594012B0D06EF009EC5A3 /* StateShare.swift */; };
+		D8C594042B0E05EB009EC5A3 /* GebbleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594032B0E05EB009EC5A3 /* GebbleImage.swift */; };
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
@@ -108,6 +108,7 @@
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
 		D8C594012B0D06EF009EC5A3 /* StateShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateShare.swift; sourceTree = "<group>"; };
+		D8C594032B0E05EB009EC5A3 /* GebbleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleImage.swift; sourceTree = "<group>"; };
 		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
 		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
 		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 				D81BE43B2AFCFD9200F167FD /* YouTubePlayerKit in Frameworks */,
 				D820AD762AF243810065DB7C /* Shimmer in Frameworks */,
 				D8DAB7062B0B66D100ABFFA8 /* NukeExtensions in Frameworks */,
-				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
 				D8DAB7042B0B66D100ABFFA8 /* Nuke in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
 				D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */,
@@ -297,6 +297,7 @@
 			children = (
 				D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */,
 				D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */,
+				D8C594032B0E05EB009EC5A3 /* GebbleImage.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -319,7 +320,6 @@
 			name = Gebble;
 			packageProductDependencies = (
 				D820AD592AE674430065DB7C /* ComposableArchitecture */,
-				D820AD672AEB67D60065DB7C /* Kingfisher */,
 				D820AD752AF243810065DB7C /* Shimmer */,
 				D8013A282AFA1A6300D7D9F6 /* ScalingHeaderScrollView */,
 				D81BE43A2AFCFD9200F167FD /* YouTubePlayerKit */,
@@ -403,7 +403,6 @@
 			mainGroup = D820AD1C2AE641840065DB7C;
 			packageReferences = (
 				D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
@@ -469,6 +468,7 @@
 				D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
+				D8C594042B0E05EB009EC5A3 /* GebbleImage.swift in Sources */,
 				D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */,
 				D820AD532AE64F050065DB7C /* HTTPClient.swift in Sources */,
 				D81BE4432AFF7DD800F167FD /* WorkshopInterface.swift in Sources */,
@@ -841,14 +841,6 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.9.1;
-			};
-		};
 		D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
@@ -890,11 +882,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820AD582AE674430065DB7C /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		D820AD672AEB67D60065DB7C /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D820AD662AEB67D60065DB7C /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		D820AD752AF243810065DB7C /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;

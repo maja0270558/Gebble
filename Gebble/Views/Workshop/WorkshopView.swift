@@ -24,7 +24,6 @@ struct WorkshopFeature: Reducer {
         var currentCollectionState: WorkshopsResult = .unload
         var lastSearchValue: Action = .initLoad
         @PresentationState var detail: WorkshopDetailFeature.State?
-
     }
 
     enum Action: Equatable {
@@ -36,7 +35,6 @@ struct WorkshopFeature: Reducer {
         case refresh
         case workshopItemTaped(String)
         case detail(PresentationAction<WorkshopDetailFeature.Action>)
-
     }
 
     var body: some ReducerOf<Self> {
@@ -213,7 +211,10 @@ struct WorkshopView: View {
             .sheet(store: self.store.scope(state: \.$detail,
                                            action: { .detail($0) }),
                    content: { store in
-                       WorkshopDetailView(store: store)
+                       NavigationStack {
+                           WorkshopDetailView(store: store)
+                               .toolbar(.hidden, for: .navigationBar)
+                       }
                    })
             .onViewDidLoad {
                 viewStore.send(.initLoad)

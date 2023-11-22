@@ -5,7 +5,6 @@
 //  Created by DjangoLin on 2023/11/11.
 //
 
-import Kingfisher
 import SwiftUI
 
 struct GebbleImageCell: View {
@@ -19,22 +18,10 @@ struct GebbleImageCell: View {
 
     var body: some View {
         ZStack {
-            VStack {
-                
-                GeometryReader { proxy in
-                    KFImage(imageURL)
-                        .placeholder {
-                            Image(systemName: "person")
-                                .resizable()
-                                .redacted(reason: .placeholder)
-                        }
-                        .scaledToFit()
-                        .frame(width: proxy.size.width)
-                        .frame(width: proxy.size.width, height: proxy.size.height)
+            GebbleImage(url: image)
+                .aspectRatio(1, contentMode: .fit)
 
-                }
-            }
-
+            
             LinearGradient(colors: [.clear, .clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom)
 
             VStack {
