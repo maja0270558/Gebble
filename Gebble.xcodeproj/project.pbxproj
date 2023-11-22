@@ -42,6 +42,8 @@
 		D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */; };
 		D820AD762AF243810065DB7C /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D820AD752AF243810065DB7C /* Shimmer */; };
 		D820AD782AF272750065DB7C /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */; };
+		D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = D8AC27F52B0C8A9F001E746D /* Popovers */; };
+		D8C594022B0D06EF009EC5A3 /* StateShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594012B0D06EF009EC5A3 /* StateShare.swift */; };
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
@@ -105,6 +107,7 @@
 		D820AD702AF235B90065DB7C /* CollectionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateView.swift; sourceTree = "<group>"; };
 		D820AD722AF240FC0065DB7C /* CollectionStateStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionStateStream.swift; sourceTree = "<group>"; };
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
+		D8C594012B0D06EF009EC5A3 /* StateShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateShare.swift; sourceTree = "<group>"; };
 		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
 		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
 		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 				D820AD682AEB67D60065DB7C /* Kingfisher in Frameworks */,
 				D8DAB7042B0B66D100ABFFA8 /* Nuke in Frameworks */,
 				D820AD5A2AE674430065DB7C /* ComposableArchitecture in Frameworks */,
+				D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */,
 				D8013A292AFA1A6300D7D9F6 /* ScalingHeaderScrollView in Frameworks */,
 				D8DAB70A2B0B66D100ABFFA8 /* NukeVideo in Frameworks */,
 				D8DAB7082B0B66D100ABFFA8 /* NukeUI in Frameworks */,
@@ -237,6 +241,7 @@
 				D820AD282AE641840065DB7C /* GebbleApp.swift */,
 				D820AD2A2AE641840065DB7C /* ContentView.swift */,
 				D820AD5B2AE67A430065DB7C /* RootTabView.swift */,
+				D8C594012B0D06EF009EC5A3 /* StateShare.swift */,
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
@@ -322,6 +327,7 @@
 				D8DAB7052B0B66D100ABFFA8 /* NukeExtensions */,
 				D8DAB7072B0B66D100ABFFA8 /* NukeUI */,
 				D8DAB7092B0B66D100ABFFA8 /* NukeVideo */,
+				D8AC27F52B0C8A9F001E746D /* Popovers */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -402,6 +408,7 @@
 				D8013A272AFA1A6300D7D9F6 /* XCRemoteSwiftPackageReference "ScalingHeaderScrollView" */,
 				D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */,
+				D8AC27F42B0C8A9F001E746D /* XCRemoteSwiftPackageReference "Popovers" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -474,6 +481,7 @@
 				D8013A2C2AFA1ED900D7D9F6 /* View+If.swift in Sources */,
 				D820AD6F2AEF8E410065DB7C /* CollectionLoadingState.swift in Sources */,
 				D8D5BE3F2B04D4880046D6A4 /* WorkshopFilter.swift in Sources */,
+				D8C594022B0D06EF009EC5A3 /* StateShare.swift in Sources */,
 				D820AD552AE6511D0065DB7C /* ArtistClientInterface.swift in Sources */,
 				D81BE44B2AFF914700F167FD /* GebbleImageCell.swift in Sources */,
 			);
@@ -849,6 +857,14 @@
 				minimumVersion = 1.4.0;
 			};
 		};
+		D8AC27F42B0C8A9F001E746D /* XCRemoteSwiftPackageReference "Popovers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/Popovers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.2;
+			};
+		};
 		D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
@@ -884,6 +900,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D820AD742AF243810065DB7C /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		D8AC27F52B0C8A9F001E746D /* Popovers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8AC27F42B0C8A9F001E746D /* XCRemoteSwiftPackageReference "Popovers" */;
+			productName = Popovers;
 		};
 		D8DAB7032B0B66D100ABFFA8 /* Nuke */ = {
 			isa = XCSwiftPackageProductDependency;

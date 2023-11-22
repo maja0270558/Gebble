@@ -8,63 +8,9 @@
 import ComposableArchitecture
 import SwiftUI
 
-typealias PopoverValue = RootPopoverFeature.State?
-
-struct LoginFeature: Reducer {
-    struct State: Equatable {
-        var userName: String = ""
-        var password: String = ""
-    }
-
-    enum Action: Equatable {
-        case signinButtonTaped
-    }
-
-    var body: some ReducerOf<Self> {
-        Reduce<State, Action> { _, _ in
-            .none
-        }
-    }
-}
-
-struct MessageFeature: Reducer {
-    struct State: Equatable {
-        var title: String = ""
-    }
-
-    enum Action: Equatable {
-    }
-
-    var body: some ReducerOf<Self> {
-        Reduce<State, Action> { _, _ in
-            .none
-        }
-    }
-}
-
-struct RootPopoverFeature: Reducer {
-    enum State: Equatable {
-        case login(LoginFeature.State)
-        case message(MessageFeature.State)
-    }
-
-    enum Action: Equatable {
-        case login(LoginFeature.Action)
-        case message(MessageFeature.Action)
-
-    }
-
-    var body: some Reducer<State, Action> {
-        Scope(state: /State.login, action: /Action.login) {
-            LoginFeature()
-        }
-        Scope(state: /State.message, action: /Action.message) {
-            MessageFeature()
-        }
-    }
-}
-
 struct AppFeature: Reducer {
+    @Dependency(\.sharedState) var globalStateClient
+    
     enum Tab: Equatable {
         case artists
         case workshop
@@ -72,10 +18,8 @@ struct AppFeature: Reducer {
         case account
     }
 
-    @Dependency(\.popoverClient) var popover
-
     struct State: Equatable {
-        @PresentationState var popover: RootPopoverFeature.State? = nil
+        @PresentationState var loginView: LoginFeature.State?
 
         var artistsTab = ArtistsFeature.State()
         var workshopTab = WorkshopFeature.State()
@@ -83,12 +27,13 @@ struct AppFeature: Reducer {
     }
 
     enum Action: Equatable {
-        case popover(PresentationAction<RootPopoverFeature.Action>)
+        
         case artistsTab(ArtistsFeature.Action)
         case workshopTab(WorkshopFeature.Action)
         case selectedTabChanged(Tab)
-        case popoverResponse(PopoverValue)
         case task
+        case loginViewPresent(Bool)
+        case loginView(PresentationAction<LoginFeature.Action>)
     }
 
     var body: some ReducerOf<Self> {
@@ -102,40 +47,42 @@ struct AppFeature: Reducer {
 
         Reduce<State, Action> { state, action in
             switch action {
-            case .popover(.dismiss):
-                popover.setValue(nil)
-                return .none
-            case .task:
-                return .run { send in
-                    for await value in popover.values() {
-                        await send(.popoverResponse(value))
-                    }
-                }
+           
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
             case .artistsTab, .workshopTab:
                 return .none
-            case let .popoverResponse(response):
-                state.popover = response
+                
+                
+            // MARK: - Login View
+            case .task:
+                return subscribe(
+                    to: globalStateClient.globalStore,
+                    keyPath: \.loginViewPresent,
+                    action: Action.loginViewPresent
+                )
+            case let .loginViewPresent(open):
+                state.loginView = open ? LoginFeature.State() : nil
                 return .none
-            case .popover:
+            case let .loginView(present):
+                globalStateClient.update(
+                    \.globalStore,
+                     action: .loginViewPresent(present != .dismiss)
+                )
                 return .none
             }
         }
-        .ifLet(\.$popover, action: /Action.popover) {
-            RootPopoverFeature()
+        .ifLet(\.$loginView, action: /Action.loginView) {
+            LoginFeature()
         }
     }
 }
 
 struct RootTabView: View {
     let store: StoreOf<AppFeature>
-    @Dependency(\.popoverClient) var popover
-
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-
             TabView(
                 selection: viewStore.binding(get: { $0.selectedTab }, send: { .selectedTabChanged($0) })
             ) {
@@ -183,17 +130,13 @@ struct RootTabView: View {
                 .toolbarColorScheme(.light, for: .tabBar)
                 .tint(Color.black)
             }
-    
             .sheet(
                 store: self.store.scope(
-                    state: \.$popover,
-                    action: { .popover($0) }
-                ),
-                state: /RootPopoverFeature.State.login,
-                action: RootPopoverFeature.Action.login
+                    state: \.$loginView,
+                    action: { .loginView($0) }
+                )
             ) { _ in
-                Text("placeholder").onTapGesture {
-                    popover.setValue(nil)
+                Text("Login").onTapGesture {
                 }
             }
             .task {
@@ -208,7 +151,9 @@ struct RootTabView: View {
         store: Store(
             initialState: AppFeature.State(),
             reducer: {
-                AppFeature()._printChanges()
+                AppFeature()
+//                    .dependency(\.sharedState, .mock)
+                    ._printChanges()
             }
         )
     )

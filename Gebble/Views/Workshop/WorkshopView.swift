@@ -13,8 +13,6 @@ struct WorkshopFeature: Reducer {
     @Dependency(\.collectionStateStreamMaker) var dataAsyncStream
     @Dependency(\.mainQueue) private var mainQueue
 
-    @Dependency(\.popoverClient) private var popover
-
     typealias WorkshopsResult = CollectionLoadingState<[WorkshopList.WorkshopListItem]>
     private enum CancelID { case workshopRequest }
 
@@ -81,8 +79,6 @@ struct WorkshopFeature: Reducer {
             case let .filter(action):
                 return filterReducer(into: &state, action: action)
             case .workshopItemTaped:
-//                popover.setValue(.login(.init()))
-                popover.setValue(.message(.init()))
                 return .none
             }
         }
