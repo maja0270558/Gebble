@@ -6,11 +6,12 @@
 //
 
 import ComposableArchitecture
+import Popovers
 import SwiftUI
 
 struct AppFeature: Reducer {
     @Dependency(\.sharedState) var globalStateClient
-    
+
     enum Tab: Equatable {
         case artists
         case workshop
@@ -20,19 +21,19 @@ struct AppFeature: Reducer {
 
     struct State: Equatable {
         @PresentationState var loginView: LoginFeature.State?
-
+        var present: Bool = false
         var artistsTab = ArtistsFeature.State()
         var workshopTab = WorkshopFeature.State()
         var selectedTab: Tab = .artists
     }
 
     enum Action: Equatable {
-        
         case artistsTab(ArtistsFeature.Action)
         case workshopTab(WorkshopFeature.Action)
         case selectedTabChanged(Tab)
         case task
         case loginViewPresent(Bool)
+        case updateLogin(Bool)
         case loginView(PresentationAction<LoginFeature.Action>)
     }
 
@@ -47,15 +48,14 @@ struct AppFeature: Reducer {
 
         Reduce<State, Action> { state, action in
             switch action {
-           
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
             case .artistsTab, .workshopTab:
                 return .none
-                
-                
+
             // MARK: - Login View
+
             case .task:
                 return subscribe(
                     to: globalStateClient.globalStore,
@@ -63,13 +63,21 @@ struct AppFeature: Reducer {
                     action: Action.loginViewPresent
                 )
             case let .loginViewPresent(open):
-                state.loginView = open ? LoginFeature.State() : nil
+                state.present = open
+//                state.loginView = open ? LoginFeature.State() : nil
                 return .none
-            case let .loginView(present):
+            case let .updateLogin(value):
                 globalStateClient.update(
                     \.globalStore,
-                     action: .loginViewPresent(present != .dismiss)
+                    action: .loginViewPresent(value)
                 )
+                return .none
+
+            case let .loginView(present):
+//                globalStateClient.update(
+//                    \.globalStore,
+//                     action: .loginViewPresent(present != .dismiss)
+//                )
                 return .none
             }
         }
@@ -130,14 +138,68 @@ struct RootTabView: View {
                 .toolbarColorScheme(.light, for: .tabBar)
                 .tint(Color.black)
             }
-            .sheet(
-                store: self.store.scope(
-                    state: \.$loginView,
-                    action: { .loginView($0) }
+            .popover(present: .init(get: {
+                viewStore.present
+            }, set: { value in
+                viewStore.send(.updateLogin(value))
+            }),
+            attributes: {
+                $0.position = .relative(
+                    popoverAnchors: [
+                        .center,
+                    ]
                 )
-            ) { _ in
-                Text("Login").onTapGesture {
+
+                let animation = Animation.spring(
+                    response: 0.6,
+                    dampingFraction: 0.8,
+                    blendDuration: 1
+                )
+                let transition = AnyTransition.move(edge: .bottom).combined(with: .opacity)
+
+                $0.presentation.animation = animation
+                $0.presentation.transition = transition
+                $0.dismissal.mode = [.dragDown, .tapOutside]
+            }) { /// here!
+                HStack {
+                    VStack {
+                        Text(
+                            """
+                            To login use any email and "password" for the password. If your email contains the \
+                            characters "2fa" you will be taken to a two-factor flow, and on that screen you can \
+                            use "1234" for the code.
+                            """
+                        )
+
+                        Section {
+                            TextField("blob@pointfree.co", text: .constant("viewStore.$email"))
+                                .autocapitalization(.none)
+                                .keyboardType(.emailAddress)
+                                .textContentType(.emailAddress)
+
+                            SecureField("••••••••", text: .constant("viewStore.$password"))
+                        }
+
+                        Button {
+                            // NB: SwiftUI will print errors to the console about "AttributeGraph: cycle detected" if
+                            //     you disable a text field while it is focused. This hack will force all fields to
+                            //     unfocus before we send the action to the view store.
+                            // CF: https://stackoverflow.com/a/69653555
+                            _ = UIApplication.shared.sendAction(
+                                #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                            )
+//                            viewStore.send(.loginButtonTapped)
+                        } label: {
+                            HStack {
+                                Text("Log in")
+                            }
+                        }
+                    }
+                    .padding()
                 }
+                .background(Color.base)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .shadow(radius: 10)
             }
             .task {
                 await viewStore.send(.task).finish()

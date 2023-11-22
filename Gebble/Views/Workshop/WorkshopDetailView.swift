@@ -16,7 +16,7 @@ import NukeUI
 struct WorkshopDetailFeature: Reducer {
     @Dependency(\.workshopClient) var workshopClient
     @Dependency(\.mainQueue) private var mainQueue
-
+    @Dependency(\.sharedState) var shareStateClient
     struct State: Equatable {
         var fetchWorkshopId: String
         var detail: WorkshopDetail?
@@ -24,6 +24,7 @@ struct WorkshopDetailFeature: Reducer {
 
     enum Action: Equatable {
         case closeButtonClick
+        case attendWorkshoptaped
         case load
         case detailResponse(TaskResult<WorkshopDetail>)
     }
@@ -49,6 +50,9 @@ struct WorkshopDetailFeature: Reducer {
 
         case .closeButtonClick:
             return .none
+        case .attendWorkshoptaped:
+            shareStateClient.update(\.globalStore, action: .loginViewPresent(true))
+            return .none
         }
     }
 }
@@ -73,24 +77,6 @@ struct WorkshopDetailView: View {
                 ScrollView {
                     VStack {
                         
-                        AsyncImage(url: URL(string: "\(viewStore.state.detail?.poster ?? "")"  ), content: { image in
-                                   image.cornerRadius(20, corners: .allCorners)
-
-                               }, placeholder: {
-                                   ProgressView()
-                               })
-                        .scaledToFill()
-                        .cornerRadius(20, corners: .allCorners)
-                        
-                        LazyImage(url: URL(string: "\(viewStore.state.detail?.poster ?? "")"  )) {
-                            state in
-                            if let image = state.image {
-                                image.resizable()
-                                    .scaledToFill()
-                                    .cornerRadius(500, corners: .allCorners)
-                            }
-                        }
-                       
                         KFImage(URL(string: "\(viewStore.state.detail?.poster ?? "")"))
                           .resizable()
                           .scaledToFill()
@@ -124,6 +110,18 @@ struct WorkshopDetailView: View {
                         Spacer()
                     }
                 }
+                .safeAreaInset(edge: .bottom, content: {
+                    Button(action: {
+                        viewStore.send(.attendWorkshoptaped)
+                    }, label: {
+                        Text("Get code")
+                            .frame(height: 65)
+                            .frame(maxWidth: .infinity)
+                            .background(.brown)
+                            .cornerRadius(20, corners: .allCorners)
+                            .padding()
+                    })
+                })
                 .padding(.horizontal, 20)
             }
             .onAppear {

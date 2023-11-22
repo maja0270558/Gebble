@@ -23,6 +23,8 @@ struct WorkshopFeature: Reducer {
         var currentFilter: WorkshopFilterValue = WorkshopFilter.initFilter
         var currentCollectionState: WorkshopsResult = .unload
         var lastSearchValue: Action = .initLoad
+        @PresentationState var detail: WorkshopDetailFeature.State?
+
     }
 
     enum Action: Equatable {
@@ -33,6 +35,8 @@ struct WorkshopFeature: Reducer {
         case listResponse(WorkshopsResult)
         case refresh
         case workshopItemTaped(String)
+        case detail(PresentationAction<WorkshopDetailFeature.Action>)
+
     }
 
     var body: some ReducerOf<Self> {
@@ -78,12 +82,18 @@ struct WorkshopFeature: Reducer {
                 return searchReducer(into: &state, action: action)
             case let .filter(action):
                 return filterReducer(into: &state, action: action)
-            case .workshopItemTaped:
+            case let .workshopItemTaped(uuid):
+                state.detail = .init(fetchWorkshopId: uuid)
+                return .none
+            case .detail:
                 return .none
             }
         }
         .ifLet(\.$filter, action: /Action.filter) {
             WorkshopFilterFeature()
+        }
+        .ifLet(\.$detail, action: /Action.detail) {
+            WorkshopDetailFeature()
         }
     }
 
@@ -152,12 +162,13 @@ struct WorkshopView: View {
 
                                 LazyVGrid(columns: gridItemLayout, spacing: 4) {
                                     ForEach(items, id: \.id) { workshop in
-                                        GebbleImageCell(image: workshop.poster,
-                                                        title: workshop.title,
-                                                        flag: workshop.country)
-                                            .onTapGesture {
-                                                viewStore.send(.workshopItemTaped(workshop.title))
-                                            }
+                                        Button {
+                                            viewStore.send(.workshopItemTaped(workshop.uuid))
+                                        } label: {
+                                            GebbleImageCell(image: workshop.poster,
+                                                            title: workshop.title,
+                                                            flag: workshop.country)
+                                        }
                                     }
                                 }
                             }
@@ -198,6 +209,11 @@ struct WorkshopView: View {
                                            action: { .filter($0) }),
                    content: { store in
                        WorkshopFilter(store: store)
+                   })
+            .sheet(store: self.store.scope(state: \.$detail,
+                                           action: { .detail($0) }),
+                   content: { store in
+                       WorkshopDetailView(store: store)
                    })
             .onViewDidLoad {
                 viewStore.send(.initLoad)
