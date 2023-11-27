@@ -15,26 +15,27 @@ struct AppFeature: Reducer {
     enum Tab: Equatable {
         case artists
         case workshop
-        case home
         case account
     }
 
     struct State: Equatable {
-        @PresentationState var loginView: LoginFeature.State?
-        var present: Bool = false
+        var loginPresent: Bool = false
         var artistsTab = ArtistsFeature.State()
         var workshopTab = WorkshopFeature.State()
+        var accountTab = AccountFeature.State()
+
         var selectedTab: Tab = .artists
     }
 
     enum Action: Equatable {
         case artistsTab(ArtistsFeature.Action)
         case workshopTab(WorkshopFeature.Action)
+        case accountTab(AccountFeature.Action)
+
         case selectedTabChanged(Tab)
         case task
         case loginViewPresent(Bool)
-        case updateLogin(Bool)
-        case loginView(PresentationAction<LoginFeature.Action>)
+        case updateLoginViewPresent(Bool)
     }
 
     var body: some ReducerOf<Self> {
@@ -57,32 +58,24 @@ struct AppFeature: Reducer {
             // MARK: - Login View
 
             case .task:
+                /// subscribe global state sync to `AppFeature.State` through `loginViewPresent`
                 return subscribe(
                     to: globalStateClient.globalStore,
                     keyPath: \.loginViewPresent,
                     action: Action.loginViewPresent
                 )
-            case let .loginViewPresent(open):
-                state.present = open
-//                state.loginView = open ? LoginFeature.State() : nil
-                return .none
-            case let .updateLogin(value):
+            case let .updateLoginViewPresent(value):
+                /// update global state
                 globalStateClient.update(
                     \.globalStore,
                     action: .loginViewPresent(value)
                 )
                 return .none
-
-            case let .loginView(present):
-//                globalStateClient.update(
-//                    \.globalStore,
-//                     action: .loginViewPresent(present != .dismiss)
-//                )
+            case let .loginViewPresent(open):
+                /// This state will open login view
+                state.loginPresent = open
                 return .none
             }
-        }
-        .ifLet(\.$loginView, action: /Action.loginView) {
-            LoginFeature()
         }
     }
 }
@@ -119,19 +112,17 @@ struct RootTabView: View {
                     }
                     .tag(AppFeature.Tab.workshop)
 
-                    Text("Home")
-                        .tabItem {
-                            Image(systemName: "house")
-                            Text("Home")
-                        }
-                        .tag(AppFeature.Tab.home)
-
-                    Text("Account")
-                        .tabItem {
-                            Image(systemName: "person.circle")
-                            Text("Account")
-                        }
-                        .tag(AppFeature.Tab.account)
+                    AccountView(
+                        store: self.store.scope(
+                            state: \.accountTab,
+                            action: AppFeature.Action.accountTab
+                        )
+                    )
+                    .tabItem {
+                        Image(systemName: "person.circle")
+                        Text("Account")
+                    }
+                    .tag(AppFeature.Tab.account)
                 }
                 .toolbarBackground(Color.base, for: .tabBar)
                 .toolbarBackground(.visible, for: .tabBar)
@@ -139,9 +130,9 @@ struct RootTabView: View {
                 .tint(Color.black)
             }
             .popover(present: .init(get: {
-                viewStore.present
+                viewStore.loginPresent
             }, set: { value in
-                viewStore.send(.updateLogin(value))
+                viewStore.send(.updateLoginViewPresent(value))
             }),
             attributes: {
                 $0.position = .relative(

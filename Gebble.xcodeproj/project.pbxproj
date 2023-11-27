@@ -44,6 +44,9 @@
 		D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */ = {isa = PBXBuildFile; productRef = D8AC27F52B0C8A9F001E746D /* Popovers */; };
 		D8C594022B0D06EF009EC5A3 /* StateShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594012B0D06EF009EC5A3 /* StateShare.swift */; };
 		D8C594042B0E05EB009EC5A3 /* GebbleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594032B0E05EB009EC5A3 /* GebbleImage.swift */; };
+		D8C594072B0E15AB009EC5A3 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C594062B0E15AB009EC5A3 /* AccountView.swift */; };
+		D8C5940A2B0F13C9009EC5A3 /* PagerTabStripView in Frameworks */ = {isa = PBXBuildFile; productRef = D8C594092B0F13C9009EC5A3 /* PagerTabStripView */; };
+		D8C5940C2B0F5D7F009EC5A3 /* UserClientInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C5940B2B0F5D7F009EC5A3 /* UserClientInterface.swift */; };
 		D8D5BE372B04A6C60046D6A4 /* GebbleErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */; };
 		D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */; };
 		D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */; };
@@ -109,6 +112,8 @@
 		D820AD772AF272750065DB7C /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
 		D8C594012B0D06EF009EC5A3 /* StateShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateShare.swift; sourceTree = "<group>"; };
 		D8C594032B0E05EB009EC5A3 /* GebbleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleImage.swift; sourceTree = "<group>"; };
+		D8C594062B0E15AB009EC5A3 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		D8C5940B2B0F5D7F009EC5A3 /* UserClientInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserClientInterface.swift; sourceTree = "<group>"; };
 		D8D5BE362B04A6C60046D6A4 /* GebbleErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleErrorView.swift; sourceTree = "<group>"; };
 		D8D5BE382B04ADFD0046D6A4 /* GebbleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GebbleEmptyView.swift; sourceTree = "<group>"; };
 		D8D5BE3A2B04CAC00046D6A4 /* CountryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryList.swift; sourceTree = "<group>"; };
@@ -130,6 +135,7 @@
 				D8AC27F62B0C8A9F001E746D /* Popovers in Frameworks */,
 				D8013A292AFA1A6300D7D9F6 /* ScalingHeaderScrollView in Frameworks */,
 				D8DAB70A2B0B66D100ABFFA8 /* NukeVideo in Frameworks */,
+				D8C5940A2B0F13C9009EC5A3 /* PagerTabStripView in Frameworks */,
 				D8DAB7082B0B66D100ABFFA8 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,6 +177,7 @@
 		D81BE43C2AFF6D0900F167FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D8C594052B0E1566009EC5A3 /* Account */,
 				D8D5BE352B04A6B80046D6A4 /* Common */,
 				D81BE43F2AFF6DAC00F167FD /* Workshop */,
 				D81BE43D2AFF6D1400F167FD /* Artist */,
@@ -245,6 +252,7 @@
 				D820AD2C2AE641850065DB7C /* Assets.xcassets */,
 				D820AD2E2AE641850065DB7C /* Preview Content */,
 				D820AD522AE64F050065DB7C /* HTTPClient.swift */,
+				D8C5940B2B0F5D7F009EC5A3 /* UserClientInterface.swift */,
 				D81BE4422AFF7DD800F167FD /* WorkshopInterface.swift */,
 				D81BE4442AFF822800F167FD /* WorkshopLive.swift */,
 				D8DAB70B2B0C571C00ABFFA8 /* PopoverClient.swift */,
@@ -292,6 +300,14 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		D8C594052B0E1566009EC5A3 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				D8C594062B0E15AB009EC5A3 /* AccountView.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		D8D5BE352B04A6B80046D6A4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +344,7 @@
 				D8DAB7072B0B66D100ABFFA8 /* NukeUI */,
 				D8DAB7092B0B66D100ABFFA8 /* NukeVideo */,
 				D8AC27F52B0C8A9F001E746D /* Popovers */,
+				D8C594092B0F13C9009EC5A3 /* PagerTabStripView */,
 			);
 			productName = Gebble;
 			productReference = D820AD252AE641840065DB7C /* Gebble.app */;
@@ -408,6 +425,7 @@
 				D81BE4392AFCFD9200F167FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */,
 				D8AC27F42B0C8A9F001E746D /* XCRemoteSwiftPackageReference "Popovers" */,
+				D8C594082B0F13C9009EC5A3 /* XCRemoteSwiftPackageReference "PagerTabStripView" */,
 			);
 			productRefGroup = D820AD262AE641840065DB7C /* Products */;
 			projectDirPath = "";
@@ -467,6 +485,7 @@
 				D8013A262AFA189200D7D9F6 /* ArtistDetailView.swift in Sources */,
 				D8D5BE392B04ADFD0046D6A4 /* GebbleEmptyView.swift in Sources */,
 				D81BE4362AFCCCB700F167FD /* View+rounded.swift in Sources */,
+				D8C594072B0E15AB009EC5A3 /* AccountView.swift in Sources */,
 				D820AD732AF240FD0065DB7C /* CollectionStateStream.swift in Sources */,
 				D8C594042B0E05EB009EC5A3 /* GebbleImage.swift in Sources */,
 				D8D5BE3B2B04CAC00046D6A4 /* CountryList.swift in Sources */,
@@ -474,6 +493,7 @@
 				D81BE4432AFF7DD800F167FD /* WorkshopInterface.swift in Sources */,
 				D820AD612AE79B9A0065DB7C /* Colors.swift in Sources */,
 				D81BE4412AFF7BBD00F167FD /* WorkshopView.swift in Sources */,
+				D8C5940C2B0F5D7F009EC5A3 /* UserClientInterface.swift in Sources */,
 				D81BE4472AFF855A00F167FD /* NavigationBaseView.swift in Sources */,
 				D820AD292AE641840065DB7C /* GebbleApp.swift in Sources */,
 				D820AD5C2AE67A430065DB7C /* RootTabView.swift in Sources */,
@@ -857,6 +877,14 @@
 				minimumVersion = 1.3.2;
 			};
 		};
+		D8C594082B0F13C9009EC5A3 /* XCRemoteSwiftPackageReference "PagerTabStripView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xmartlabs/PagerTabStripView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		D8DAB7022B0B66D100ABFFA8 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
@@ -892,6 +920,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D8AC27F42B0C8A9F001E746D /* XCRemoteSwiftPackageReference "Popovers" */;
 			productName = Popovers;
+		};
+		D8C594092B0F13C9009EC5A3 /* PagerTabStripView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8C594082B0F13C9009EC5A3 /* XCRemoteSwiftPackageReference "PagerTabStripView" */;
+			productName = PagerTabStripView;
 		};
 		D8DAB7032B0B66D100ABFFA8 /* Nuke */ = {
 			isa = XCSwiftPackageProductDependency;
